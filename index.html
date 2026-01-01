@@ -5,34 +5,104 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
-            margin-top: 50px;
+            background-color: #000; /* black background */
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
         }
+
+        h1 {
+            font-weight: bold;
+            margin: 30px 0 50px 0;
+            font-size: 48px;
+        }
+
+        .card {
+            background-color: #fff;
+            color: #000;
+            padding: 40px;
+            border-radius: 10px;
+            text-align: center;
+            width: 300px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+
         input, select, button {
             padding: 10px;
-            margin: 10px;
+            margin: 10px 0;
             font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
         }
+
+        button {
+            cursor: pointer;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            font-weight: bold;
+        }
+
         img {
             margin-top: 20px;
             width: 200px;
         }
+
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Please type your name:</h1>
-    <input type="text" id="username" placeholder="Your name">
-    <br>
+
+    <h1>XBmvc</h1>
+
+    <!-- Step 1: Enter Name -->
+    <div class="card" id="step1">
+        <h2>Please type your name:</h2>
+        <input type="text" id="username" placeholder="Your name">
+        <button onclick="goToStep2()">Continue</button>
+    </div>
+
+    <!-- Step 2: Pick Size -->
+    <div class="card hidden" id="step2">
+        <h2>Hello <span id="displayName"></span>! Pick your size:</h2>
+        <select id="size">
+            <option value="S">S</option>
+            <option value="M">M</option>
+            <option value="L">L</option>
+            <option value="XL">XL</option>
+        </select>
+        <button onclick="finish()">Submit</button>
+    </div>
+
+    <!-- Hoodie image -->
     <img src="https://via.placeholder.com/200x200.png?text=Your+Hoodie" alt="Hoodie">
-    <br>
-    <label for="size">Pick a size:</label>
-    <select id="size">
-        <option value="S">S</option>
-        <option value="M">M</option>
-        <option value="L">L</option>
-        <option value="XL">XL</option>
-    </select>
-    <br>
-    <button onclick="alert('Thanks! Your hoodie will be customized.')">Submit</button>
+
+    <script>
+        function goToStep2() {
+            const name = document.getElementById('username').value.trim();
+            if(name === '') {
+                alert('Please enter your name first!');
+                return;
+            }
+            document.getElementById('displayName').innerText = name;
+            document.getElementById('step1').classList.add('hidden');
+            document.getElementById('step2').classList.remove('hidden');
+        }
+
+        function finish() {
+            const size = document.getElementById('size').value;
+            const name = document.getElementById('username').value;
+            alert(`Thanks ${name}! Your hoodie size ${size} is saved.`);
+        }
+    </script>
+
 </body>
 </html>
+
