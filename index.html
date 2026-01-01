@@ -5,7 +5,7 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000; /* black background */
+            background-color: #000;
             color: #fff;
             margin: 0;
             padding: 0;
@@ -72,6 +72,8 @@
     <!-- Step 2: Pick Size -->
     <div class="card hidden" id="step2">
         <h2>Hello <span id="displayName"></span>! Pick your size:</h2>
+        <!-- Hoodie image: replace 'hoodie.png' with your uploaded hoodie image file name -->
+        <img src="hoodie.png" alt="Hoodie">
         <select id="size">
             <option value="S">S</option>
             <option value="M">M</option>
@@ -80,9 +82,6 @@
         </select>
         <button onclick="finish()">Submit</button>
     </div>
-
-    <!-- Hoodie image -->
-    <img src="https://via.placeholder.com/200x200.png?text=Your+Hoodie" alt="Hoodie">
 
     <script>
         function goToStep2() {
@@ -105,4 +104,3 @@
 
 </body>
 </html>
-
