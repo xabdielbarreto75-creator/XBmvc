@@ -1,255 +1,265 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>XBmvc</title>
-    <style>
-        body {
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background: black;
-            color: white;
-            overflow: hidden;
-        }
+  <title>XBmvc</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: black;
+      color: white;
+      overflow: hidden;
+    }
 
-        .hidden { display: none; }
+    .hidden { display: none; }
 
-        .logo {
-            text-align: center;
-            font-size: 150px;
-            font-weight: bold;
-            animation: fadeIn 2s forwards;
-        }
+    .logo {
+      font-size: 150px;
+      font-weight: bold;
+      text-align: center;
+      animation: fadeIn 2s forwards;
+    }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
 
-        .curved-line {
-            position: absolute;
-            width: 200%;
-            height: 200%;
-            top: -50%;
-            left: -50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05));
-            transform: rotate(-15deg);
-            z-index: 0;
-        }
+    .curved-line {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: linear-gradient(
+        135deg,
+        rgba(255,255,255,0.05),
+        rgba(255,255,255,0.05)
+      );
+      transform: rotate(-15deg);
+      z-index: 0;
+    }
 
-        .center {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            z-index: 1;
-        }
+    .center {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      z-index: 1;
+    }
 
-        button {
-            padding: 20px 40px;
-            font-size: 24px;
-            font-weight: bold;
-            cursor: pointer;
-            border: none;
-        }
+    button {
+      padding: 20px 40px;
+      font-size: 24px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+    }
 
-        .shop-btn {
-            background: white;
-            color: black;
-            margin-top: 40px;
-        }
+    .shop-btn {
+      background: white;
+      color: black;
+      margin-top: 40px;
+    }
 
-        .star {
-            position: absolute;
-            font-size: 70px;
-            animation: twinkle 3s infinite alternate;
-        }
+    .star {
+      position: absolute;
+      font-size: 70px;
+      animation: twinkle 3s infinite alternate;
+    }
 
-        @keyframes twinkle {
-            from { opacity: 0.5; }
-            to { opacity: 1; }
-        }
+    @keyframes twinkle {
+      from { opacity: 0.5; }
+      to { opacity: 1; }
+    }
 
-        /* Shop */
-        .shop-container {
-            height: 100vh;
-            text-align: center;
-            padding-top: 40px;
-        }
+    /* SHOP */
+    .shop {
+      height: 100vh;
+      text-align: center;
+      padding-top: 40px;
+    }
 
-        .shop-container img {
-            width: 260px;
-            cursor: pointer;
-        }
+    .shop img {
+      width: 260px;
+      cursor: pointer;
+    }
 
-        .arrows span {
-            font-size: 30px;
-            cursor: pointer;
-            margin: 0 20px;
-        }
+    .arrows span {
+      font-size: 30px;
+      cursor: pointer;
+      margin: 0 20px;
+    }
 
-        /* Product page */
-        .detail {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+    /* PRODUCT */
+    .product {
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
 
-        .box {
-            background: white;
-            color: black;
-            padding: 30px;
-            margin: 20px;
-            border-radius: 10px;
-            width: 350px;
-            text-align: center;
-        }
+    .box {
+      background: white;
+      color: black;
+      padding: 30px;
+      margin: 20px;
+      border-radius: 10px;
+      width: 350px;
+      text-align: center;
+    }
 
-        input, select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-        }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+    }
 
-        .continue-btn {
-            background: black;
-            color: white;
-            width: 100%;
-        }
+    .continue-btn {
+      background: black;
+      color: white;
+      width: 100%;
+    }
 
-        /* Thank you */
-        .thank-box {
-            background: white;
-            color: black;
-            padding: 40px;
-            border-radius: 15px;
-            text-align: center;
-            z-index: 2;
-        }
-    </style>
+    /* THANK YOU */
+    .thank-box {
+      background: white;
+      color: black;
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      z-index: 2;
+    }
+  </style>
 </head>
 <body>
 
-<!-- LANDING PAGE -->
+<!-- LANDING -->
 <div id="landing" class="center">
-    <div class="curved-line"></div>
-    <div class="logo">XBmvc</div>
+  <div class="curved-line"></div>
+  <div class="logo">XBmvc</div>
 
-    <button class="shop-btn" onclick="goToShop()">Shop Now</button>
+  <button class="shop-btn" onclick="goToShop()">Shop Now</button>
 
-    <!-- Stars -->
-    <div class="star" style="bottom:30px; left:30px;">★</div>
-    <div class="star" style="bottom:200px; left:160px;">★</div>
-    <div class="star" style="top:30px; right:30px;">★</div>
-    <div class="star" style="top:200px; right:160px;">★</div>
+  <div class="star" style="bottom:40px; left:40px;">★</div>
+  <div class="star" style="bottom:220px; left:180px;">★</div>
+  <div class="star" style="top:40px; right:40px;">★</div>
+  <div class="star" style="top:220px; right:180px;">★</div>
 </div>
 
-<!-- SHOP PAGE -->
-<div id="shop" class="shop-container hidden">
-    <h1>Our Products</h1>
+<!-- SHOP -->
+<div id="shop" class="shop hidden">
+  <h1>Our Products</h1>
 
-    <div class="arrows">
-        <span onclick="prevImage()">←</span>
-        <span onclick="nextImage()">→</span>
-    </div>
+  <div class="arrows">
+    <span onclick="prevImage()">←</span>
+    <span onclick="nextImage()">→</span>
+  </div>
 
-    <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" onclick="openProduct()">
-    <p>Click the image to continue</p>
+  <img id="shopImg"
+       src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg"
+       onclick="openProduct()">
+
+  <p>Click the image to continue</p>
 </div>
 
 <!-- PRODUCT DETAIL -->
-<div id="productDetail" class="detail hidden">
-    <div class="box">
-        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" width="300">
-        <div class="arrows">
-            <span onclick="prevImage()">←</span>
-            <span onclick="nextImage()">→</span>
-        </div>
+<div id="product" class="product hidden">
+
+  <div class="box">
+    <img id="detailImg"
+         src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg"
+         width="300">
+
+    <div class="arrows">
+      <span onclick="prevImage()">←</span>
+      <span onclick="nextImage()">→</span>
+    </div>
+  </div>
+
+  <div class="box">
+    <div id="nameStep">
+      <h2>Please type in your name</h2>
+      <input id="username" placeholder="Your name">
+      <button class="continue-btn" onclick="goToSize()">Continue</button>
     </div>
 
-    <div class="box">
-        <div id="nameStep">
-            <h2>Please type in your name</h2>
-            <input id="username" placeholder="Your name">
-            <button class="continue-btn" onclick="goToSize()">Continue</button>
-        </div>
-
-        <div id="sizeStep" class="hidden">
-            <h2>Please pick your size</h2>
-            <select id="size">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-            </select>
-            <button class="continue-btn" onclick="goToThankYou()">Submit</button>
-        </div>
+    <div id="sizeStep" class="hidden">
+      <h2>Please pick your size</h2>
+      <select id="size">
+        <option>S</option>
+        <option>M</option>
+        <option>L</option>
+        <option>XL</option>
+      </select>
+      <button class="continue-btn" onclick="submitOrder()">Submit</button>
     </div>
+  </div>
+
 </div>
 
-<!-- THANK YOU PAGE -->
+<!-- THANK YOU -->
 <div id="thankYou" class="center hidden">
-    <div class="curved-line"></div>
-    <div class="logo">XBmvc</div>
+  <div class="curved-line"></div>
+  <div class="logo">XBmvc</div>
 
-    <div class="thank-box">
-        <h1>Thank you!</h1>
-        <p>To continue your purchase please email or text us at</p>
-        <p><strong>xbmvcbrand@gmail.com</strong></p>
-        <p><strong>860-778-9555</strong></p>
-    </div>
+  <div class="thank-box">
+    <h1>Thank you!</h1>
+    <p>To continue your purchase please email or text us at</p>
+    <p><strong>xbmvcbrand@gmail.com</strong></p>
+    <p><strong>860-778-9555</strong></p>
+  </div>
 </div>
 
 <script>
 const images = [
-    "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-    "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+  "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+  "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
 ];
 let index = 0;
 
 function goToShop() {
-    landing.classList.add("hidden");
-    shop.classList.remove("hidden");
+  landing.classList.add("hidden");
+  shop.classList.remove("hidden");
 }
 
 function openProduct() {
-    shop.classList.add("hidden");
-    productDetail.classList.remove("hidden");
+  shop.classList.add("hidden");
+  product.classList.remove("hidden");
 }
 
 function nextImage() {
-    index = (index + 1) % images.length;
-    productImage.src = detailImage.src = images[index];
+  index = (index + 1) % images.length;
+  shopImg.src = detailImg.src = images[index];
 }
 
 function prevImage() {
-    index = (index - 1 + images.length) % images.length;
-    productImage.src = detailImage.src = images[index];
+  index = (index - 1 + images.length) % images.length;
+  shopImg.src = detailImg.src = images[index];
 }
 
 function goToSize() {
-    if (!username.value.trim()) {
-        alert("Please enter your name");
-        return;
-    }
-    nameStep.classList.add("hidden");
-    sizeStep.classList.remove("hidden");
+  if (!username.value.trim()) {
+    alert("Please enter your name");
+    return;
+  }
+  nameStep.classList.add("hidden");
+  sizeStep.classList.remove("hidden");
 }
 
-/* 🔥 ONLY NEW PART: saves to Google Sheets */
-function goToThankYou() {
-    fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
-        method: "POST",
-        body: JSON.stringify({
-            name: username.value,
-            size: size.value
-        })
-    });
+function submitOrder() {
+  fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
+    method: "POST",
+    body: JSON.stringify({
+      name: username.value,
+      size: size.value
+    })
+  });
 
-    productDetail.classList.add("hidden");
-    thankYou.classList.remove("hidden");
+  product.classList.add("hidden");
+  thankYou.classList.remove("hidden");
 }
 </script>
 
