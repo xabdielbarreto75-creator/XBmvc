@@ -12,14 +12,10 @@
             overflow-x: hidden;
         }
 
-        h1, h2 {
-            font-weight: bold;
-        }
-
         /* Logo */
         .logo {
             text-align: center;
-            font-size: 48px;
+            font-size: 64px; /* bigger logo */
             font-weight: bold;
             color: #fff;
             margin-top: 20px;
@@ -31,7 +27,7 @@
             to { opacity: 1; }
         }
 
-        /* Centered landing */
+        /* Landing page */
         .center {
             display: flex;
             flex-direction: column;
@@ -41,7 +37,6 @@
             position: relative;
         }
 
-        /* Shop Now Button */
         .shop-btn {
             padding: 20px 40px;
             font-size: 24px;
@@ -53,7 +48,6 @@
             margin-top: 50px;
         }
 
-        /* Circles for social icons */
         .circles {
             display: flex;
             justify-content: center;
@@ -73,28 +67,32 @@
             color: #fff;
             position: absolute;
         }
-        .star.big { font-size: 30px; }
-        .star.normal { font-size: 20px; }
-        .star.small { font-size: 12px; }
+        .star.big { font-size: 40px; }       /* bigger stars */
+        .star.normal { font-size: 30px; }
+        .star.small { font-size: 20px; }
 
-        /* Shop Page */
+        /* Shop page */
         .shop-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start; /* pic on left */
-            margin-top: 50px;
+            align-items: flex-start;
             padding-left: 50px;
+            margin-top: 50px;
+        }
+
+        .shop-container h1 {
+            text-align: center; /* center "Our Products" */
+            width: 100%;
         }
 
         .product {
             display: flex;
             flex-direction: column;
             align-items: center;
-            margin-left: 0;
         }
 
         .product img {
-            width: 250px; /* smaller than before */
+            width: 250px;
             margin: 20px 0;
         }
 
@@ -110,11 +108,11 @@
             user-select: none;
         }
 
-        /* Product Detail Page */
+        /* Product detail page */
         .detail-container {
             display: flex;
             justify-content: center;
-            margin-top: 50px;
+            margin-top: 80px; /* lowered boxes */
         }
 
         .left-side, .right-side {
@@ -122,11 +120,11 @@
             color: #000;
             padding: 30px;
             border-radius: 10px;
-            margin: 10px;
+            margin: 20px;
         }
 
         .left-side img {
-            width: 350px; /* bigger than shop pic */
+            width: 350px;
             margin-bottom: 10px;
         }
 
@@ -163,9 +161,9 @@
             <div class="circle"></div>
         </div>
         <!-- Stars -->
-        <div class="star big" style="top:20px; left:20px;">★</div>
-        <div class="star normal" style="top:60px; left:50px;">★</div>
-        <div class="star small" style="top:100px; left:80px;">★</div>
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star normal" style="bottom:60px; left:50px;">★</div>
+        <div class="star small" style="bottom:100px; left:80px;">★</div>
         <div class="star big" style="top:20px; right:20px;">★</div>
         <div class="star normal" style="top:60px; right:50px;">★</div>
         <div class="star small" style="top:100px; right:80px;">★</div>
@@ -173,7 +171,7 @@
 
     <!-- Shop Page -->
     <div id="shop" class="shop-container hidden">
-        <h1 style="text-align:center;">Our Products</h1>
+        <h1>Our Products</h1>
         <div class="product">
             <div class="arrows">
                 <span onclick="prevImage()">&#8592;</span>
@@ -181,7 +179,7 @@
             </div>
             <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
         </div>
-        <p style="margin-left:0;">Click the image to customize!</p>
+        <p style="margin-left:0;">Click the image to continue</p>
     </div>
 
     <!-- Product Detail Page -->
@@ -281,4 +279,3 @@
 
 </body>
 </html>
-
