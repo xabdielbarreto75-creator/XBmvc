@@ -1,267 +1,358 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>XBmvc</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: black;
-      color: white;
-      overflow: hidden;
-    }
+    <title>XBmvc Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            overflow: hidden; /* Prevent scrolling */
+        }
 
-    .hidden { display: none; }
+        /* Logo */
+        .logo {
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
 
-    .logo {
-      font-size: 150px;
-      font-weight: bold;
-      text-align: center;
-      animation: fadeIn 2s forwards;
-    }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
 
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+        /* Curved line */
+        .curved-line {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.05) 100%);
+            transform: rotate(-15deg);
+            z-index: 0;
+            animation: moveLine 10s linear infinite alternate;
+        }
 
-    .curved-line {
-      position: absolute;
-      width: 200%;
-      height: 200%;
-      top: -50%;
-      left: -50%;
-      background: linear-gradient(
-        135deg,
-        rgba(255,255,255,0.05),
-        rgba(255,255,255,0.05)
-      );
-      transform: rotate(-15deg);
-      z-index: 0;
-    }
+        @keyframes moveLine {
+            0% { transform: rotate(-15deg) translateX(0); }
+            50% { transform: rotate(-15deg) translateX(20px); }
+            100% { transform: rotate(-15deg) translateX(0); }
+        }
 
-    .center {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      z-index: 1;
-    }
+        /* Landing page */
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
 
-    button {
-      padding: 20px 40px;
-      font-size: 24px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
+        .shop-btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            margin-top: 50px;
+            z-index: 2;
+            position: relative;
+        }
 
-    .shop-btn {
-      background: white;
-      color: black;
-      margin-top: 40px;
-    }
+        .circles {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            z-index: 2;
+            position: relative;
+        }
 
-    .star {
-      position: absolute;
-      font-size: 70px;
-      animation: twinkle 3s infinite alternate;
-    }
+        .circle {
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
 
-    @keyframes twinkle {
-      from { opacity: 0.5; }
-      to { opacity: 1; }
-    }
+        /* Stars */
+        .star {
+            color: #fff;
+            position: absolute;
+            z-index: 2;
+            animation: twinkle 3s ease-in-out infinite alternate;
+        }
+        .star.big { font-size: 70px; }
 
-    /* SHOP */
-    .shop {
-      height: 100vh;
-      text-align: center;
-      padding-top: 40px;
-    }
+        @keyframes twinkle {
+            0% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.2); }
+            100% { opacity: 0.5; transform: scale(1); }
+        }
 
-    .shop img {
-      width: 260px;
-      cursor: pointer;
-    }
+        /* Shop page */
+        .shop-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 50px;
+            margin-top: 50px;
+        }
 
-    .arrows span {
-      font-size: 30px;
-      cursor: pointer;
-      margin: 0 20px;
-    }
+        .shop-container h1 {
+            text-align: center;
+            width: 100%;
+        }
 
-    /* PRODUCT */
-    .product {
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
 
-    .box {
-      background: white;
-      color: black;
-      padding: 30px;
-      margin: 20px;
-      border-radius: 10px;
-      width: 350px;
-      text-align: center;
-    }
+        .product img {
+            width: 250px;
+            margin: 20px 0;
+        }
 
-    input, select {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-    }
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+        }
 
-    .continue-btn {
-      background: black;
-      color: white;
-      width: 100%;
-    }
+        .arrows span {
+            cursor: pointer;
+            font-size: 30px;
+            user-select: none;
+        }
 
-    /* THANK YOU */
-    .thank-box {
-      background: white;
-      color: black;
-      padding: 40px;
-      border-radius: 15px;
-      text-align: center;
-      z-index: 2;
-    }
-  </style>
+        /* Product detail page */
+        .detail-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 80px;
+        }
+
+        .left-side, .right-side {
+            background-color: #fff;
+            color: #000;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .left-side img {
+            width: 350px;
+            margin-bottom: 10px;
+        }
+
+        input, select, .continue-btn {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .continue-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        /* Thank You Page */
+        .thank-you-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+            color: #000;
+        }
+
+        .thank-you-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            z-index: 2;
+            position: relative;
+            max-width: 500px;
+        }
+    </style>
 </head>
 <body>
 
-<!-- LANDING -->
-<div id="landing" class="center">
-  <div class="curved-line"></div>
-  <div class="logo">XBmvc</div>
+    <!-- Landing Page -->
+    <div id="landing" class="center">
+        <div class="curved-line"></div>
+        <!-- Huge logo at top -->
+        <div class="logo" style="font-size: 150px; margin-top: 0;">XBmvc</div>
 
-  <button class="shop-btn" onclick="goToShop()">Shop Now</button>
+        <!-- Shop Now Button -->
+        <button class="shop-btn" onclick="goToShop()">Shop Now</button>
 
-  <div class="star" style="bottom:40px; left:40px;">★</div>
-  <div class="star" style="bottom:220px; left:180px;">★</div>
-  <div class="star" style="top:40px; right:40px;">★</div>
-  <div class="star" style="top:220px; right:180px;">★</div>
-</div>
+        <!-- Circles for future social links -->
+        <div class="circles">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
 
-<!-- SHOP -->
-<div id="shop" class="shop hidden">
-  <h1>Our Products</h1>
-
-  <div class="arrows">
-    <span onclick="prevImage()">←</span>
-    <span onclick="nextImage()">→</span>
-  </div>
-
-  <img id="shopImg"
-       src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg"
-       onclick="openProduct()">
-
-  <p>Click the image to continue</p>
-</div>
-
-<!-- PRODUCT DETAIL -->
-<div id="product" class="product hidden">
-
-  <div class="box">
-    <img id="detailImg"
-         src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg"
-         width="300">
-
-    <div class="arrows">
-      <span onclick="prevImage()">←</span>
-      <span onclick="nextImage()">→</span>
-    </div>
-  </div>
-
-  <div class="box">
-    <div id="nameStep">
-      <h2>Please type in your name</h2>
-      <input id="username" placeholder="Your name">
-      <button class="continue-btn" onclick="goToSize()">Continue</button>
+        <!-- Stars (much more separated) -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:150px; left:100px;">★</div>
+        <div class="star big" style="bottom:280px; left:200px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:150px; right:100px;">★</div>
+        <div class="star big" style="top:280px; right:200px;">★</div>
     </div>
 
-    <div id="sizeStep" class="hidden">
-      <h2>Please pick your size</h2>
-      <select id="size">
-        <option>S</option>
-        <option>M</option>
-        <option>L</option>
-        <option>XL</option>
-      </select>
-      <button class="continue-btn" onclick="submitOrder()">Submit</button>
+    <!-- Shop Page -->
+    <div id="shop" class="shop-container hidden">
+        <h1>Our Products</h1>
+        <div class="product">
+            <div class="arrows">
+                <span onclick="prevImage()">&#8592;</span>
+                <span onclick="nextImage()">&#8594;</span>
+            </div>
+            <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+        </div>
+        <p style="margin-left:0;">Click the image to continue</p>
     </div>
-  </div>
 
-</div>
+    <!-- Product Detail Page -->
+    <div id="productDetail" class="detail-container hidden">
+        <div class="left-side">
+            <div class="logo" style="color:#000; font-size:36px; text-align:center; margin-bottom:20px;">XBmvc</div>
+            <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+            <div class="arrows">
+                <span onclick="prevDetailImage()">&#8592;</span>
+                <span onclick="nextDetailImage()">&#8594;</span>
+            </div>
+        </div>
+        <div class="right-side" id="rightSide">
+            <!-- Name input -->
+            <div id="nameStep">
+                <h2>Please type in your name:</h2>
+                <input type="text" id="username" placeholder="Your name">
+                <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
+            </div>
 
-<!-- THANK YOU -->
-<div id="thankYou" class="center hidden">
-  <div class="curved-line"></div>
-  <div class="logo">XBmvc</div>
+            <!-- Size input -->
+            <div id="sizeStep" class="hidden">
+                <h2>Please pick your size:</h2>
+                <select id="size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+                <button class="continue-btn" onclick="goToThankYou()">Submit</button>
+            </div>
+        </div>
+    </div>
 
-  <div class="thank-box">
-    <h1>Thank you!</h1>
-    <p>To continue your purchase please email or text us at</p>
-    <p><strong>xbmvcbrand@gmail.com</strong></p>
-    <p><strong>860-778-9555</strong></p>
-  </div>
-</div>
+    <!-- Thank You Page -->
+    <div id="thankYou" class="hidden" style="background-color:#000; height:100vh; position:relative;">
+        <div class="curved-line"></div>
+        <div class="logo" style="font-size:150px; text-align:center; margin-top:20px; color:#fff;">XBmvc</div>
+        <!-- Stars (separated) -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:150px; left:100px;">★</div>
+        <div class="star big" style="bottom:280px; left:200px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:150px; right:100px;">★</div>
+        <div class="star big" style="top:280px; right:200px;">★</div>
 
-<script>
-const images = [
-  "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-  "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
-];
-let index = 0;
+        <div class="thank-you-container">
+            <div class="thank-you-box">
+                <h1>Thank you!</h1>
+                <p>To continue your purchase please email or text us at</p>
+                <p>xbmvcbrand@gmail.com</p>
+                <p>860-778-9555</p>
+            </div>
+        </div>
+    </div>
 
-function goToShop() {
-  landing.classList.add("hidden");
-  shop.classList.remove("hidden");
-}
+    <script>
+        // Landing -> Shop
+        function goToShop() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('shop').classList.remove('hidden');
+        }
 
-function openProduct() {
-  shop.classList.add("hidden");
-  product.classList.remove("hidden");
-}
+        // Shop -> Product Detail
+        const shopImage = document.getElementById('productImage');
+        shopImage.addEventListener('click', () => {
+            document.getElementById('shop').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('hidden');
+        });
 
-function nextImage() {
-  index = (index + 1) % images.length;
-  shopImg.src = detailImg.src = images[index];
-}
+        // Image carousel
+        const images = [
+            "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+            "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+        ];
+        let currentIndex = 0;
 
-function prevImage() {
-  index = (index - 1 + images.length) % images.length;
-  shopImg.src = detailImg.src = images[index];
-}
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
 
-function goToSize() {
-  if (!username.value.trim()) {
-    alert("Please enter your name");
-    return;
-  }
-  nameStep.classList.add("hidden");
-  sizeStep.classList.remove("hidden");
-}
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
 
-function submitOrder() {
-  fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      name: username.value,
-      size: size.value
-    })
-  });
+        // Detail page image carousel
+        let detailIndex = 0;
+        const detailImage = document.getElementById('detailImage');
 
-  product.classList.add("hidden");
-  thankYou.classList.remove("hidden");
-}
-</script>
+        function nextDetailImage() {
+            detailIndex = (detailIndex + 1) % images.length;
+            detailImage.src = images[detailIndex];
+        }
+
+        function prevDetailImage() {
+            detailIndex = (detailIndex - 1 + images.length) % images.length;
+            detailImage.src = images[detailIndex];
+        }
+
+        // Name -> Size
+        function goToSizeStep() {
+            const name = document.getElementById('username').value.trim();
+            if(name === '') {
+                alert('Please enter your name first!');
+                return;
+            }
+            document.getElementById('nameStep').classList.add('hidden');
+            document.getElementById('sizeStep').classList.remove('hidden');
+        }
+
+        // Size -> Thank You Page
+        function goToThankYou() {
+            document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('thankYou').classList.remove('hidden');
+        }
+    </script>
 
 </body>
 </html>
