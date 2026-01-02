@@ -1,38 +1,88 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>XBmvc</title>
+    <title>XBmvc Shop</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
             margin: 0;
             padding: 0;
+            background-color: #000;
+            color: #fff;
+        }
+
+        h1, h2 {
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .center {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        button {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            font-weight: bold;
+        }
+
+        .shop-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: flex-start;
-            min-height: 100vh;
+            margin-top: 50px;
         }
 
-        h1 {
-            font-weight: bold;
-            margin: 30px 0 50px 0;
-            font-size: 48px;
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .card {
+        .product img {
+            width: 300px;
+            margin: 20px 0;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+        }
+
+        .arrows span {
+            cursor: pointer;
+            font-size: 30px;
+            user-select: none;
+        }
+
+        .detail-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 50px;
+        }
+
+        .left-side, .right-side {
             background-color: #fff;
             color: #000;
-            padding: 40px;
+            padding: 30px;
             border-radius: 10px;
-            text-align: center;
-            width: 300px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            margin: 10px;
         }
 
-        input, select, button {
+        .left-side img {
+            width: 300px;
+            margin-bottom: 10px;
+        }
+
+        input, select, .continue-btn {
             padding: 10px;
             margin: 10px 0;
             font-size: 16px;
@@ -40,17 +90,12 @@
             box-sizing: border-box;
         }
 
-        button {
-            cursor: pointer;
+        .continue-btn {
             background-color: #000;
             color: #fff;
             border: none;
+            cursor: pointer;
             font-weight: bold;
-        }
-
-        img {
-            margin-top: 20px;
-            width: 200px;
         }
 
         .hidden {
@@ -60,39 +105,109 @@
 </head>
 <body>
 
-    <h1>XBmvc</h1>
-
-    <!-- Step 1: Enter Name -->
-    <div class="card" id="step1">
-        <h2>Please type your name:</h2>
-        <input type="text" id="username" placeholder="Your name">
-        <button onclick="goToStep2()">Continue</button>
+    <!-- Landing Page -->
+    <div id="landing" class="center">
+        <button onclick="goToShop()">Shop Now</button>
     </div>
 
-    <!-- Step 2: Pick Size -->
-    <div class="card hidden" id="step2">
-        <h2>Hello <span id="displayName"></span>! Pick your size:</h2>
-        <!-- Hoodie image 1 -->
-        <img src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
-        <select id="size">
-            <option value="S">S</option>
-            <option value="M">M</option>
-            <option value="L">L</option>
-            <option value="XL">XL</option>
-        </select>
-        <button onclick="finish()">Submit</button>
+    <!-- Shop Page -->
+    <div id="shop" class="shop-container hidden">
+        <h1>Our Products</h1>
+        <div class="product">
+            <div class="arrows">
+                <span onclick="prevImage()">&#8592;</span>
+                <span onclick="nextImage()">&#8594;</span>
+            </div>
+            <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+        </div>
+        <p>Click the image to customize!</p>
+    </div>
+
+    <!-- Product Detail Page -->
+    <div id="productDetail" class="detail-container hidden">
+        <div class="left-side">
+            <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+            <div class="arrows">
+                <span onclick="prevDetailImage()">&#8592;</span>
+                <span onclick="nextDetailImage()">&#8594;</span>
+            </div>
+        </div>
+        <div class="right-side" id="rightSide">
+            <!-- Name input -->
+            <div id="nameStep">
+                <h2>Please type in your name:</h2>
+                <input type="text" id="username" placeholder="Your name">
+                <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
+            </div>
+
+            <!-- Size input -->
+            <div id="sizeStep" class="hidden">
+                <h2>Please pick your size:</h2>
+                <select id="size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+                <button class="continue-btn" onclick="finish()">Submit</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        function goToStep2() {
+        // Landing -> Shop
+        function goToShop() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('shop').classList.remove('hidden');
+        }
+
+        // Shop -> Product Detail
+        const shopImage = document.getElementById('productImage');
+        shopImage.addEventListener('click', () => {
+            document.getElementById('shop').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('hidden');
+        });
+
+        // Image carousel
+        const images = [
+            "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+            "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+        ];
+        let currentIndex = 0;
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
+
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
+
+        // Detail page image carousel
+        let detailIndex = 0;
+        const detailImage = document.getElementById('detailImage');
+
+        function nextDetailImage() {
+            detailIndex = (detailIndex + 1) % images.length;
+            detailImage.src = images[detailIndex];
+        }
+
+        function prevDetailImage() {
+            detailIndex = (detailIndex - 1 + images.length) % images.length;
+            detailImage.src = images[detailIndex];
+        }
+
+        // Name -> Size
+        function goToSizeStep() {
             const name = document.getElementById('username').value.trim();
             if(name === '') {
                 alert('Please enter your name first!');
                 return;
             }
-            document.getElementById('displayName').innerText = name;
-            document.getElementById('step1').classList.add('hidden');
-            document.getElementById('step2').classList.remove('hidden');
+            document.getElementById('nameStep').classList.add('hidden');
+            document.getElementById('sizeStep').classList.remove('hidden');
         }
 
         function finish() {
