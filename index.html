@@ -25,6 +25,18 @@
             to { opacity: 1; }
         }
 
+        /* Landing page & Thank You curved line */
+        .curved-line {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.05) 100%);
+            transform: rotate(-15deg);
+            z-index: 0;
+        }
+
         /* Landing page */
         .center {
             display: flex;
@@ -33,6 +45,7 @@
             align-items: center;
             height: 100vh;
             position: relative;
+            z-index: 1;
         }
 
         .shop-btn {
@@ -44,12 +57,16 @@
             border: none;
             font-weight: bold;
             margin-top: 50px;
+            z-index: 2;
+            position: relative;
         }
 
         .circles {
             display: flex;
             justify-content: center;
             margin-top: 30px;
+            z-index: 2;
+            position: relative;
         }
 
         .circle {
@@ -64,8 +81,9 @@
         .star {
             color: #fff;
             position: absolute;
+            z-index: 2;
         }
-        .star.big { font-size: 70px; }   /* Much bigger stars */
+        .star.big { font-size: 70px; }
 
         /* Shop page */
         .shop-container {
@@ -143,12 +161,33 @@
         .hidden {
             display: none;
         }
+
+        /* Thank You Page */
+        .thank-you-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+            color: #000;
+        }
+
+        .thank-you-box {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            z-index: 2;
+            position: relative;
+            max-width: 500px;
+        }
     </style>
 </head>
 <body>
 
     <!-- Landing Page -->
     <div id="landing" class="center">
+        <div class="curved-line"></div>
         <!-- Huge logo at top -->
         <div class="logo" style="font-size: 120px; margin-top: 0;">XBmvc</div>
 
@@ -211,7 +250,29 @@
                     <option value="L">L</option>
                     <option value="XL">XL</option>
                 </select>
-                <button class="continue-btn" onclick="finish()">Submit</button>
+                <button class="continue-btn" onclick="goToThankYou()">Submit</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Thank You Page -->
+    <div id="thankYou" class="hidden" style="background-color:#000; height:100vh; position:relative;">
+        <div class="curved-line"></div>
+        <div class="logo" style="font-size:120px; text-align:center; margin-top:20px; color:#fff;">XBmvc</div>
+        <!-- Stars -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:60px; left:50px;">★</div>
+        <div class="star big" style="bottom:100px; left:80px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:60px; right:50px;">★</div>
+        <div class="star big" style="top:100px; right:80px;">★</div>
+
+        <div class="thank-you-container">
+            <div class="thank-you-box">
+                <h1>Thank you!</h1>
+                <p>To continue your purchase please email or text us at</p>
+                <p>xbmvcbrand@gmail.com</p>
+                <p>8607789555</p>
             </div>
         </div>
     </div>
@@ -272,10 +333,12 @@
             document.getElementById('sizeStep').classList.remove('hidden');
         }
 
-        function finish() {
+        // Size -> Thank You Page
+        function goToThankYou() {
             const size = document.getElementById('size').value;
             const name = document.getElementById('username').value;
-            alert(`Thanks ${name}! Your hoodie size ${size} is saved.`);
+            document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('thankYou').classList.remove('hidden');
         }
     </script>
 
