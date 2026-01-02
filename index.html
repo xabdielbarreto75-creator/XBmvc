@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>XBmvc Shop</title>
+    <title>XBmvc</title>
     <style>
         body {
             margin: 0;
@@ -89,7 +89,7 @@
             margin: 0 20px;
         }
 
-        /* Product Page */
+        /* Product page */
         .detail {
             display: flex;
             justify-content: center;
@@ -132,46 +132,48 @@
 </head>
 <body>
 
-<!-- LANDING -->
+<!-- LANDING PAGE -->
 <div id="landing" class="center">
     <div class="curved-line"></div>
     <div class="logo">XBmvc</div>
 
-    <button class="shop-btn" onclick="goShop()">Shop Now</button>
+    <button class="shop-btn" onclick="goToShop()">Shop Now</button>
 
     <!-- Stars -->
     <div class="star" style="bottom:30px; left:30px;">★</div>
-    <div class="star" style="bottom:180px; left:160px;">★</div>
+    <div class="star" style="bottom:200px; left:160px;">★</div>
     <div class="star" style="top:30px; right:30px;">★</div>
-    <div class="star" style="top:180px; right:160px;">★</div>
+    <div class="star" style="top:200px; right:160px;">★</div>
 </div>
 
-<!-- SHOP -->
+<!-- SHOP PAGE -->
 <div id="shop" class="shop-container hidden">
     <h1>Our Products</h1>
+
     <div class="arrows">
-        <span onclick="prev()">←</span>
-        <span onclick="next()">→</span>
+        <span onclick="prevImage()">←</span>
+        <span onclick="nextImage()">→</span>
     </div>
-    <img id="shopImg" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" onclick="openProduct()">
+
+    <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" onclick="openProduct()">
     <p>Click the image to continue</p>
 </div>
 
-<!-- PRODUCT -->
-<div id="product" class="detail hidden">
+<!-- PRODUCT DETAIL -->
+<div id="productDetail" class="detail hidden">
     <div class="box">
-        <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" width="300">
+        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" width="300">
         <div class="arrows">
-            <span onclick="prev()">←</span>
-            <span onclick="next()">→</span>
+            <span onclick="prevImage()">←</span>
+            <span onclick="nextImage()">→</span>
         </div>
     </div>
 
-    <div class="box" id="formBox">
+    <div class="box">
         <div id="nameStep">
             <h2>Please type in your name</h2>
             <input id="username" placeholder="Your name">
-            <button class="continue-btn" onclick="toSize()">Continue</button>
+            <button class="continue-btn" onclick="goToSize()">Continue</button>
         </div>
 
         <div id="sizeStep" class="hidden">
@@ -182,13 +184,13 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <button class="continue-btn" onclick="submitOrder()">Submit</button>
+            <button class="continue-btn" onclick="goToThankYou()">Submit</button>
         </div>
     </div>
 </div>
 
-<!-- THANK YOU -->
-<div id="thank" class="center hidden">
+<!-- THANK YOU PAGE -->
+<div id="thankYou" class="center hidden">
     <div class="curved-line"></div>
     <div class="logo">XBmvc</div>
 
@@ -202,48 +204,52 @@
 
 <script>
 const images = [
-  "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-  "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+    "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+    "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
 ];
-let i = 0;
+let index = 0;
 
-function goShop() {
-  landing.classList.add("hidden");
-  shop.classList.remove("hidden");
+function goToShop() {
+    landing.classList.add("hidden");
+    shop.classList.remove("hidden");
 }
 
 function openProduct() {
-  shop.classList.add("hidden");
-  product.classList.remove("hidden");
+    shop.classList.add("hidden");
+    productDetail.classList.remove("hidden");
 }
 
-function next() {
-  i = (i + 1) % images.length;
-  shopImg.src = detailImg.src = images[i];
+function nextImage() {
+    index = (index + 1) % images.length;
+    productImage.src = detailImage.src = images[index];
 }
 
-function prev() {
-  i = (i - 1 + images.length) % images.length;
-  shopImg.src = detailImg.src = images[i];
+function prevImage() {
+    index = (index - 1 + images.length) % images.length;
+    productImage.src = detailImage.src = images[index];
 }
 
-function toSize() {
-  if (!username.value.trim()) return alert("Enter your name");
-  nameStep.classList.add("hidden");
-  sizeStep.classList.remove("hidden");
+function goToSize() {
+    if (!username.value.trim()) {
+        alert("Please enter your name");
+        return;
+    }
+    nameStep.classList.add("hidden");
+    sizeStep.classList.remove("hidden");
 }
 
-function submitOrder() {
-  fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      name: username.value,
-      size: size.value
-    })
-  });
+/* 🔥 ONLY NEW PART: saves to Google Sheets */
+function goToThankYou() {
+    fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
+        method: "POST",
+        body: JSON.stringify({
+            name: username.value,
+            size: size.value
+        })
+    });
 
-  product.classList.add("hidden");
-  thank.classList.remove("hidden");
+    productDetail.classList.add("hidden");
+    thankYou.classList.remove("hidden");
 }
 </script>
 
