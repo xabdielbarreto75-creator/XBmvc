@@ -274,6 +274,8 @@
     </div>
 
     <script>
+        const googleSheetURL = 'https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec';
+
         // Landing -> Shop
         function goToShop() {
             document.getElementById('landing').classList.add('hidden');
@@ -324,8 +326,17 @@
             document.getElementById('sizeStep').classList.remove('hidden');
         }
 
-        // Size -> Thank You Page
+        // Size -> Thank You Page + send to Google Sheet
         function goToThankYou() {
+            const size = document.getElementById('size').value;
+            const name = document.getElementById('username').value;
+
+            // Send data to Google Sheets
+            fetch(`${googleSheetURL}?name=${encodeURIComponent(name)}&size=${encodeURIComponent(size)}`)
+            .then(response => console.log('Submitted:', name, size))
+            .catch(err => console.error('Error submitting:', err));
+
+            // Show Thank You Page
             document.getElementById('productDetail').classList.add('hidden');
             document.getElementById('thankYou').classList.remove('hidden');
         }
@@ -333,3 +344,4 @@
 
 </body>
 </html>
+
