@@ -35,6 +35,8 @@
             background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.05) 100%);
             transform: rotate(-15deg);
             z-index: 0;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
 
         /* Landing page */
@@ -82,6 +84,8 @@
             color: #fff;
             position: absolute;
             z-index: 2;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
         .star.big { font-size: 70px; }
 
@@ -181,6 +185,8 @@
             z-index: 2;
             position: relative;
             max-width: 500px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
     </style>
 </head>
@@ -189,20 +195,17 @@
     <!-- Landing Page -->
     <div id="landing" class="center">
         <div class="curved-line"></div>
-        <!-- Huge logo at top -->
         <div class="logo" style="font-size: 120px; margin-top: 0;">XBmvc</div>
 
-        <!-- Shop Now Button -->
         <button class="shop-btn" onclick="goToShop()">Shop Now</button>
 
-        <!-- Circles for future social links -->
         <div class="circles">
             <div class="circle"></div>
             <div class="circle"></div>
             <div class="circle"></div>
         </div>
 
-        <!-- Stars (separated better) -->
+        <!-- Stars -->
         <div class="star big" style="bottom:20px; left:20px;">★</div>
         <div class="star big" style="bottom:120px; left:80px;">★</div>
         <div class="star big" style="bottom:220px; left:140px;">★</div>
@@ -235,14 +238,11 @@
             </div>
         </div>
         <div class="right-side" id="rightSide">
-            <!-- Name input -->
             <div id="nameStep">
                 <h2>Please type in your name:</h2>
                 <input type="text" id="username" placeholder="Your name">
                 <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
             </div>
-
-            <!-- Size input -->
             <div id="sizeStep" class="hidden">
                 <h2>Please pick your size:</h2>
                 <select id="size">
@@ -259,8 +259,9 @@
     <!-- Thank You Page -->
     <div id="thankYou" class="hidden" style="background-color:#000; height:100vh; position:relative;">
         <div class="curved-line"></div>
-        <div class="logo" style="font-size:120px; text-align:center; margin-top:20px; color:#fff;">XBmvc</div>
-        <!-- Stars (separated) -->
+        <div class="logo" style="font-size:120px; text-align:center; margin-top:20px; color:#fff; opacity:0; animation:fadeIn 2s forwards;">XBmvc</div>
+
+        <!-- Stars -->
         <div class="star big" style="bottom:20px; left:20px;">★</div>
         <div class="star big" style="bottom:120px; left:80px;">★</div>
         <div class="star big" style="bottom:220px; left:140px;">★</div>
@@ -340,13 +341,10 @@
                 return;
             }
 
-            // Send data to Google Script
             fetch(scriptURL, {
                 method: 'POST',
                 body: JSON.stringify({name: name, size: size}),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                headers: { 'Content-Type': 'application/json' }
             })
             .then(response => {
                 document.getElementById('productDetail').classList.add('hidden');
