@@ -199,6 +199,7 @@
             <div class="circle"></div>
         </div>
 
+        <!-- Stars -->
         <div class="star big" style="bottom:20px; left:20px;">★</div>
         <div class="star big" style="bottom:120px; left:80px;">★</div>
         <div class="star big" style="bottom:220px; left:140px;">★</div>
@@ -217,34 +218,32 @@
             </div>
             <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
         </div>
-        <p>Click the image to continue</p>
+        <p style="margin-left:0;">Click the image to continue</p>
     </div>
 
     <!-- Product Detail Page -->
     <div id="productDetail" class="detail-container hidden">
         <div class="left-side">
-            <div class="logo" style="color:#000; font-size:36px;">XBmvc</div>
-            <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+            <div class="logo" style="color:#000; font-size:36px; text-align:center; margin-bottom:20px;">XBmvc</div>
+            <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
             <div class="arrows">
                 <span onclick="prevDetailImage()">&#8592;</span>
                 <span onclick="nextDetailImage()">&#8594;</span>
             </div>
         </div>
-
-        <div class="right-side">
+        <div class="right-side" id="rightSide">
             <div id="nameStep">
                 <h2>Please type in your name:</h2>
-                <input type="text" id="username">
+                <input type="text" id="username" placeholder="Your name">
                 <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
             </div>
-
             <div id="sizeStep" class="hidden">
                 <h2>Please pick your size:</h2>
                 <select id="size">
-                    <option>S</option>
-                    <option>M</option>
-                    <option>L</option>
-                    <option>XL</option>
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
                 </select>
                 <button class="continue-btn" onclick="goToThankYou()">Submit</button>
             </div>
@@ -252,9 +251,17 @@
     </div>
 
     <!-- Thank You Page -->
-    <div id="thankYou" class="hidden" style="background:#000; height:100vh;">
+    <div id="thankYou" class="hidden" style="background-color:#000; height:100vh; position:relative;">
         <div class="curved-line"></div>
-        <div class="logo" style="font-size:120px;">XBmvc</div>
+        <div class="logo" style="font-size:120px; text-align:center; margin-top:20px; color:#fff;">XBmvc</div>
+
+        <!-- Stars -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:120px; left:80px;">★</div>
+        <div class="star big" style="bottom:220px; left:140px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:120px; right:80px;">★</div>
+        <div class="star big" style="top:220px; right:140px;">★</div>
 
         <div class="thank-you-container">
             <div class="thank-you-box">
@@ -266,58 +273,63 @@
         </div>
     </div>
 
-<script>
-    function goToShop() {
-        landing.classList.add('hidden');
-        shop.classList.remove('hidden');
-    }
-
-    productImage.onclick = () => {
-        shop.classList.add('hidden');
-        productDetail.classList.remove('hidden');
-    };
-
-    const images = [
-        "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-        "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
-    ];
-
-    let i = 0;
-
-    function nextImage() {
-        i = (i + 1) % images.length;
-        productImage.src = images[i];
-    }
-
-    function prevImage() {
-        i = (i - 1 + images.length) % images.length;
-        productImage.src = images[i];
-    }
-
-    function nextDetailImage() {
-        nextImage();
-        detailImage.src = images[i];
-    }
-
-    function prevDetailImage() {
-        prevImage();
-        detailImage.src = images[i];
-    }
-
-    function goToSizeStep() {
-        if (!username.value.trim()) {
-            alert("Please enter your name");
-            return;
+    <script>
+        // Landing -> Shop
+        function goToShop() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('shop').classList.remove('hidden');
         }
-        nameStep.classList.add('hidden');
-        sizeStep.classList.remove('hidden');
-    }
 
-    function goToThankYou() {
-        productDetail.classList.add('hidden');
-        thankYou.classList.remove('hidden');
-    }
-</script>
+        // Shop -> Product Detail
+        const shopImage = document.getElementById('productImage');
+        shopImage.addEventListener('click', () => {
+            document.getElementById('shop').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('hidden');
+        });
+
+        // Image carousel
+        const images = [
+            "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+            "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+        ];
+        let currentIndex = 0;
+        let detailIndex = 0;
+
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
+
+        function nextDetailImage() {
+            detailIndex = (detailIndex + 1) % images.length;
+            document.getElementById('detailImage').src = images[detailIndex];
+        }
+        function prevDetailImage() {
+            detailIndex = (detailIndex - 1 + images.length) % images.length;
+            document.getElementById('detailImage').src = images[detailIndex];
+        }
+
+        // Name -> Size
+        function goToSizeStep() {
+            const name = document.getElementById('username').value.trim();
+            if(name === '') {
+                alert('Please enter your name first!');
+                return;
+            }
+            document.getElementById('nameStep').classList.add('hidden');
+            document.getElementById('sizeStep').classList.remove('hidden');
+        }
+
+        // Size -> Thank You Page
+        function goToThankYou() {
+            document.getElementById('productDetail').classList.add('hidden');
+            document.getElementById('thankYou').classList.remove('hidden');
+        }
+    </script>
 
 </body>
 </html>
