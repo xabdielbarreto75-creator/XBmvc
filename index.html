@@ -12,6 +12,7 @@
             overflow-x: hidden;
         }
 
+        /* Logo */
         .logo {
             text-align: center;
             font-weight: bold;
@@ -24,17 +25,19 @@
             to { opacity: 1; }
         }
 
+        /* Curved line */
         .curved-line {
             position: absolute;
             width: 200%;
             height: 200%;
             top: -50%;
             left: -50%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.05));
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.05) 100%);
             transform: rotate(-15deg);
             z-index: 0;
         }
 
+        /* Landing page */
         .center {
             display: flex;
             flex-direction: column;
@@ -54,12 +57,16 @@
             border: none;
             font-weight: bold;
             margin-top: 50px;
+            z-index: 2;
+            position: relative;
         }
 
         .circles {
             display: flex;
             justify-content: center;
             margin-top: 30px;
+            z-index: 2;
+            position: relative;
         }
 
         .circle {
@@ -70,17 +77,32 @@
             margin: 0 10px;
         }
 
+        /* Stars */
         .star {
             color: #fff;
             position: absolute;
-            font-size: 70px;
+            z-index: 2;
         }
+        .star.big { font-size: 70px; }
 
+        /* Shop page */
         .shop-container {
             display: flex;
             flex-direction: column;
-            align-items: center;
+            align-items: flex-start;
+            padding-left: 50px;
             margin-top: 50px;
+        }
+
+        .shop-container h1 {
+            text-align: center;
+            width: 100%;
+        }
+
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         .product img {
@@ -89,12 +111,19 @@
             cursor: pointer;
         }
 
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+        }
+
         .arrows span {
             cursor: pointer;
             font-size: 30px;
-            margin: 0 20px;
+            user-select: none;
         }
 
+        /* Product detail page */
         .detail-container {
             display: flex;
             justify-content: center;
@@ -111,178 +140,224 @@
 
         .left-side img {
             width: 350px;
+            margin-bottom: 10px;
         }
 
         input, select, .continue-btn {
             padding: 10px;
             margin: 10px 0;
+            font-size: 16px;
             width: 100%;
+            box-sizing: border-box;
         }
 
         .continue-btn {
             background-color: #000;
             color: #fff;
             border: none;
-            font-weight: bold;
             cursor: pointer;
+            font-weight: bold;
         }
 
-        .hidden { display: none; }
+        .hidden {
+            display: none;
+        }
 
+        /* Thank You Page */
         .thank-you-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
+            position: relative;
+            text-align: center;
+            color: #000;
         }
 
         .thank-you-box {
             background-color: #fff;
-            color: #000;
             padding: 40px;
             border-radius: 15px;
-            text-align: center;
+            z-index: 2;
+            position: relative;
+            max-width: 500px;
         }
     </style>
 </head>
 <body>
 
-<!-- LANDING -->
-<div id="landing" class="center">
-    <div class="curved-line"></div>
-    <div class="logo" style="font-size:120px;">XBmvc</div>
+    <!-- Landing Page -->
+    <div id="landing" class="center">
+        <div class="curved-line"></div>
+        <!-- Huge logo at top -->
+        <div class="logo" style="font-size: 120px; margin-top: 0;">XBmvc</div>
 
-    <button class="shop-btn" onclick="goToShop()">Shop Now</button>
+        <!-- Shop Now Button -->
+        <button class="shop-btn" onclick="goToShop()">Shop Now</button>
 
-    <div class="circles">
-        <div class="circle"></div>
-        <div class="circle"></div>
-        <div class="circle"></div>
+        <!-- Circles for future social links -->
+        <div class="circles">
+            <div class="circle"></div>
+            <div class="circle"></div>
+            <div class="circle"></div>
+        </div>
+
+        <!-- Stars (separated better) -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:120px; left:80px;">★</div>
+        <div class="star big" style="bottom:220px; left:140px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:120px; right:80px;">★</div>
+        <div class="star big" style="top:220px; right:140px;">★</div>
     </div>
 
-    <div class="star" style="bottom:20px; left:20px;">★</div>
-    <div class="star" style="top:20px; right:20px;">★</div>
-</div>
-
-<!-- SHOP -->
-<div id="shop" class="shop-container hidden">
-    <h1>Our Products</h1>
-
-    <div class="arrows">
-        <span onclick="prevImage()">←</span>
-        <span onclick="nextImage()">→</span>
+    <!-- Shop Page -->
+    <div id="shop" class="shop-container hidden">
+        <h1>Our Products</h1>
+        <div class="product">
+            <div class="arrows">
+                <span onclick="prevImage()">&#8592;</span>
+                <span onclick="nextImage()">&#8594;</span>
+            </div>
+            <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+        </div>
+        <p style="margin-left:0;">Click the image to continue</p>
     </div>
 
-    <div class="product">
-        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-    </div>
+    <!-- Product Detail Page -->
+    <div id="productDetail" class="detail-container hidden">
+        <div class="left-side">
+            <div class="logo" style="color:#000; font-size:36px; text-align:center; margin-bottom:20px;">XBmvc</div>
+            <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Hoodie">
+            <div class="arrows">
+                <span onclick="prevDetailImage()">&#8592;</span>
+                <span onclick="nextDetailImage()">&#8594;</span>
+            </div>
+        </div>
+        <div class="right-side" id="rightSide">
+            <!-- Name input -->
+            <div id="nameStep">
+                <h2>Please type in your name:</h2>
+                <input type="text" id="username" placeholder="Your name">
+                <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
+            </div>
 
-    <p>Click the image to continue</p>
-</div>
-
-<!-- PRODUCT DETAIL -->
-<div id="productDetail" class="detail-container hidden">
-    <div class="left-side">
-        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-        <div class="arrows">
-            <span onclick="prevDetailImage()">←</span>
-            <span onclick="nextDetailImage()">→</span>
+            <!-- Size input -->
+            <div id="sizeStep" class="hidden">
+                <h2>Please pick your size:</h2>
+                <select id="size">
+                    <option value="S">S</option>
+                    <option value="M">M</option>
+                    <option value="L">L</option>
+                    <option value="XL">XL</option>
+                </select>
+                <button class="continue-btn" onclick="goToThankYou()">Submit</button>
+            </div>
         </div>
     </div>
 
-    <div class="right-side">
-        <div id="nameStep">
-            <h2>Please type in your name</h2>
-            <input id="username">
-            <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
-        </div>
+    <!-- Thank You Page -->
+    <div id="thankYou" class="hidden" style="background-color:#000; height:100vh; position:relative;">
+        <div class="curved-line"></div>
+        <div class="logo" style="font-size:120px; text-align:center; margin-top:20px; color:#fff;">XBmvc</div>
+        <!-- Stars (separated) -->
+        <div class="star big" style="bottom:20px; left:20px;">★</div>
+        <div class="star big" style="bottom:120px; left:80px;">★</div>
+        <div class="star big" style="bottom:220px; left:140px;">★</div>
+        <div class="star big" style="top:20px; right:20px;">★</div>
+        <div class="star big" style="top:120px; right:80px;">★</div>
+        <div class="star big" style="top:220px; right:140px;">★</div>
 
-        <div id="sizeStep" class="hidden">
-            <h2>Please pick your size</h2>
-            <select id="size">
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
-            </select>
-            <button class="continue-btn" onclick="goToThankYou()">Submit</button>
-        </div>
-    </div>
-</div>
-
-<!-- THANK YOU -->
-<div id="thankYou" class="hidden">
-    <div class="curved-line"></div>
-    <div class="center">
-        <div class="logo" style="font-size:120px;">XBmvc</div>
-        <div class="thank-you-box">
-            <h1>Thank you!</h1>
-            <p>To continue your purchase please email or text us at</p>
-            <p>xbmvcbrand@gmail.com</p>
-            <p>860-778-9555</p>
+        <div class="thank-you-container">
+            <div class="thank-you-box">
+                <h1>Thank you!</h1>
+                <p>To continue your purchase please email or text us at</p>
+                <p>xbmvcbrand@gmail.com</p>
+                <p>860-778-9555</p>
+            </div>
         </div>
     </div>
-</div>
 
-<script>
-const images = [
-  "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-  "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
-];
-let i = 0;
+    <script>
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec';
 
-function goToShop() {
-  landing.classList.add("hidden");
-  shop.classList.remove("hidden");
-}
+        // Landing -> Shop
+        function goToShop() {
+            document.getElementById('landing').classList.add('hidden');
+            document.getElementById('shop').classList.remove('hidden');
+        }
 
-productImage.onclick = () => {
-  shop.classList.add("hidden");
-  productDetail.classList.remove("hidden");
-};
+        // Shop -> Product Detail
+        const shopImage = document.getElementById('productImage');
+        shopImage.addEventListener('click', () => {
+            document.getElementById('shop').classList.add('hidden');
+            document.getElementById('productDetail').classList.remove('hidden');
+        });
 
-function nextImage() {
-  i = (i + 1) % images.length;
-  productImage.src = images[i];
-}
+        // Image carousel
+        const images = [
+            "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+            "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+        ];
+        let currentIndex = 0;
+        let detailIndex = 0;
 
-function prevImage() {
-  i = (i - 1 + images.length) % images.length;
-  productImage.src = images[i];
-}
+        function nextImage() {
+            currentIndex = (currentIndex + 1) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
+        function prevImage() {
+            currentIndex = (currentIndex - 1 + images.length) % images.length;
+            document.getElementById('productImage').src = images[currentIndex];
+        }
 
-function nextDetailImage() {
-  i = (i + 1) % images.length;
-  detailImage.src = images[i];
-}
+        function nextDetailImage() {
+            detailIndex = (detailIndex + 1) % images.length;
+            document.getElementById('detailImage').src = images[detailIndex];
+        }
+        function prevDetailImage() {
+            detailIndex = (detailIndex - 1 + images.length) % images.length;
+            document.getElementById('detailImage').src = images[detailIndex];
+        }
 
-function prevDetailImage() {
-  i = (i - 1 + images.length) % images.length;
-  detailImage.src = images[i];
-}
+        // Name -> Size
+        function goToSizeStep() {
+            const name = document.getElementById('username').value.trim();
+            if(name === '') {
+                alert('Please enter your name first!');
+                return;
+            }
+            document.getElementById('nameStep').classList.add('hidden');
+            document.getElementById('sizeStep').classList.remove('hidden');
+        }
 
-function goToSizeStep() {
-  if (!username.value.trim()) {
-    alert("Please enter your name");
-    return;
-  }
-  nameStep.classList.add("hidden");
-  sizeStep.classList.remove("hidden");
-}
+        // Size -> Thank You Page + submit to Google Sheet
+        function goToThankYou() {
+            const size = document.getElementById('size').value;
+            const name = document.getElementById('username').value.trim();
+            if(name === '' || size === '') {
+                alert('Please complete all fields!');
+                return;
+            }
 
-function goToThankYou() {
-  fetch("https://script.google.com/macros/s/AKfycbzWhyRi14_sUoR0xPzCca9cxkGF54RmAurG9qlpx0ch7NiPNp9lkvbOyUV34twfHp98/exec", {
-    method: "POST",
-    body: JSON.stringify({
-      name: username.value,
-      size: size.value
-    })
-  });
-
-  productDetail.classList.add("hidden");
-  thankYou.classList.remove("hidden");
-}
-</script>
+            // Send data to Google Script
+            fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({name: name, size: size}),
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                document.getElementById('productDetail').classList.add('hidden');
+                document.getElementById('thankYou').classList.remove('hidden');
+            })
+            .catch(error => {
+                alert('Error submitting order. Please try again.');
+                console.error(error);
+            });
+        }
+    </script>
 
 </body>
 </html>
