@@ -297,10 +297,10 @@
 <div id="paymentPage">
     <div id="paymentBox">
         <div id="paymentInfo">
-            Total: $40<br>
-            Please complete your payment below.
+            This hoodie will cost $70 in total.<br>
+            You will pay half now and half after your order is ready.
         </div>
-        <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br>
+        <button id="payNowBtn" onclick="payNow()">Pay $35 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()">Continue</button>
     </div>
 </div>
@@ -333,7 +333,7 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT -->
+<!-- SCRIPT -->
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -356,7 +356,7 @@
 
     // Cash App payment
     function payNow(){
-        window.open("https://cash.app/$xabdielbarreto/40","_blank");
+        window.open("https://cash.app/$XabdielBarreto/35","_blank");
     }
 </script>
 
