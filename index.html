@@ -200,32 +200,12 @@
             text-align: center;
         }
 
-        .paymentLogo {
-            font-weight: bold;
-            color: #fff;
-            font-size: 24px;
-            margin-bottom: 15px;
-            opacity: 0;
-            animation: fadeIn 2s forwards;
-            text-align: center;
-        }
-
         #paymentInfo {
             background-color: #4CAF50;
             color: #fff;
             padding: 15px;
             border-radius: 10px;
             margin-bottom: 20px;
-        }
-
-        #continueBtn {
-            background-color: #000;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
         }
 
         #payNowBtn {
@@ -239,6 +219,20 @@
             margin-bottom: 15px;
         }
 
+        #continueBtn {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        #agreeContainer {
+            margin-bottom: 15px;
+            text-align: left;
+        }
     </style>
 </head>
 <body>
@@ -290,11 +284,9 @@
     <div class="right-side">
         <div id="nameStep">
             <h2>Please type in your name:</h2>
-            <input type="text" id="username">
-            <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
-        </div>
-
-        <div id="sizeStep" class="hidden">
+            <input type="text" id="username" placeholder="Your Name">
+            <h2>Please type in your phone number:</h2>
+            <input type="tel" id="phone" placeholder="Your Phone Number">
             <h2>Please pick your size:</h2>
             <select id="size">
                 <option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -307,10 +299,13 @@
 <!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
-        <div class="paymentLogo">XBmvc</div>
+        <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
         <div id="paymentInfo">
             This hoodie will cost $70 in total.<br>
             You will pay half now and half after your order is ready.
+        </div>
+        <div id="agreeContainer">
+            <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
         <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()">Continue</button>
@@ -320,17 +315,6 @@
 <!-- THANK YOU -->
 <div id="thankYou" class="hidden" style="background:#000;height:100vh;">
     <div class="logo" style="font-size:120px;">XBmvc</div>
-
-    <!-- STARS: Bottom Left -->
-    <div class="star big" style="bottom:20px; left:20px;">★</div>
-    <div class="star big" style="bottom:80px; left:50px;">★</div>
-    <div class="star big" style="bottom:140px; left:90px;">★</div>
-    
-    <!-- STARS: Top Right -->
-    <div class="star big" style="top:20px; right:20px;">★</div>
-    <div class="star big" style="top:80px; right:50px;">★</div>
-    <div class="star big" style="top:140px; right:90px;">★</div>
-
     <div class="thank-you-container">
         <div class="thank-you-box">
             <h1>Thank you!</h1>
@@ -355,19 +339,23 @@
     function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
     function nextDetailImage(){nextImage();detailImage.src=images[i];}
     function prevDetailImage(){prevImage();detailImage.src=images[i];}
-    function goToSizeStep(){
-        if(!username.value.trim()){alert("Enter your name");return;}
-        nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
-    }
 
-    // Show payment page
     function goToPayment(){
+        const usernameVal = document.getElementById("username").value.trim();
+        const phoneVal = document.getElementById("phone").value.trim();
+        if(!usernameVal || !phoneVal){
+            alert("Please enter your name and phone number.");
+            return;
+        }
         productDetail.classList.add('hidden');
         paymentPage.style.display="flex";
     }
 
-    // Cash App payment
     function payNow(){
+        if(!document.getElementById("agreeCheckbox").checked){
+            alert("Please check 'I agree' before paying.");
+            return;
+        }
         window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 </script>
@@ -380,14 +368,18 @@ const originalGoToThankYou = function(){
     thankYou.classList.remove('hidden');
 };
 function goToThankYou(){
-    // send data to Google Sheets
+    if(!document.getElementById("agreeCheckbox").checked){
+        alert("Please check 'I agree' before continuing.");
+        return;
+    }
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         mode:"no-cors",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
             name:document.getElementById("username").value,
-            size:document.getElementById("size").value
+            size:document.getElementById("size").value,
+            phone:document.getElementById("phone").value
         })
     });
     originalGoToThankYou();
