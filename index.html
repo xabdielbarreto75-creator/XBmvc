@@ -169,64 +169,64 @@
 
         .thank-you-box {
             background-color: #fff;
-            padding: 60px; /* Made bigger */
+            padding: 60px;
             border-radius: 15px;
             z-index: 2;
             position: relative;
-            max-width: 600px; /* Made bigger */
+            max-width: 600px;
         }
 
-        /* PAYMENT PAGE STYLES */
+        /* PAYMENT BOX STYLES */
         #paymentPage {
-            background-color: #000;
-            height: 100vh;
             display: none;
-            color: #fff;
-            display: flex;
-            flex-direction: column;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
             justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 20px;
-            box-sizing: border-box;
+            z-index: 9999;
+            overflow: auto;
+            color: #000;
         }
+
         #paymentBox {
             background-color: #fff;
-            color: #000;
             padding: 40px;
             border-radius: 15px;
             max-width: 500px;
-            width: 100%;
-            box-sizing: border-box;
+            text-align: center;
         }
-        #paymentBox h1 {
-            font-size: 48px;
-            margin-bottom: 10px;
+
+        #paymentInfo {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
         }
-        #paymentBox p {
-            font-size: 18px;
-            margin: 15px 0;
-        }
-        #payNowBtn {
-            background-color: #4CAF50; /* green */
-            border: none;
-            color: white;
-            padding: 15px 30px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            border-radius: 8px;
-            margin: 20px 0;
-        }
+
         #continueBtn {
             background-color: #000;
-            border: none;
-            color: white;
-            padding: 12px 25px;
-            font-size: 16px;
-            font-weight: bold;
+            color: #fff;
+            padding: 10px 20px;
             cursor: pointer;
+            border: none;
+            font-weight: bold;
             border-radius: 8px;
+        }
+
+        #payNowBtn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
         }
     </style>
 </head>
@@ -293,14 +293,14 @@
     </div>
 </div>
 
-<!-- PAYMENT PAGE -->
+<!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
-        <div class="logo" style="font-size: 60px; color:#000; font-weight:bold; margin-bottom: 20px;">XBmvc</div>
-        <h1>Complete your payment</h1>
-        <p>Click the button below to pay via Cash App</p>
-        <button id="payNowBtn" onclick="payNow()">Pay Now</button>
-        <br>
+        <div id="paymentInfo">
+            Total: $40<br>
+            Please complete your payment below.
+        </div>
+        <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()">Continue</button>
     </div>
 </div>
@@ -322,89 +322,64 @@
     <div class="thank-you-container">
         <div class="thank-you-box">
             <h1>Thank you!</h1>
-            <p>Thank you for your support, your support helps this brand grow bigger and bigger.</p>
-            <p>For any questions please email us or text us at</p>
+            <p>Email or text us at</p>
             <p>xbmvcbrand@gmail.com</p>
             <p>860-778-9555</p>
+            <p style="margin-top:15px;">
+            Thank you for your support, your support helps this brand grow bigger and bigger. 
+            For any questions please email us or text us at the above contacts.
+            </p>
         </div>
     </div>
 </div>
 
+<!-- ORIGINAL SCRIPT -->
 <script>
-    // Original navigation functions
-    function goToShop(){
-        landing.classList.add('hidden');
-        shop.classList.remove('hidden');
-    }
-    productImage.onclick = () => {
-        shop.classList.add('hidden');
-        productDetail.classList.remove('hidden');
-    }
+    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
+    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
     const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
     let i=0;
-    function nextImage(){
-        i=(i+1)%images.length;
-        productImage.src=images[i];
-    }
-    function prevImage(){
-        i=(i-1+images.length)%images.length;
-        productImage.src=images[i];
-    }
-    function nextDetailImage(){
-        nextImage();
-        detailImage.src=images[i];
-    }
-    function prevDetailImage(){
-        prevImage();
-        detailImage.src=images[i];
-    }
+    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
+    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
+    function nextDetailImage(){nextImage();detailImage.src=images[i];}
+    function prevDetailImage(){prevImage();detailImage.src=images[i];}
     function goToSizeStep(){
-        if(!username.value.trim()){
-            alert("Enter your name");
-            return;
-        }
-        nameStep.classList.add('hidden');
-        sizeStep.classList.remove('hidden');
+        if(!username.value.trim()){alert("Enter your name");return;}
+        nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
     }
 
-    // New function to go to payment page
+    // Show payment page
     function goToPayment(){
-        if(!size.value){
-            alert("Please select a size");
-            return;
-        }
         productDetail.classList.add('hidden');
-        paymentPage.style.display = "flex";
+        paymentPage.style.display="flex";
     }
 
-    // Payment button action
+    // Cash App payment
     function payNow(){
-        // Open your Cash App link in a new tab (replace with your actual link)
-        window.open("https://cash.app/$xabdielbarreto", "_blank");
+        window.open("https://cash.app/$xabdielbarreto/40","_blank");
     }
+</script>
 
-    // Continue button from payment to thank you
-    function goToThankYou(){
-        paymentPage.style.display = "none";
-        thankYou.classList.remove('hidden');
-    }
-
-    // Google Sheets submit with original goToThankYou wrapped
-    const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
-
-    const originalGoToThankYou = goToThankYou;
-    goToThankYou = function(){
-      fetch(GOOGLE_SCRIPT_URL,{
+<!-- GOOGLE SHEETS SCRIPT -->
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
+const originalGoToThankYou = function(){
+    paymentPage.style.display="none";
+    thankYou.classList.remove('hidden');
+};
+function goToThankYou(){
+    // send data to Google Sheets
+    fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         mode:"no-cors",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
-          name:document.getElementById("username").value,
-          size:document.getElementById("size").value
+            name:document.getElementById("username").value,
+            size:document.getElementById("size").value
         })
-      });
-      originalGoToThankYou();
-    }
+    });
+    originalGoToThankYou();
+}
 </script>
 
 </body>
