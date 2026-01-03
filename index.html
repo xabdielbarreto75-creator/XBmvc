@@ -259,6 +259,15 @@
 
 <!-- SHOP -->
 <div id="shop" class="shop-container hidden">
+    <!-- LANGUAGE SELECT -->
+    <div style="text-align:right; margin-bottom:20px;">
+        <label for="languageSelect" style="color:#fff; font-weight:bold;">Language: </label>
+        <select id="languageSelect">
+            <option value="en">English</option>
+            <option value="es">Spanish</option>
+        </select>
+    </div>
+
     <h1>Our Products</h1>
     <div class="product">
         <div class="arrows">
@@ -370,6 +379,65 @@
         }
         window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
+
+    // LANGUAGE TOGGLE
+    const languageSelect = document.getElementById("languageSelect");
+
+    languageSelect.addEventListener("change", () => {
+        const lang = languageSelect.value;
+
+        if(lang === "es"){ // Spanish
+            document.querySelector("#shop h1").textContent = "Nuestros Productos";
+            document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
+            
+            document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Por favor ingresa tu nombre:";
+            document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Por favor ingresa tu número de teléfono:";
+            document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Por favor elige tu talla:";
+            document.querySelector(".continue-btn").textContent = "Enviar";
+            document.querySelector("#nameStep p").textContent = "Envíos a Puerto Rico y USA más el costo de envío";
+
+            document.querySelector("#paymentInfo").innerHTML = 
+                "Esta sudadera cuesta $70 en total.<br>" +
+                "Pagarás la mitad ahora y la otra mitad cuando tu pedido esté listo.<br>" +
+                "<b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
+
+            document.getElementById("payNowBtn").textContent = "Pagar $40 Ahora";
+            document.getElementById("continueBtn").textContent = "Continuar";
+
+            document.querySelector("#thankYou h1").textContent = "¡Gracias!";
+            document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Envíanos un correo o mensaje a";
+            document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
+            document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
+            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML =
+                "¡Gracias por tu apoyo! Tu apoyo ayuda a que esta marca crezca cada vez más.<br>" +
+                "Para cualquier pregunta, envíanos un correo o mensaje a los contactos anteriores.";
+        } else { // English
+            document.querySelector("#shop h1").textContent = "Our Products";
+            document.querySelector("#shop p").textContent = "Click the image to continue";
+
+            document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Please type in your name:";
+            document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Please type in your phone number:";
+            document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Please pick your size:";
+            document.querySelector(".continue-btn").textContent = "Submit";
+            document.querySelector("#nameStep p").textContent = "Shipping to Puerto Rico and USA plus shipping fee";
+
+            document.querySelector("#paymentInfo").innerHTML = 
+                "This hoodie will cost $70 in total.<br>" +
+                "You will pay half now and half after your order is ready.<br>" +
+                "<b>We will also not provide refunds for deposits or full charge.</b>";
+
+            document.getElementById("payNowBtn").textContent = "Pay $40 Now";
+            document.getElementById("continueBtn").textContent = "Continue";
+
+            document.querySelector("#thankYou h1").textContent = "Thank you!";
+            document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Email or text us at";
+            document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
+            document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
+            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML =
+                "Thank you for your support, your support helps this brand grow bigger and bigger. " +
+                "For any questions please email us or text us at the above contacts.";
+        }
+    });
 </script>
 
 <!-- GOOGLE SHEETS SCRIPT -->
