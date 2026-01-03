@@ -281,7 +281,7 @@
     function goToThankYou(){productDetail.classList.add('hidden');thankYou.classList.remove('hidden');}
 </script>
 
-<!-- GOOGLE SHEETS INTEGRATION (ADDED) -->
+<!-- GOOGLE SHEETS SCRIPT -->
 <script>
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
 
@@ -290,6 +290,7 @@ goToThankYou = function(){
     const name = document.getElementById("username").value;
     const size = document.getElementById("size").value;
 
+    // Send to Google Sheets
     fetch(GOOGLE_SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
@@ -297,6 +298,7 @@ goToThankYou = function(){
         body: JSON.stringify({name: name, size: size})
     });
 
+    // Then show Thank You
     originalGoToThankYou();
 }
 </script>
