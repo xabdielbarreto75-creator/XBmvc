@@ -185,4 +185,79 @@
     <div class="logo" style="font-size:120px;">XBmvc</div>
     <button class="shop-btn" onclick="goToShop()">Shop Now</button>
     <div class="circles">
-        <div class="circ
+        <div class="circle"></div><div class="circle"></div><div class="circle"></div>
+    </div>
+</div>
+
+<!-- SHOP -->
+<div id="shop" class="shop-container hidden">
+    <h1>Our Products</h1>
+    <div class="product">
+        <div class="arrows">
+            <span onclick="prevImage()">&#8592;</span>
+            <span onclick="nextImage()">&#8594;</span>
+        </div>
+        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+    </div>
+    <p>Click the image to continue</p>
+</div>
+
+<!-- DETAIL -->
+<div id="productDetail" class="detail-container hidden">
+    <div class="left-side">
+        <div class="logo" style="color:#000;font-size:36px;">XBmvc</div>
+        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+        <div class="arrows">
+            <span onclick="prevDetailImage()">&#8592;</span>
+            <span onclick="nextDetailImage()">&#8594;</span>
+        </div>
+    </div>
+
+    <div class="right-side">
+        <div id="nameStep">
+            <h2>Please type in your name:</h2>
+            <input type="text" id="username">
+            <button class="continue-btn" onclick="goToSizeStep()">Continue</button>
+        </div>
+
+        <div id="sizeStep" class="hidden">
+            <h2>Please pick your size:</h2>
+            <select id="size">
+                <option>S</option><option>M</option><option>L</option><option>XL</option>
+            </select>
+            <button class="continue-btn" onclick="goToThankYou()">Submit</button>
+        </div>
+    </div>
+</div>
+
+<!-- THANK YOU -->
+<div id="thankYou" class="hidden" style="background:#000;height:100vh;">
+    <div class="logo" style="font-size:120px;">XBmvc</div>
+    <div class="thank-you-container">
+        <div class="thank-you-box">
+            <h1>Thank you!</h1>
+            <p>Email or text us at</p>
+            <p>xbmvcbrand@gmail.com</p>
+            <p>860-778-9555</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
+    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
+    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
+    let i=0;
+    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
+    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
+    function nextDetailImage(){nextImage();detailImage.src=images[i];}
+    function prevDetailImage(){prevImage();detailImage.src=images[i];}
+    function goToSizeStep(){
+        if(!username.value.trim()){alert("Enter your name");return;}
+        nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
+    }
+    function goToThankYou(){productDetail.classList.add('hidden');thankYou.classList.remove('hidden');}
+</script>
+
+</body>
+</html>
