@@ -380,12 +380,10 @@
         window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 
-    // LANGUAGE TOGGLE
+    // LANGUAGE TOGGLE & MEMORY
     const languageSelect = document.getElementById("languageSelect");
 
-    languageSelect.addEventListener("change", () => {
-        const lang = languageSelect.value;
-
+    function updateLanguage(lang) {
         if(lang === "es"){ // Spanish
             document.querySelector("#shop h1").textContent = "Nuestros Productos";
             document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
@@ -437,7 +435,18 @@
                 "Thank you for your support, your support helps this brand grow bigger and bigger. " +
                 "For any questions please email us or text us at the above contacts.";
         }
+    }
+
+    languageSelect.addEventListener("change", () => {
+        const lang = languageSelect.value;
+        localStorage.setItem("preferredLanguage", lang); // Save choice
+        updateLanguage(lang);
     });
+
+    // On page load, apply saved language
+    const savedLang = localStorage.getItem("preferredLanguage") || "en";
+    languageSelect.value = savedLang;
+    updateLanguage(savedLang);
 </script>
 
 <!-- GOOGLE SHEETS SCRIPT -->
