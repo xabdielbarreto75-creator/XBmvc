@@ -1,135 +1,428 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>XBmvc Shop</title>
-<style>
-body{font-family:Arial;margin:0;background:#000;color:#fff}
-.hidden{display:none}
-.logo{text-align:center;font-weight:bold}
-.center{height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center}
-.shop-btn{padding:20px 40px;font-size:24px;font-weight:bold;cursor:pointer}
-input,select,button{width:100%;padding:10px;margin:10px 0}
-button{cursor:pointer;font-weight:bold}
-#paymentPage{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.95);justify-content:center;align-items:center}
-#paymentBox{background:#fff;color:#000;padding:40px;border-radius:15px;max-width:500px}
-#payNowBtn{background:#4CAF50;color:#fff;border:none}
-#continueBtn{background:#000;color:#fff;border:none}
-</style>
-</head>
+    <title>XBmvc Shop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
 
+        .logo {
+            text-align: center;
+            font-weight: bold;
+            color: #fff;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+
+        .curved-line {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.05) 100%);
+            transform: rotate(-15deg);
+            z-index: 0;
+        }
+
+        .center {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+
+        .shop-btn {
+            padding: 20px 40px;
+            font-size: 24px;
+            cursor: pointer;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            font-weight: bold;
+            margin-top: 50px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .circles {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .circle {
+            width: 20px;
+            height: 20px;
+            background-color: #fff;
+            border-radius: 50%;
+            margin: 0 10px;
+        }
+
+        .star {
+            color: #fff;
+            position: absolute;
+            z-index: 2;
+        }
+        .star.big { font-size: 70px; }
+
+        .shop-container {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding-left: 50px;
+            margin-top: 50px;
+        }
+
+        .shop-container h1 {
+            text-align: center;
+            width: 100%;
+        }
+
+        .product {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .product img {
+            width: 250px;
+            margin: 20px 0;
+            cursor: pointer;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+        }
+
+        .arrows span {
+            cursor: pointer;
+            font-size: 30px;
+            user-select: none;
+        }
+
+        .detail-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 80px;
+        }
+
+        .left-side, .right-side {
+            background-color: #fff;
+            color: #000;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px;
+        }
+
+        .left-side img {
+            width: 350px;
+            margin-bottom: 10px;
+        }
+
+        input, select, .continue-btn {
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 16px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .continue-btn {
+            background-color: #000;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .thank-you-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            position: relative;
+            text-align: center;
+            color: #000;
+        }
+
+        .thank-you-box {
+            background-color: #fff;
+            padding: 60px;
+            border-radius: 15px;
+            z-index: 2;
+            position: relative;
+            max-width: 600px;
+        }
+
+        /* PAYMENT BOX STYLES */
+        #paymentPage {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.95);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            overflow: auto;
+            color: #000;
+        }
+
+        #paymentBox {
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            text-align: center;
+        }
+
+        #paymentInfo {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        #payNowBtn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        #continueBtn {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
+        #agreeContainer {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+    </style>
+</head>
 <body>
 
 <!-- LANDING -->
 <div id="landing" class="center">
-  <div class="logo" style="font-size:120px;">XBmvc</div>
-  <button class="shop-btn" onclick="goToShop()">Shop Now</button>
+    <div class="curved-line"></div>
+    <div class="logo" style="font-size:120px;">XBmvc</div>
+    <button class="shop-btn" onclick="goToShop()">Shop Now</button>
+    <div class="circles">
+        <div class="circle"></div><div class="circle"></div><div class="circle"></div>
+    </div>
+
+    <!-- STARS: Bottom Left -->
+    <div class="star big" style="bottom:20px; left:20px;">★</div>
+    <div class="star big" style="bottom:80px; left:50px;">★</div>
+    <div class="star big" style="bottom:140px; left:90px;">★</div>
+    
+    <!-- STARS: Top Right -->
+    <div class="star big" style="top:20px; right:20px;">★</div>
+    <div class="star big" style="top:80px; right:50px;">★</div>
+    <div class="star big" style="top:140px; right:90px;">★</div>
 </div>
 
 <!-- SHOP -->
-<div id="shop" class="hidden">
-  <h1 style="text-align:center">Our Products</h1>
-  <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" style="width:250px;display:block;margin:auto;cursor:pointer">
+<div id="shop" class="shop-container hidden">
+    <h1>Our Products</h1>
+    <div class="product">
+        <div class="arrows">
+            <span onclick="prevImage()">&#8592;</span>
+            <span onclick="nextImage()">&#8594;</span>
+        </div>
+        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+    </div>
+    <p>Click the image to continue</p>
 </div>
 
 <!-- DETAIL -->
-<div id="productDetail" class="hidden">
-  <div style="background:#fff;color:#000;padding:30px;border-radius:10px;max-width:400px;margin:40px auto">
-    <h2>Please type in your name:</h2>
-    <input id="username">
-    <h2>Please type in your phone number:</h2>
-    <input id="phone">
-    <h2>Please pick your size:</h2>
-    <select id="size"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-
-    <!-- POLICY (NEW) -->
-    <div style="margin-top:15px">
-      <input type="checkbox" id="policyCheck">
-      <label>
-        We do not provide refunds. Once you pay the first half now, you will receive a text for more info about your order.
-      </label>
+<div id="productDetail" class="detail-container hidden">
+    <div class="left-side">
+        <div class="logo" style="color:#000;font-size:36px;">XBmvc</div>
+        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+        <div class="arrows">
+            <span onclick="prevDetailImage()">&#8592;</span>
+            <span onclick="nextDetailImage()">&#8594;</span>
+        </div>
     </div>
 
-    <button onclick="goToPayment()">Submit</button>
-  </div>
+    <div class="right-side">
+        <div id="nameStep">
+            <h2>Please type in your name:</h2>
+            <input type="text" id="username" placeholder="Your Name">
+            <h2>Please type in your phone number:</h2>
+            <input type="tel" id="phone" placeholder="Your Phone Number">
+            <h2>Please pick your size:</h2>
+            <select id="size">
+                <option>S</option><option>M</option><option>L</option><option>XL</option>
+            </select>
+            <button class="continue-btn" onclick="goToPayment()">Submit</button>
+        </div>
+    </div>
 </div>
 
 <!-- PAYMENT -->
 <div id="paymentPage">
-  <div id="paymentBox">
-    <div class="logo" style="color:#000;font-size:30px">XBmvc</div>
-    <p>
-      This hoodie will cost $70 in total.<br>
-      You will pay half now and half after your order is ready.
-    </p>
-
-    <input type="checkbox" id="agreeCheckbox"> I agree<br><br>
-
-    <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br><br>
-    <button id="continueBtn" onclick="goToThankYou()">Continue</button>
-  </div>
+    <div id="paymentBox">
+        <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
+        <div id="paymentInfo">
+            This hoodie will cost $70 in total.<br>
+            You will pay half now and half after your order is ready.
+        </div>
+        <div id="agreeContainer">
+            <input type="checkbox" id="agreeCheckbox"> I agree
+        </div>
+        <button id="payNowBtn" onclick="payNow()" disabled>Pay $40 Now</button><br>
+        <button id="continueBtn" onclick="goToThankYou()" disabled>Continue</button>
+    </div>
 </div>
 
 <!-- THANK YOU -->
-<div id="thankYou" class="hidden center">
-  <div class="logo" style="font-size:120px">XBmvc</div>
-  <p>Thank you for your support</p>
+<div id="thankYou" class="hidden" style="background:#000;height:100vh;">
+    <div class="logo" style="font-size:120px;">XBmvc</div>
+    <div class="thank-you-container">
+        <div class="thank-you-box">
+            <h1>Thank you!</h1>
+            <p>Email or text us at</p>
+            <p>xbmvcbrand@gmail.com</p>
+            <p>860-778-9555</p>
+            <p style="margin-top:15px;">
+            Thank you for your support, your support helps this brand grow bigger and bigger. 
+            For any questions please email us or text us at the above contacts.
+            </p>
+        </div>
+    </div>
 </div>
 
+<!-- ORIGINAL SCRIPT -->
 <script>
-function goToShop(){
-  landing.classList.add("hidden");
-  shop.classList.remove("hidden");
-}
+    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
+    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
+    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
+    let i=0;
+    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
+    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
+    function nextDetailImage(){nextImage();detailImage.src=images[i];}
+    function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
-productImage.onclick=()=>{
-  shop.classList.add("hidden");
-  productDetail.classList.remove("hidden");
-}
+    function goToPayment(){
+        const usernameVal = document.getElementById("username").value.trim();
+        const phoneVal = document.getElementById("phone").value.trim();
+        if(!usernameVal || !phoneVal){
+            alert("Please enter your name and phone number.");
+            return;
+        }
+        productDetail.classList.add('hidden');
+        paymentPage.style.display="flex";
+    }
 
-function goToPayment(){
-  if(!username.value || !phone.value){
-    alert("Enter name and phone number");
-    return;
-  }
-  if(!document.getElementById("policyCheck").checked){
-    alert("You must agree to the policy before continuing.");
-    return;
-  }
-  productDetail.classList.add("hidden");
-  paymentPage.style.display="flex";
-}
+    const agreeCheckbox = document.getElementById("agreeCheckbox");
+    const payNowBtn = document.getElementById("payNowBtn");
+    const continueBtn = document.getElementById("continueBtn");
 
-function payNow(){
-  if(!agreeCheckbox.checked){
-    alert("Please agree before paying");
-    return;
-  }
-  window.open("https://cash.app/$XabdielBarreto/40","_blank");
-}
+    agreeCheckbox.addEventListener("change", () => {
+        const checked = agreeCheckbox.checked;
+        payNowBtn.disabled = !checked;
+        continueBtn.disabled = !checked;
+    });
 
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxcOug56862HIBc8a_zhIhQCZZ0ux04nSzgVOKuqc6Fx5_LWaA27a4Of20chuC4jnmk/exec";
+    function payNow(){
+        if(!agreeCheckbox.checked){
+            alert("Please check 'I agree' before paying.");
+            return;
+        }
+        window.open("https://cash.app/$XabdielBarreto/40","_blank");
+    }
+</script>
 
+<!-- GOOGLE SHEETS SCRIPT -->
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
+const originalGoToThankYou = function(){
+    paymentPage.style.display="none";
+    thankYou.classList.remove('hidden');
+};
 function goToThankYou(){
-  if(!agreeCheckbox.checked){
-    alert("Please agree before continuing");
-    return;
-  }
-
-  fetch(GOOGLE_SCRIPT_URL,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      name:username.value,
-      phone:phone.value,
-      size:size.value
-    })
-  });
-
-  paymentPage.style.display="none";
-  thankYou.classList.remove("hidden");
+    if(!document.getElementById("agreeCheckbox").checked){
+        alert("Please check 'I agree' before continuing.");
+        return;
+    }
+    fetch(GOOGLE_SCRIPT_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            name:document.getElementById("username").value,
+            size:document.getElementById("size").value,
+            phone:document.getElementById("phone").value
+        })
+    });
+    originalGoToThankYou();
 }
 </script>
 
 </body>
 </html>
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxcOug56862HIBc8a_zhIhQCZZ0ux04nSzgVOKuqc6Fx5_LWaA27a4Of20chuC4jnmk/exec";
+
+const originalGoToThankYou = function(){
+    paymentPage.style.display="none";
+    thankYou.classList.remove('hidden');
+};
+
+function goToThankYou(){
+    if(!document.getElementById("agreeCheckbox").checked){
+        alert("Please check 'I agree' before continuing.");
+        return;
+    }
+
+    fetch(GOOGLE_SCRIPT_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            name: document.getElementById("username").value,
+            phone: document.getElementById("phone").value,
+            size: document.getElementById("size").value
+        })
+    });
+
+    originalGoToThankYou();
+}
+</script>
