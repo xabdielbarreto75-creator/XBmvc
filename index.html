@@ -398,3 +398,31 @@ function goToThankYou(){
 
 </body>
 </html>
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxcOug56862HIBc8a_zhIhQCZZ0ux04nSzgVOKuqc6Fx5_LWaA27a4Of20chuC4jnmk/exec";
+
+const originalGoToThankYou = function(){
+    paymentPage.style.display="none";
+    thankYou.classList.remove('hidden');
+};
+
+function goToThankYou(){
+    if(!document.getElementById("agreeCheckbox").checked){
+        alert("Please check 'I agree' before continuing.");
+        return;
+    }
+
+    fetch(GOOGLE_SCRIPT_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+            name: document.getElementById("username").value,
+            phone: document.getElementById("phone").value,
+            size: document.getElementById("size").value
+        })
+    });
+
+    originalGoToThankYou();
+}
+</script>
