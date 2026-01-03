@@ -200,6 +200,16 @@
             text-align: center;
         }
 
+        .paymentLogo {
+            font-weight: bold;
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 15px;
+            opacity: 0;
+            animation: fadeIn 2s forwards;
+            text-align: center;
+        }
+
         #paymentInfo {
             background-color: #4CAF50;
             color: #fff;
@@ -228,6 +238,7 @@
             border-radius: 8px;
             margin-bottom: 15px;
         }
+
     </style>
 </head>
 <body>
@@ -296,11 +307,12 @@
 <!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
+        <div class="paymentLogo">XBmvc</div>
         <div id="paymentInfo">
             This hoodie will cost $70 in total.<br>
             You will pay half now and half after your order is ready.
         </div>
-        <button id="payNowBtn" onclick="payNow()">Pay $35 Now</button><br>
+        <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()">Continue</button>
     </div>
 </div>
@@ -333,7 +345,7 @@
     </div>
 </div>
 
-<!-- SCRIPT -->
+<!-- ORIGINAL SCRIPT -->
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -356,7 +368,7 @@
 
     // Cash App payment
     function payNow(){
-        window.open("https://cash.app/$XabdielBarreto/35","_blank");
+        window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 </script>
 
