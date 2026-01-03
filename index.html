@@ -223,7 +223,7 @@
         </div>
     </div>
 
-    <div class="right-side" id="rightSide">
+    <div class="right-side">
         <div id="nameStep">
             <h2>Please type in your name:</h2>
             <input type="text" id="username">
@@ -237,6 +237,19 @@
             </select>
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
         </div>
+    </div>
+</div>
+
+<!-- PAYMENT PAGE -->
+<div id="paymentPage" class="hidden" style="background:#000;height:100vh;">
+    <div class="center">
+        <div class="logo" style="font-size:120px; color:#fff;">XBmvc</div>
+        <h2 style="color:#fff;">Complete your payment</h2>
+        <p style="color:#fff;">Click the button below to pay via Cash App</p>
+        <a href="https://cash.app/$xabdielbarreto" target="_blank">
+            <button class="continue-btn">Pay Now</button>
+        </a>
+        <button class="continue-btn" onclick="goToThankYou()">Continue to Thank You Page</button>
     </div>
 </div>
 
@@ -260,6 +273,7 @@
             <p>Email or text us at</p>
             <p>xbmvcbrand@gmail.com</p>
             <p>860-778-9555</p>
+            <p>Thank you for your support, your support helps this brand grow bigger and bigger. For any questions please email us or text us at the contacts above.</p>
         </div>
     </div>
 </div>
@@ -278,43 +292,26 @@
         if(!username.value.trim()){alert("Enter your name");return;}
         nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
     }
+    function goToPayment(){productDetail.classList.add('hidden');paymentPage.classList.remove('hidden');}
+    function goToThankYou(){paymentPage.classList.add('hidden');thankYou.classList.remove('hidden');}
 </script>
 
-<!-- GOOGLE SHEETS + PAYMENT ADDITION -->
+<!-- GOOGLE SHEETS SCRIPT (ONLY ADDITION) -->
 <script>
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
-const PAYMENT_URL = "https://cash.app/$xabdielbarreto";
 
-function goToPayment(){
-    // Send info to Google Sheets
-    fetch(GOOGLE_SCRIPT_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            name: document.getElementById("username").value,
-            size: document.getElementById("size").value
-        })
-    });
-
-    // Open payment page in a new tab
-    window.open(PAYMENT_URL,"_blank");
-
-    // Show continue button to go to Thank You page
-    const rightSide = document.getElementById("rightSide");
-    const continueDiv = document.createElement("div");
-    continueDiv.style.marginTop="20px";
-    const continueBtn = document.createElement("button");
-    continueBtn.innerText="Continue to Thank You Page";
-    continueBtn.className="continue-btn";
-    continueBtn.onclick=()=>{goToThankYou(); continueDiv.remove();};
-    continueDiv.appendChild(continueBtn);
-    rightSide.appendChild(continueDiv);
-}
-
-function goToThankYou(){
-    productDetail.classList.add('hidden');
-    thankYou.classList.remove('hidden');
+const originalGoToPayment = goToPayment;
+goToPayment = function(){
+  fetch(GOOGLE_SCRIPT_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      name:document.getElementById("username").value,
+      size:document.getElementById("size").value
+    })
+  });
+  originalGoToPayment();
 }
 </script>
 
