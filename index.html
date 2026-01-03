@@ -169,61 +169,64 @@
 
         .thank-you-box {
             background-color: #fff;
-            padding: 60px;
+            padding: 60px; /* Made bigger */
             border-radius: 15px;
             z-index: 2;
             position: relative;
-            max-width: 600px;
+            max-width: 600px; /* Made bigger */
         }
 
-        /* Payment page styles */
+        /* PAYMENT PAGE STYLES */
         #paymentPage {
             background-color: #000;
-            color: #000;
-            font-family: Arial, sans-serif;
             height: 100vh;
+            display: none;
+            color: #fff;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-        .payment-box {
-            background-color: #fff;
-            padding: 40px 60px;
-            border-radius: 12px;
             text-align: center;
-            max-width: 400px;
-            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+            padding: 20px;
+            box-sizing: border-box;
         }
-        .payment-box h1 {
+        #paymentBox {
+            background-color: #fff;
+            color: #000;
+            padding: 40px;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #paymentBox h1 {
             font-size: 48px;
             margin-bottom: 10px;
-            font-weight: bold;
-            color: #000;
         }
-        .payment-box p {
+        #paymentBox p {
             font-size: 18px;
-            margin: 10px 0 30px 0;
-            color: #000;
+            margin: 15px 0;
         }
-        .btn {
-            display: block;
-            width: 160px;
-            margin: 15px auto;
-            padding: 12px 0;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 6px;
+        #payNowBtn {
+            background-color: #4CAF50; /* green */
             border: none;
-            text-align: center;
-        }
-        .btn-pay {
-            background-color: #28a745; /* Green */
             color: white;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
+            margin: 20px 0;
         }
-        .btn-continue {
+        #continueBtn {
             background-color: #000;
+            border: none;
             color: white;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -291,13 +294,14 @@
 </div>
 
 <!-- PAYMENT PAGE -->
-<div id="paymentPage" class="hidden">
-    <div class="payment-box">
-        <h1>XBmvc</h1>
-        <p>Complete your payment</p>
+<div id="paymentPage">
+    <div id="paymentBox">
+        <div class="logo" style="font-size: 60px; color:#000; font-weight:bold; margin-bottom: 20px;">XBmvc</div>
+        <h1>Complete your payment</h1>
         <p>Click the button below to pay via Cash App</p>
-        <button class="btn btn-pay" onclick="window.open('https://cash.app/$xabdielbarreto', '_blank')">Pay Now</button>
-        <button class="btn btn-continue" onclick="goToThankYou()">Continue</button>
+        <button id="payNowBtn" onclick="payNow()">Pay Now</button>
+        <br>
+        <button id="continueBtn" onclick="goToThankYou()">Continue</button>
     </div>
 </div>
 
@@ -327,88 +331,79 @@
 </div>
 
 <script>
-    // ELEMENTS
-    const landing = document.getElementById("landing");
-    const shop = document.getElementById("shop");
-    const productDetail = document.getElementById("productDetail");
-    const thankYou = document.getElementById("thankYou");
-    const paymentPage = document.getElementById("paymentPage");
-
-    const productImage = document.getElementById("productImage");
-    const detailImage = document.getElementById("detailImage");
-    const username = document.getElementById("username");
-    const nameStep = document.getElementById("nameStep");
-    const sizeStep = document.getElementById("sizeStep");
-
-    // IMAGES
-    const images = [
-      "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-      "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
-    ];
-    let i = 0;
-
-    // NAVIGATION FUNCTIONS
-    function goToShop() {
-        landing.classList.add("hidden");
-        shop.classList.remove("hidden");
+    // Original navigation functions
+    function goToShop(){
+        landing.classList.add('hidden');
+        shop.classList.remove('hidden');
     }
     productImage.onclick = () => {
-        shop.classList.add("hidden");
-        productDetail.classList.remove("hidden");
-    };
-    function nextImage() {
-        i = (i + 1) % images.length;
-        productImage.src = images[i];
+        shop.classList.add('hidden');
+        productDetail.classList.remove('hidden');
     }
-    function prevImage() {
-        i = (i - 1 + images.length) % images.length;
-        productImage.src = images[i];
+    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
+    let i=0;
+    function nextImage(){
+        i=(i+1)%images.length;
+        productImage.src=images[i];
     }
-    function nextDetailImage() {
+    function prevImage(){
+        i=(i-1+images.length)%images.length;
+        productImage.src=images[i];
+    }
+    function nextDetailImage(){
         nextImage();
-        detailImage.src = images[i];
+        detailImage.src=images[i];
     }
-    function prevDetailImage() {
+    function prevDetailImage(){
         prevImage();
-        detailImage.src = images[i];
+        detailImage.src=images[i];
     }
-    function goToSizeStep() {
-        if (!username.value.trim()) {
+    function goToSizeStep(){
+        if(!username.value.trim()){
             alert("Enter your name");
             return;
         }
-        nameStep.classList.add("hidden");
-        sizeStep.classList.remove("hidden");
+        nameStep.classList.add('hidden');
+        sizeStep.classList.remove('hidden');
     }
 
-    // GOOGLE SHEETS POST URL
-    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
-
-    function goToPayment() {
-        if (!document.getElementById("size").value) {
+    // New function to go to payment page
+    function goToPayment(){
+        if(!size.value){
             alert("Please select a size");
             return;
         }
-
-        // POST to Google Sheets
-        fetch(GOOGLE_SCRIPT_URL, {
-            method: "POST",
-            mode: "no-cors",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-                name: username.value,
-                size: document.getElementById("size").value
-            })
-        });
-
-        // Show payment page
-        productDetail.classList.add("hidden");
-        paymentPage.classList.remove("hidden");
+        productDetail.classList.add('hidden');
+        paymentPage.style.display = "flex";
     }
 
-    function goToThankYou() {
-        paymentPage.classList.add("hidden");
-        thankYou.classList.remove("hidden");
+    // Payment button action
+    function payNow(){
+        // Open your Cash App link in a new tab (replace with your actual link)
+        window.open("https://cash.app/$xabdielbarreto", "_blank");
+    }
+
+    // Continue button from payment to thank you
+    function goToThankYou(){
+        paymentPage.style.display = "none";
+        thankYou.classList.remove('hidden');
+    }
+
+    // Google Sheets submit with original goToThankYou wrapped
+    const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
+
+    const originalGoToThankYou = goToThankYou;
+    goToThankYou = function(){
+      fetch(GOOGLE_SCRIPT_URL,{
+        method:"POST",
+        mode:"no-cors",
+        headers:{"Content-Type":"application/json"},
+        body:JSON.stringify({
+          name:document.getElementById("username").value,
+          size:document.getElementById("size").value
+        })
+      });
+      originalGoToThankYou();
     }
 </script>
 
