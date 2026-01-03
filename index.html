@@ -169,11 +169,11 @@
 
         .thank-you-box {
             background-color: #fff;
-            padding: 40px;
+            padding: 60px; /* Made bigger */
             border-radius: 15px;
             z-index: 2;
             position: relative;
-            max-width: 500px;
+            max-width: 600px; /* Made bigger */
         }
     </style>
 </head>
@@ -187,6 +187,16 @@
     <div class="circles">
         <div class="circle"></div><div class="circle"></div><div class="circle"></div>
     </div>
+
+    <!-- STARS: Bottom Left -->
+    <div class="star big" style="bottom:20px; left:20px;">★</div>
+    <div class="star big" style="bottom:80px; left:50px;">★</div>
+    <div class="star big" style="bottom:140px; left:90px;">★</div>
+    
+    <!-- STARS: Top Right -->
+    <div class="star big" style="top:20px; right:20px;">★</div>
+    <div class="star big" style="top:80px; right:50px;">★</div>
+    <div class="star big" style="top:140px; right:90px;">★</div>
 </div>
 
 <!-- SHOP -->
@@ -233,6 +243,17 @@
 <!-- THANK YOU -->
 <div id="thankYou" class="hidden" style="background:#000;height:100vh;">
     <div class="logo" style="font-size:120px;">XBmvc</div>
+
+    <!-- STARS: Bottom Left -->
+    <div class="star big" style="bottom:20px; left:20px;">★</div>
+    <div class="star big" style="bottom:80px; left:50px;">★</div>
+    <div class="star big" style="bottom:140px; left:90px;">★</div>
+    
+    <!-- STARS: Top Right -->
+    <div class="star big" style="top:20px; right:20px;">★</div>
+    <div class="star big" style="top:80px; right:50px;">★</div>
+    <div class="star big" style="top:140px; right:90px;">★</div>
+
     <div class="thank-you-container">
         <div class="thank-you-box">
             <h1>Thank you!</h1>
@@ -243,6 +264,7 @@
     </div>
 </div>
 
+<!-- ORIGINAL SCRIPT (UNCHANGED) -->
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -257,6 +279,25 @@
         nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
     }
     function goToThankYou(){productDetail.classList.add('hidden');thankYou.classList.remove('hidden');}
+</script>
+
+<!-- GOOGLE SHEETS SCRIPT (ONLY ADDITION) -->
+<script>
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
+
+const originalGoToThankYou = goToThankYou;
+goToThankYou = function(){
+  fetch(GOOGLE_SCRIPT_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      name:document.getElementById("username").value,
+      size:document.getElementById("size").value
+    })
+  });
+  originalGoToThankYou();
+}
 </script>
 
 </body>
