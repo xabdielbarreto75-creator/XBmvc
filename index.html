@@ -208,17 +208,6 @@
             margin-bottom: 20px;
         }
 
-        #payNowBtn {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
         #continueBtn {
             background-color: #000;
             color: #fff;
@@ -229,9 +218,15 @@
             border-radius: 8px;
         }
 
-        #agreeContainer {
+        #payNowBtn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
             margin-bottom: 15px;
-            text-align: left;
         }
     </style>
 </head>
@@ -284,9 +279,9 @@
     <div class="right-side">
         <div id="nameStep">
             <h2>Please type in your name:</h2>
-            <input type="text" id="username" placeholder="Your Name">
+            <input type="text" id="username">
             <h2>Please type in your phone number:</h2>
-            <input type="tel" id="phone" placeholder="Your Phone Number">
+            <input type="text" id="phoneNumber">
             <h2>Please pick your size:</h2>
             <select id="size">
                 <option>S</option><option>M</option><option>L</option><option>XL</option>
@@ -299,14 +294,12 @@
 <!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
-        <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
         <div id="paymentInfo">
+            XBmvc<br>
             This hoodie will cost $70 in total.<br>
             You will pay half now and half after your order is ready.
         </div>
-        <div id="agreeContainer">
-            <input type="checkbox" id="agreeCheckbox"> I agree
-        </div>
+        <input type="checkbox" id="agreeCheck"> I agree<br><br>
         <button id="payNowBtn" onclick="payNow()">Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()">Continue</button>
     </div>
@@ -315,6 +308,17 @@
 <!-- THANK YOU -->
 <div id="thankYou" class="hidden" style="background:#000;height:100vh;">
     <div class="logo" style="font-size:120px;">XBmvc</div>
+
+    <!-- STARS: Bottom Left -->
+    <div class="star big" style="bottom:20px; left:20px;">★</div>
+    <div class="star big" style="bottom:80px; left:50px;">★</div>
+    <div class="star big" style="bottom:140px; left:90px;">★</div>
+    
+    <!-- STARS: Top Right -->
+    <div class="star big" style="top:20px; right:20px;">★</div>
+    <div class="star big" style="top:80px; right:50px;">★</div>
+    <div class="star big" style="top:140px; right:90px;">★</div>
+
     <div class="thank-you-container">
         <div class="thank-you-box">
             <h1>Thank you!</h1>
@@ -339,47 +343,34 @@
     function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
     function nextDetailImage(){nextImage();detailImage.src=images[i];}
     function prevDetailImage(){prevImage();detailImage.src=images[i];}
-
     function goToPayment(){
-        const usernameVal = document.getElementById("username").value.trim();
-        const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){
-            alert("Please enter your name and phone number.");
-            return;
-        }
+        if(!username.value.trim() || !phoneNumber.value.trim()){alert("Please enter your name and phone number"); return;}
+        if(!agreeCheck.checked){alert("You must agree before continuing"); return;}
         productDetail.classList.add('hidden');
         paymentPage.style.display="flex";
     }
 
     function payNow(){
-        if(!document.getElementById("agreeCheckbox").checked){
-            alert("Please check 'I agree' before paying.");
-            return;
-        }
         window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 </script>
 
 <!-- GOOGLE SHEETS SCRIPT -->
 <script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
 const originalGoToThankYou = function(){
     paymentPage.style.display="none";
     thankYou.classList.remove('hidden');
 };
 function goToThankYou(){
-    if(!document.getElementById("agreeCheckbox").checked){
-        alert("Please check 'I agree' before continuing.");
-        return;
-    }
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         mode:"no-cors",
         headers:{"Content-Type":"application/json"},
         body:JSON.stringify({
             name:document.getElementById("username").value,
-            size:document.getElementById("size").value,
-            phone:document.getElementById("phone").value
+            phone:document.getElementById("phoneNumber").value,
+            size:document.getElementById("size").value
         })
     });
     originalGoToThankYou();
