@@ -9,7 +9,7 @@
             padding: 0;
             background-color: #000;
             color: #fff;
-            overflow: hidden; /* prevent scrolling */
+            overflow-x: hidden;
         }
 
         .logo {
@@ -264,7 +264,7 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT -->
+<!-- ORIGINAL SCRIPT (UNCHANGED) -->
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -281,25 +281,60 @@
     function goToThankYou(){productDetail.classList.add('hidden');thankYou.classList.remove('hidden');}
 </script>
 
-<!-- GOOGLE SHEETS SCRIPT -->
+<!-- GOOGLE SHEETS + PAYMENT SCRIPT -->
 <script>
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
 
 const originalGoToThankYou = goToThankYou;
 goToThankYou = function(){
-    const name = document.getElementById("username").value;
-    const size = document.getElementById("size").value;
+  // Send info to Google Sheets
+  fetch(GOOGLE_SCRIPT_URL,{
+    method:"POST",
+    mode:"no-cors",
+    headers:{"Content-Type":"application/json"},
+    body:JSON.stringify({
+      name:document.getElementById("username").value,
+      size:document.getElementById("size").value
+    })
+  });
 
-    // Send to Google Sheets
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        mode: "no-cors",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify({name: name, size: size})
-    });
+  // Show Cash App payment overlay
+  showPayment();
+}
 
-    // Then show Thank You
-    originalGoToThankYou();
+// Payment overlay
+function showPayment() {
+  if(!document.getElementById('paymentOverlay')){
+    const overlay = document.createElement('div');
+    overlay.id='paymentOverlay';
+    overlay.style.position='fixed';
+    overlay.style.top='0';
+    overlay.style.left='0';
+    overlay.style.width='100%';
+    overlay.style.height='100%';
+    overlay.style.backgroundColor='rgba(0,0,0,0.9)';
+    overlay.style.display='flex';
+    overlay.style.justifyContent='center';
+    overlay.style.alignItems='center';
+    overlay.style.zIndex='9999';
+    overlay.innerHTML=`
+      <div style="background:#fff; color:#000; padding:40px; border-radius:15px; text-align:center; max-width:400px;">
+        <h2>Complete Your Payment</h2>
+        <p>Pay using Cash App:</p>
+        <button id="payCashApp" style="padding:15px 30px; font-size:18px; font-weight:bold; cursor:pointer; background:#00C244; color:#fff; border:none; border-radius:10px;">Pay $25</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
+
+    document.getElementById('payCashApp').onclick=function(){
+      const cashtag="xabdielbarreto";
+      window.open(`https://cash.app/$${cashtag}`,"_blank");
+      overlay.style.display='none';
+      originalGoToThankYou();
+    };
+  } else {
+    document.getElementById('paymentOverlay').style.display='flex';
+  }
 }
 </script>
 
