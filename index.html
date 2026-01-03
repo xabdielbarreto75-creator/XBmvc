@@ -175,6 +175,56 @@
             position: relative;
             max-width: 600px;
         }
+
+        /* Payment page styles */
+        #paymentPage {
+            background-color: #000;
+            color: #000;
+            font-family: Arial, sans-serif;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .payment-box {
+            background-color: #fff;
+            padding: 40px 60px;
+            border-radius: 12px;
+            text-align: center;
+            max-width: 400px;
+            box-shadow: 0 0 15px rgba(0,0,0,0.5);
+        }
+        .payment-box h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #000;
+        }
+        .payment-box p {
+            font-size: 18px;
+            margin: 10px 0 30px 0;
+            color: #000;
+        }
+        .btn {
+            display: block;
+            width: 160px;
+            margin: 15px auto;
+            padding: 12px 0;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 6px;
+            border: none;
+            text-align: center;
+        }
+        .btn-pay {
+            background-color: #28a745; /* Green */
+            color: white;
+        }
+        .btn-continue {
+            background-color: #000;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -241,15 +291,13 @@
 </div>
 
 <!-- PAYMENT PAGE -->
-<div id="paymentPage" class="hidden" style="background:#000;height:100vh;">
-    <div class="center">
-        <div class="logo" style="font-size:120px; color:#fff;">XBmvc</div>
-        <h2 style="color:#fff;">Complete your payment</h2>
-        <p style="color:#fff;">Click the button below to pay via Cash App</p>
-        <a href="https://cash.app/$xabdielbarreto" target="_blank">
-            <button class="continue-btn">Pay Now</button>
-        </a>
-        <button class="continue-btn" onclick="goToThankYou()">Continue to Thank You Page</button>
+<div id="paymentPage" class="hidden">
+    <div class="payment-box">
+        <h1>XBmvc</h1>
+        <p>Complete your payment</p>
+        <p>Click the button below to pay via Cash App</p>
+        <button class="btn btn-pay" onclick="window.open('https://cash.app/$xabdielbarreto', '_blank')">Pay Now</button>
+        <button class="btn btn-continue" onclick="goToThankYou()">Continue</button>
     </div>
 </div>
 
@@ -270,49 +318,98 @@
     <div class="thank-you-container">
         <div class="thank-you-box">
             <h1>Thank you!</h1>
-            <p>Email or text us at</p>
+            <p>Thank you for your support, your support helps this brand grow bigger and bigger.</p>
+            <p>For any questions please email us or text us at</p>
             <p>xbmvcbrand@gmail.com</p>
             <p>860-778-9555</p>
-            <p>Thank you for your support, your support helps this brand grow bigger and bigger. For any questions please email us or text us at the contacts above.</p>
         </div>
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT (UNCHANGED) -->
 <script>
-    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
-    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
-    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
-    let i=0;
-    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
-    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
-    function nextDetailImage(){nextImage();detailImage.src=images[i];}
-    function prevDetailImage(){prevImage();detailImage.src=images[i];}
-    function goToSizeStep(){
-        if(!username.value.trim()){alert("Enter your name");return;}
-        nameStep.classList.add('hidden');sizeStep.classList.remove('hidden');
+    // ELEMENTS
+    const landing = document.getElementById("landing");
+    const shop = document.getElementById("shop");
+    const productDetail = document.getElementById("productDetail");
+    const thankYou = document.getElementById("thankYou");
+    const paymentPage = document.getElementById("paymentPage");
+
+    const productImage = document.getElementById("productImage");
+    const detailImage = document.getElementById("detailImage");
+    const username = document.getElementById("username");
+    const nameStep = document.getElementById("nameStep");
+    const sizeStep = document.getElementById("sizeStep");
+
+    // IMAGES
+    const images = [
+      "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+      "WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"
+    ];
+    let i = 0;
+
+    // NAVIGATION FUNCTIONS
+    function goToShop() {
+        landing.classList.add("hidden");
+        shop.classList.remove("hidden");
     }
-    function goToPayment(){productDetail.classList.add('hidden');paymentPage.classList.remove('hidden');}
-    function goToThankYou(){paymentPage.classList.add('hidden');thankYou.classList.remove('hidden');}
-</script>
+    productImage.onclick = () => {
+        shop.classList.add("hidden");
+        productDetail.classList.remove("hidden");
+    };
+    function nextImage() {
+        i = (i + 1) % images.length;
+        productImage.src = images[i];
+    }
+    function prevImage() {
+        i = (i - 1 + images.length) % images.length;
+        productImage.src = images[i];
+    }
+    function nextDetailImage() {
+        nextImage();
+        detailImage.src = images[i];
+    }
+    function prevDetailImage() {
+        prevImage();
+        detailImage.src = images[i];
+    }
+    function goToSizeStep() {
+        if (!username.value.trim()) {
+            alert("Enter your name");
+            return;
+        }
+        nameStep.classList.add("hidden");
+        sizeStep.classList.remove("hidden");
+    }
 
-<!-- GOOGLE SHEETS SCRIPT (ONLY ADDITION) -->
-<script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
+    // GOOGLE SHEETS POST URL
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxd-JiiKAbz_5yb05V6_6kXarGQGGfFKmy2Nki5vh_U86Io3kmgcZtCTfKA0RVSMbBc/exec";
 
-const originalGoToPayment = goToPayment;
-goToPayment = function(){
-  fetch(GOOGLE_SCRIPT_URL,{
-    method:"POST",
-    mode:"no-cors",
-    headers:{"Content-Type":"application/json"},
-    body:JSON.stringify({
-      name:document.getElementById("username").value,
-      size:document.getElementById("size").value
-    })
-  });
-  originalGoToPayment();
-}
+    function goToPayment() {
+        if (!document.getElementById("size").value) {
+            alert("Please select a size");
+            return;
+        }
+
+        // POST to Google Sheets
+        fetch(GOOGLE_SCRIPT_URL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                name: username.value,
+                size: document.getElementById("size").value
+            })
+        });
+
+        // Show payment page
+        productDetail.classList.add("hidden");
+        paymentPage.classList.remove("hidden");
+    }
+
+    function goToThankYou() {
+        paymentPage.classList.add("hidden");
+        thankYou.classList.remove("hidden");
+    }
 </script>
 
 </body>
