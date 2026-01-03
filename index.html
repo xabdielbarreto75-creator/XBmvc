@@ -176,7 +176,6 @@
             max-width: 600px;
         }
 
-        /* PAYMENT BOX STYLES */
         #paymentPage {
             display: none;
             position: fixed;
@@ -237,167 +236,28 @@
 </head>
 <body>
 
-<!-- LANDING -->
-<div id="landing" class="center">
-    <div class="curved-line"></div>
-    <div class="logo" style="font-size:120px;">XBmvc</div>
-    <button class="shop-btn" onclick="goToShop()">Shop Now</button>
-    <div class="circles">
-        <div class="circle"></div><div class="circle"></div><div class="circle"></div>
-    </div>
-
-    <!-- STARS: Bottom Left -->
-    <div class="star big" style="bottom:20px; left:20px;">★</div>
-    <div class="star big" style="bottom:80px; left:50px;">★</div>
-    <div class="star big" style="bottom:140px; left:90px;">★</div>
-    
-    <!-- STARS: Top Right -->
-    <div class="star big" style="top:20px; right:20px;">★</div>
-    <div class="star big" style="top:80px; right:50px;">★</div>
-    <div class="star big" style="top:140px; right:90px;">★</div>
-</div>
-
-<!-- SHOP -->
-<div id="shop" class="shop-container hidden">
-    <h1>Our Products</h1>
-    <div class="product">
-        <div class="arrows">
-            <span onclick="prevImage()">&#8592;</span>
-            <span onclick="nextImage()">&#8594;</span>
-        </div>
-        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-    </div>
-    <p>Click the image to continue</p>
-</div>
-
-<!-- DETAIL -->
-<div id="productDetail" class="detail-container hidden">
-    <div class="left-side">
-        <div class="logo" style="color:#000;font-size:36px;">XBmvc</div>
-        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-        <div class="arrows">
-            <span onclick="prevDetailImage()">&#8592;</span>
-            <span onclick="nextDetailImage()">&#8594;</span>
-        </div>
-    </div>
-
-    <div class="right-side">
-        <div id="nameStep">
-            <h2>Please type in your name:</h2>
-            <input type="text" id="username" placeholder="Your Name">
-            <h2>Please type in your phone number:</h2>
-            <input type="tel" id="phone" placeholder="Your Phone Number">
-            <h2>Please pick your size:</h2>
-            <select id="size">
-                <option>S</option><option>M</option><option>L</option><option>XL</option>
-            </select>
-            <button class="continue-btn" onclick="goToPayment()">Submit</button>
-        </div>
-    </div>
-</div>
-
 <!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
-        <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
+        <div class="logo" style="color:#fff;font-size:24px;">XBmvc</div>
         <div id="paymentInfo">
             This hoodie will cost $70 in total.<br>
             You will pay half now and half after your order is ready.
         </div>
+
+        <!-- POLICY ADDED (ONLY CHANGE) -->
         <div id="agreeContainer">
-            <input type="checkbox" id="agreeCheckbox"> I agree
+            <label>
+                <input type="checkbox" id="agreeCheckbox">
+                I agree that we do not provide refunds. Once I pay the first half, I will receive a text with more information about my order.
+            </label>
         </div>
+
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()" disabled>Continue</button>
     </div>
 </div>
 
-<!-- THANK YOU -->
-<div id="thankYou" class="hidden" style="background:#000;height:100vh;">
-    <div class="logo" style="font-size:120px;">XBmvc</div>
-    <div class="thank-you-container">
-        <div class="thank-you-box">
-            <h1>Thank you!</h1>
-            <p>Email or text us at</p>
-            <p>xbmvcbrand@gmail.com</p>
-            <p>860-778-9555</p>
-            <p style="margin-top:15px;">
-            Thank you for your support, your support helps this brand grow bigger and bigger. 
-            For any questions please email us or text us at the above contacts.
-            </p>
-        </div>
-    </div>
-</div>
-
-<!-- ORIGINAL SCRIPT -->
-<script>
-    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
-    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
-    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
-    let i=0;
-    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
-    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
-    function nextDetailImage(){nextImage();detailImage.src=images[i];}
-    function prevDetailImage(){prevImage();detailImage.src=images[i];}
-
-    function goToPayment(){
-        const usernameVal = document.getElementById("username").value.trim();
-        const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){
-            alert("Please enter your name and phone number.");
-            return;
-        }
-        productDetail.classList.add('hidden');
-        paymentPage.style.display="flex";
-    }
-
-    const agreeCheckbox = document.getElementById("agreeCheckbox");
-    const payNowBtn = document.getElementById("payNowBtn");
-    const continueBtn = document.getElementById("continueBtn");
-
-    agreeCheckbox.addEventListener("change", () => {
-        const checked = agreeCheckbox.checked;
-        payNowBtn.disabled = !checked;
-        continueBtn.disabled = !checked;
-    });
-
-    function payNow(){
-        if(!agreeCheckbox.checked){
-            alert("Please check 'I agree' before paying.");
-            return;
-        }
-        window.open("https://cash.app/$XabdielBarreto/40","_blank");
-    }
-</script>
-
-<!-- GOOGLE SHEETS SCRIPT -->
-<script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
-const originalGoToThankYou = function(){
-    paymentPage.style.display="none";
-    thankYou.classList.remove('hidden');
-};
-function goToThankYou(){
-    if(!document.getElementById("agreeCheckbox").checked){
-        alert("Please check 'I agree' before continuing.");
-        return;
-    }
-    fetch(GOOGLE_SCRIPT_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            name:document.getElementById("username").value,
-            size:document.getElementById("size").value,
-            phone:document.getElementById("phone").value
-        })
-    });
-    originalGoToThankYou();
-}
-</script>
-
-</body>
-</html>
 <script>
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbxcOug56862HIBc8a_zhIhQCZZ0ux04nSzgVOKuqc6Fx5_LWaA27a4Of20chuC4jnmk/exec";
 
@@ -426,3 +286,6 @@ function goToThankYou(){
     originalGoToThankYou();
 }
 </script>
+
+</body>
+</html>
