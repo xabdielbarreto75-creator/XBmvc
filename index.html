@@ -344,7 +344,15 @@
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
-    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
+
+    // Updated images array with first original image + your 3 new images
+    const images = [
+        "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+        "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg",
+        "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+        "WhatsApp Image 2026-01-03 at 22.08.00.jpeg"
+    ];
+
     let i=0;
     function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
     function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
@@ -468,12 +476,4 @@ function goToThankYou(){
         body:JSON.stringify({
             name:document.getElementById("username").value,
             size:document.getElementById("size").value,
-            phone:document.getElementById("phone").value
-        })
-    });
-    originalGoToThankYou();
-}
-</script>
-
-</body>
-</html>
+            phone:
