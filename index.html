@@ -100,17 +100,17 @@
             align-items: center;
         }
 
-        /* HOVER EFFECT ADDED HERE */
         .product img {
             width: 250px;
             margin: 20px 0;
             cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease; /* smooth animation */
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
+        /* Hover effect on product images */
         .product img:hover {
-            transform: scale(1.1); /* zoom effect */
-            box-shadow: 0 15px 30px rgba(255, 255, 255, 0.3); /* subtle glow */
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
         }
 
         .arrows {
@@ -142,6 +142,13 @@
         .left-side img {
             width: 350px;
             margin-bottom: 10px;
+            border-radius: 10px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        /* Hover effect on detail image */
+        .left-side img:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 18px rgba(0,0,0,0.4);
         }
 
         input, select, .continue-btn {
@@ -281,7 +288,7 @@
             <span onclick="prevImage()">&#8592;</span>
             <span onclick="nextImage()">&#8594;</span>
         </div>
-        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Product Image">
     </div>
     <p>Click the image to continue</p>
 </div>
@@ -290,7 +297,7 @@
 <div id="productDetail" class="detail-container hidden">
     <div class="left-side">
         <div class="logo" style="color:#000;font-size:36px;">XBmvc</div>
-        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
+        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Detail Image">
         <div class="arrows">
             <span onclick="prevDetailImage()">&#8592;</span>
             <span onclick="nextDetailImage()">&#8594;</span>
@@ -351,22 +358,41 @@
 <script>
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
-    const images=["WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg","WhatsApp Image 2026-01-01 at 15.27.13 (2).jpeg"];
-    let i=0;
-    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
-    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
-    function nextDetailImage(){nextImage();detailImage.src=images[i];}
-    function prevDetailImage(){prevImage();detailImage.src=images[i];}
+    
+    // Swapped images here exactly as you requested:
+    const images = [
+        "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",    // 1st image stays same
+        "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",         // swapped 2nd image
+        "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"      // swapped 3rd image
+    ];
+    
+    let i = 0;
+    function nextImage() {
+        i = (i + 1) % images.length;
+        productImage.src = images[i];
+    }
+    function prevImage() {
+        i = (i - 1 + images.length) % images.length;
+        productImage.src = images[i];
+    }
+    function nextDetailImage() {
+        nextImage();
+        detailImage.src = images[i];
+    }
+    function prevDetailImage() {
+        prevImage();
+        detailImage.src = images[i];
+    }
 
-    function goToPayment(){
+    function goToPayment() {
         const usernameVal = document.getElementById("username").value.trim();
         const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){
+        if (!usernameVal || !phoneVal) {
             alert("Please enter your name and phone number.");
             return;
         }
         productDetail.classList.add('hidden');
-        paymentPage.style.display="flex";
+        paymentPage.style.display = "flex";
     }
 
     const agreeCheckbox = document.getElementById("agreeCheckbox");
@@ -379,19 +405,19 @@
         continueBtn.disabled = !checked;
     });
 
-    function payNow(){
-        if(!agreeCheckbox.checked){
+    function payNow() {
+        if (!agreeCheckbox.checked) {
             alert("Please check 'I agree' before paying.");
             return;
         }
-        window.open("https://cash.app/$XabdielBarreto/40","_blank");
+        window.open("https://cash.app/$XabdielBarreto/40", "_blank");
     }
 
     // LANGUAGE TOGGLE & MEMORY
     const languageSelect = document.getElementById("languageSelect");
 
     function updateLanguage(lang) {
-        if(lang === "es"){ // Spanish
+        if (lang === "es") { // Spanish
             document.querySelector("#shop h1").textContent = "Nuestros Productos";
             document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
             
@@ -459,28 +485,4 @@
 <!-- GOOGLE SHEETS SCRIPT -->
 <script>
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
-const originalGoToThankYou = function(){
-    paymentPage.style.display="none";
-    thankYou.classList.remove('hidden');
-};
-function goToThankYou(){
-    if(!document.getElementById("agreeCheckbox").checked){
-        alert("Please check 'I agree' before continuing.");
-        return;
-    }
-    fetch(GOOGLE_SCRIPT_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            name:document.getElementById("username").value,
-            size:document.getElementById("size").value,
-            phone:document.getElementById("phone").value
-        })
-    });
-    originalGoToThankYou();
-}
-</script>
-
-</body>
-</html>
+const originalGoToThankYou = function
