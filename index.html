@@ -79,6 +79,7 @@
             position: absolute;
             z-index: 2;
         }
+
         .star.big { font-size: 70px; }
 
         .shop-container {
@@ -107,7 +108,7 @@
             border-radius: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        /* Hover effect on product images */
+
         .product img:hover {
             transform: scale(1.1);
             box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
@@ -145,7 +146,7 @@
             border-radius: 10px;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        /* Hover effect on detail image */
+
         .left-side img:hover {
             transform: scale(1.05);
             box-shadow: 0 6px 18px rgba(0,0,0,0.4);
@@ -167,9 +168,7 @@
             font-weight: bold;
         }
 
-        .hidden {
-            display: none;
-        }
+        .hidden { display: none; }
 
         .thank-you-container {
             display: flex;
@@ -190,7 +189,6 @@
             max-width: 600px;
         }
 
-        /* PAYMENT BOX STYLES */
         #paymentPage {
             display: none;
             position: fixed;
@@ -251,29 +249,24 @@
 </head>
 <body>
 
-<!-- LANDING -->
 <div id="landing" class="center">
     <div class="curved-line"></div>
     <div class="logo" style="font-size:120px;">XBmvc</div>
     <button class="shop-btn" onclick="goToShop()">Shop Now</button>
     <div class="circles">
-        <div class="circle"></div><div class="circle"></div><div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
+        <div class="circle"></div>
     </div>
-
-    <!-- STARS: Bottom Left -->
     <div class="star big" style="bottom:20px; left:20px;">★</div>
     <div class="star big" style="bottom:80px; left:50px;">★</div>
     <div class="star big" style="bottom:140px; left:90px;">★</div>
-    
-    <!-- STARS: Top Right -->
     <div class="star big" style="top:20px; right:20px;">★</div>
     <div class="star big" style="top:80px; right:50px;">★</div>
     <div class="star big" style="top:140px; right:90px;">★</div>
 </div>
 
-<!-- SHOP -->
 <div id="shop" class="shop-container hidden">
-    <!-- LANGUAGE SELECT -->
     <div style="text-align:right; margin-bottom:20px;">
         <label for="languageSelect" style="color:#fff; font-weight:bold;">Language: </label>
         <select id="languageSelect">
@@ -281,7 +274,6 @@
             <option value="es">Spanish</option>
         </select>
     </div>
-
     <h1>Our Products</h1>
     <div class="product">
         <div class="arrows">
@@ -293,7 +285,6 @@
     <p>Click the image to continue</p>
 </div>
 
-<!-- DETAIL -->
 <div id="productDetail" class="detail-container hidden">
     <div class="left-side">
         <div class="logo" style="color:#000;font-size:36px;">XBmvc</div>
@@ -303,7 +294,6 @@
             <span onclick="nextDetailImage()">&#8594;</span>
         </div>
     </div>
-
     <div class="right-side">
         <div id="nameStep">
             <h2>Please type in your name:</h2>
@@ -312,7 +302,10 @@
             <input type="tel" id="phone" placeholder="Your Phone Number">
             <h2>Please pick your size:</h2>
             <select id="size">
-                <option>S</option><option>M</option><option>L</option><option>XL</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
             </select>
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
@@ -320,7 +313,6 @@
     </div>
 </div>
 
-<!-- PAYMENT -->
 <div id="paymentPage">
     <div id="paymentBox">
         <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
@@ -337,7 +329,6 @@
     </div>
 </div>
 
-<!-- THANK YOU -->
 <div id="thankYou" class="hidden" style="background:#000;height:100vh;">
     <div class="logo" style="font-size:120px;">XBmvc</div>
     <div class="thank-you-container">
@@ -354,135 +345,122 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT -->
 <script>
-    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
-    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
-    
-    // Swapped images here exactly as you requested:
-    const images = [
-        "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",    // 1st image stays same
-        "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",         // swapped 2nd image
-        "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"      // swapped 3rd image
-    ];
-    
-    let i = 0;
-    function nextImage() {
-        i = (i + 1) % images.length;
-        productImage.src = images[i];
+function goToShop() {
+    landing.classList.add('hidden');
+    shop.classList.remove('hidden');
+}
+productImage.onclick = () => {
+    shop.classList.add('hidden');
+    productDetail.classList.remove('hidden');
+}
+
+const images = [
+    "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+];
+
+let i = 0;
+function nextImage() {
+    i = (i + 1) % images.length;
+    productImage.src = images[i];
+}
+function prevImage() {
+    i = (i - 1 + images.length) % images.length;
+    productImage.src = images[i];
+}
+function nextDetailImage() {
+    nextImage();
+    detailImage.src = images[i];
+}
+function prevDetailImage() {
+    prevImage();
+    detailImage.src = images[i];
+}
+
+function goToPayment() {
+    const usernameVal = document.getElementById("username").value.trim();
+    const phoneVal = document.getElementById("phone").value.trim();
+    if (!usernameVal || !phoneVal) {
+        alert("Please enter your name and phone number.");
+        return;
     }
-    function prevImage() {
-        i = (i - 1 + images.length) % images.length;
-        productImage.src = images[i];
+    productDetail.classList.add('hidden');
+    paymentPage.style.display = "flex";
+}
+
+const agreeCheckbox = document.getElementById("agreeCheckbox");
+const payNowBtn = document.getElementById("payNowBtn");
+const continueBtn = document.getElementById("continueBtn");
+
+agreeCheckbox.addEventListener("change", () => {
+    const checked = agreeCheckbox.checked;
+    payNowBtn.disabled = !checked;
+    continueBtn.disabled = !checked;
+});
+
+function payNow() {
+    if (!agreeCheckbox.checked) {
+        alert("Please check 'I agree' before paying.");
+        return;
     }
-    function nextDetailImage() {
-        nextImage();
-        detailImage.src = images[i];
+    window.open("https://cash.app/$XabdielBarreto/40", "_blank");
+}
+
+// LANGUAGE TOGGLE
+const languageSelect = document.getElementById("languageSelect");
+function updateLanguage(lang) {
+    if (lang === "es") {
+        document.querySelector("#shop h1").textContent = "Nuestros Productos";
+        document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
+        document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Por favor ingresa tu nombre:";
+        document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Por favor ingresa tu número de teléfono:";
+        document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Por favor elige tu talla:";
+        document.querySelector(".continue-btn").textContent = "Enviar";
+        document.querySelector("#nameStep p").textContent = "Envíos a Puerto Rico y USA más el costo de envío";
+        document.querySelector("#paymentInfo").innerHTML = 
+            "Esta sudadera cuesta $70 en total.<br>" +
+            "Pagarás la mitad ahora y la otra mitad cuando tu pedido esté listo.<br>" +
+            "<b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
+        document.getElementById("payNowBtn").textContent = "Pagar $40 Ahora";
+        document.getElementById("continueBtn").textContent = "Continuar";
+        document.querySelector("#thankYou h1").textContent = "¡Gracias!";
+        document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Envíanos un correo o mensaje a";
+        document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
+        document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
+        document.querySelector("#thankYou p:nth-of-type(4)").innerHTML = 
+            "¡Gracias por tu apoyo! Tu apoyo ayuda a que esta marca crezca cada vez más.<br>" +
+            "Para cualquier pregunta, envíanos un correo o mensaje a los contactos anteriores.";
+    } else {
+        document.querySelector("#shop h1").textContent = "Our Products";
+        document.querySelector("#shop p").textContent = "Click the image to continue";
+        document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Please type in your name:";
+        document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Please type in your phone number:";
+        document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Please pick your size:";
+        document.querySelector(".continue-btn").textContent = "Submit";
+        document.querySelector("#nameStep p").textContent = "Shipping to Puerto Rico and USA plus shipping fee";
+        document.querySelector("#paymentInfo").innerHTML = 
+            "This hoodie will cost $70 in total.<br>" +
+            "You will pay half now and half after your order is ready.<br>" +
+            "<b>We will also not provide refunds for deposits or full charge.</b>";
+        document.getElementById("payNowBtn").textContent = "Pay $40 Now";
+        document.getElementById("continueBtn").textContent = "Continue";
+        document.querySelector("#thankYou h1").textContent = "Thank you!";
+        document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Email or text us at";
+        document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
+        document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
+        document.querySelector("#thankYou p:nth-of-type(4)").innerHTML = 
+            "Thank you for your support, your support helps this brand grow bigger and bigger. " +
+            "For any questions please email us or text us at the above contacts.";
     }
-    function prevDetailImage() {
-        prevImage();
-        detailImage.src = images[i];
-    }
-
-    function goToPayment() {
-        const usernameVal = document.getElementById("username").value.trim();
-        const phoneVal = document.getElementById("phone").value.trim();
-        if (!usernameVal || !phoneVal) {
-            alert("Please enter your name and phone number.");
-            return;
-        }
-        productDetail.classList.add('hidden');
-        paymentPage.style.display = "flex";
-    }
-
-    const agreeCheckbox = document.getElementById("agreeCheckbox");
-    const payNowBtn = document.getElementById("payNowBtn");
-    const continueBtn = document.getElementById("continueBtn");
-
-    agreeCheckbox.addEventListener("change", () => {
-        const checked = agreeCheckbox.checked;
-        payNowBtn.disabled = !checked;
-        continueBtn.disabled = !checked;
-    });
-
-    function payNow() {
-        if (!agreeCheckbox.checked) {
-            alert("Please check 'I agree' before paying.");
-            return;
-        }
-        window.open("https://cash.app/$XabdielBarreto/40", "_blank");
-    }
-
-    // LANGUAGE TOGGLE & MEMORY
-    const languageSelect = document.getElementById("languageSelect");
-
-    function updateLanguage(lang) {
-        if (lang === "es") { // Spanish
-            document.querySelector("#shop h1").textContent = "Nuestros Productos";
-            document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
-            
-            document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Por favor ingresa tu nombre:";
-            document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Por favor ingresa tu número de teléfono:";
-            document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Por favor elige tu talla:";
-            document.querySelector(".continue-btn").textContent = "Enviar";
-            document.querySelector("#nameStep p").textContent = "Envíos a Puerto Rico y USA más el costo de envío";
-
-            document.querySelector("#paymentInfo").innerHTML = 
-                "Esta sudadera cuesta $70 en total.<br>" +
-                "Pagarás la mitad ahora y la otra mitad cuando tu pedido esté listo.<br>" +
-                "<b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
-
-            document.getElementById("payNowBtn").textContent = "Pagar $40 Ahora";
-            document.getElementById("continueBtn").textContent = "Continuar";
-
-            document.querySelector("#thankYou h1").textContent = "¡Gracias!";
-            document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Envíanos un correo o mensaje a";
-            document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
-            document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
-            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML =
-                "¡Gracias por tu apoyo! Tu apoyo ayuda a que esta marca crezca cada vez más.<br>" +
-                "Para cualquier pregunta, envíanos un correo o mensaje a los contactos anteriores.";
-        } else { // English
-            document.querySelector("#shop h1").textContent = "Our Products";
-            document.querySelector("#shop p").textContent = "Click the image to continue";
-
-            document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Please type in your name:";
-            document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Please type in your phone number:";
-            document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Please pick your size:";
-            document.querySelector(".continue-btn").textContent = "Submit";
-            document.querySelector("#nameStep p").textContent = "Shipping to Puerto Rico and USA plus shipping fee";
-
-            document.querySelector("#paymentInfo").innerHTML = 
-                "This hoodie will cost $70 in total.<br>" +
-                "You will pay half now and half after your order is ready.<br>" +
-                "<b>We will also not provide refunds for deposits or full charge.</b>";
-
-            document.getElementById("payNowBtn").textContent = "Pay $40 Now";
-            document.getElementById("continueBtn").textContent = "Continue";
-
-            document.querySelector("#thankYou h1").textContent = "Thank you!";
-            document.querySelector("#thankYou p:nth-of-type(1)").textContent = "Email or text us at";
-            document.querySelector("#thankYou p:nth-of-type(2)").textContent = "xbmvcbrand@gmail.com";
-            document.querySelector("#thankYou p:nth-of-type(3)").textContent = "860-778-9555";
-            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML =
-                "Thank you for your support, your support helps this brand grow bigger and bigger. " +
-                "For any questions please email us or text us at the above contacts.";
-        }
-    }
-
-    languageSelect.addEventListener("change", () => {
-        const lang = languageSelect.value;
-        localStorage.setItem("preferredLanguage", lang); // Save choice
-        updateLanguage(lang);
-    });
-
-    // On page load, apply saved language
-    const savedLang = localStorage.getItem("preferredLanguage") || "en";
-    languageSelect.value = savedLang;
-    updateLanguage(savedLang);
+}
+languageSelect.addEventListener("change", () => {
+    const lang = languageSelect.value;
+    localStorage.setItem("preferredLanguage", lang);
+    updateLanguage(lang);
+});
+const savedLang = localStorage.getItem("preferredLanguage") || "en";
+languageSelect.value = savedLang;
+updateLanguage(savedLang);
 </script>
-
-<!-- GOOGLE SHEETS SCRIPT -->
-<script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
-const originalGoToThankYou = function
