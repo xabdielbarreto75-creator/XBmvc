@@ -340,34 +340,63 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT -->
 <script>
-    function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
-    productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
+    const landing = document.getElementById("landing");
+    const shop = document.getElementById("shop");
+    const productImage = document.getElementById("productImage");
+    const productDetail = document.getElementById("productDetail");
+    const detailImage = document.getElementById("detailImage");
+    const paymentPage = document.getElementById("paymentPage");
+    const thankYou = document.getElementById("thankYou");
 
-    // Updated images array with first original image + your 3 new images
+    function goToShop() {
+        landing.classList.add('hidden');
+        shop.classList.remove('hidden');
+    }
+
+    productImage.onclick = () => {
+        shop.classList.add('hidden');
+        productDetail.classList.remove('hidden');
+    };
+
+    // Swapped 2nd and 4th images exactly here:
     const images = [
         "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-        "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg",
+        "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
         "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
-        "WhatsApp Image 2026-01-03 at 22.08.00.jpeg"
+        "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
     ];
 
-    let i=0;
-    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
-    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
-    function nextDetailImage(){nextImage();detailImage.src=images[i];}
-    function prevDetailImage(){prevImage();detailImage.src=images[i];}
+    let i = 0;
+    function nextImage() {
+        i = (i + 1) % images.length;
+        productImage.src = images[i];
+    }
 
-    function goToPayment(){
+    function prevImage() {
+        i = (i - 1 + images.length) % images.length;
+        productImage.src = images[i];
+    }
+
+    function nextDetailImage() {
+        nextImage();
+        detailImage.src = images[i];
+    }
+
+    function prevDetailImage() {
+        prevImage();
+        detailImage.src = images[i];
+    }
+
+    function goToPayment() {
         const usernameVal = document.getElementById("username").value.trim();
         const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){
+        if (!usernameVal || !phoneVal) {
             alert("Please enter your name and phone number.");
             return;
         }
         productDetail.classList.add('hidden');
-        paymentPage.style.display="flex";
+        paymentPage.style.display = "flex";
     }
 
     const agreeCheckbox = document.getElementById("agreeCheckbox");
@@ -380,29 +409,34 @@
         continueBtn.disabled = !checked;
     });
 
-    function payNow(){
-        if(!agreeCheckbox.checked){
+    function payNow() {
+        if (!agreeCheckbox.checked) {
             alert("Please check 'I agree' before paying.");
             return;
         }
-        window.open("https://cash.app/$XabdielBarreto/40","_blank");
+        window.open("https://cash.app/$XabdielBarreto/40", "_blank");
+    }
+
+    function goToThankYou() {
+        paymentPage.style.display = "none";
+        thankYou.classList.remove('hidden');
     }
 
     // LANGUAGE TOGGLE & MEMORY
     const languageSelect = document.getElementById("languageSelect");
 
     function updateLanguage(lang) {
-        if(lang === "es"){ // Spanish
+        if (lang === "es") { // Spanish
             document.querySelector("#shop h1").textContent = "Nuestros Productos";
             document.querySelector("#shop p").textContent = "Haz clic en la imagen para continuar";
-            
+
             document.querySelector("#nameStep h2:nth-of-type(1)").textContent = "Por favor ingresa tu nombre:";
             document.querySelector("#nameStep h2:nth-of-type(2)").textContent = "Por favor ingresa tu número de teléfono:";
             document.querySelector("#nameStep h2:nth-of-type(3)").textContent = "Por favor elige tu talla:";
             document.querySelector(".continue-btn").textContent = "Enviar";
             document.querySelector("#nameStep p").textContent = "Envíos a Puerto Rico y USA más el costo de envío";
 
-            document.querySelector("#paymentInfo").innerHTML = 
+            document.querySelector("#paymentInfo").innerHTML =
                 "Esta sudadera cuesta $70 en total.<br>" +
                 "Pagarás la mitad ahora y la otra mitad cuando tu pedido esté listo.<br>" +
                 "<b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
@@ -427,7 +461,7 @@
             document.querySelector(".continue-btn").textContent = "Submit";
             document.querySelector("#nameStep p").textContent = "Shipping to Puerto Rico and USA plus shipping fee";
 
-            document.querySelector("#paymentInfo").innerHTML = 
+            document.querySelector("#paymentInfo").innerHTML =
                 "This hoodie will cost $70 in total.<br>" +
                 "You will pay half now and half after your order is ready.<br>" +
                 "<b>We will also not provide refunds for deposits or full charge.</b>";
@@ -447,33 +481,14 @@
 
     languageSelect.addEventListener("change", () => {
         const lang = languageSelect.value;
-        localStorage.setItem("preferredLanguage", lang); // Save choice
+        localStorage.setItem("preferredLanguage", lang);
         updateLanguage(lang);
     });
 
-    // On page load, apply saved language
     const savedLang = localStorage.getItem("preferredLanguage") || "en";
     languageSelect.value = savedLang;
     updateLanguage(savedLang);
 </script>
 
-<!-- GOOGLE SHEETS SCRIPT -->
-<script>
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbx2iYWRFmx0xYqZ1SHlpPjeozto1yiHVFogVCh_fAJhaj1f1SOan-_9EOFem440HAQ/exec";
-const originalGoToThankYou = function(){
-    paymentPage.style.display="none";
-    thankYou.classList.remove('hidden');
-};
-function goToThankYou(){
-    if(!document.getElementById("agreeCheckbox").checked){
-        alert("Please check 'I agree' before continuing.");
-        return;
-    }
-    fetch(GOOGLE_SCRIPT_URL,{
-        method:"POST",
-        mode:"no-cors",
-        headers:{"Content-Type":"application/json"},
-        body:JSON.stringify({
-            name:document.getElementById("username").value,
-            size:document.getElementById("size").value,
-            phone:
+</body>
+</html>
