@@ -256,6 +256,8 @@
     <div class="circles">
         <div class="circle"></div><div class="circle"></div><div class="circle"></div>
     </div>
+
+    <!-- STARS -->
     <div class="star big" style="bottom:20px; left:20px;">★</div>
     <div class="star big" style="bottom:80px; left:50px;">★</div>
     <div class="star big" style="bottom:140px; left:90px;">★</div>
@@ -304,11 +306,7 @@
             <input type="tel" id="phone" placeholder="Your Phone Number">
             <h2>Please pick your size:</h2>
             <select id="size">
-                <option>XS</option>
-                <option>S</option>
-                <option>M</option>
-                <option>L</option>
-                <option>XL</option>
+                <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
             </select>
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
@@ -350,51 +348,35 @@
     </div>
 </div>
 
+<!-- SCRIPT -->
 <script>
-    // Navigation
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
 
-    const images = [
+    const images=[
         "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
         "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
         "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
     ];
-    
-    let i = 0;
-    function nextImage(){i=(i+1)%images.length; productImage.src=images[i];}
-    function prevImage(){i=(i-1+images.length)%images.length; productImage.src=images[i];}
-    function nextDetailImage(){nextImage(); detailImage.src=images[i];}
-    function prevDetailImage(){prevImage(); detailImage.src=images[i];}
 
-    // Payment + Google Sheets
-    function goToPayment(){
-        const usernameVal = document.getElementById("username").value.trim();
-        const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){alert("Please enter your name and phone number."); return;}
-
-        // Send data to Google Sheets
-        const data = {name: usernameVal, phone: phoneVal, size: document.getElementById("size").value};
-        fetch("https://script.google.com/macros/s/AKfycbxPtqqmPMa1itCS56oFxKzjV6w9_5kPjEM-1qWdtug5ETcdU0mgBfCCid9IVX77T5c/exec?" + new URLSearchParams(data))
-            .then(response => console.log("Google Sheets updated"))
-            .catch(err => console.log("Google Sheets error", err));
-
-        productDetail.classList.add('hidden');
-        paymentPage.style.display = "flex";
-    }
+    let i=0;
+    function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
+    function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
+    function nextDetailImage(){nextImage();detailImage.src=images[i];}
+    function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
     const agreeCheckbox=document.getElementById("agreeCheckbox");
     const payNowBtn=document.getElementById("payNowBtn");
     const continueBtn=document.getElementById("continueBtn");
 
-    agreeCheckbox.addEventListener("change", ()=>{
+    agreeCheckbox.addEventListener("change",()=>{
         const checked=agreeCheckbox.checked;
         payNowBtn.disabled=!checked;
         continueBtn.disabled=!checked;
     });
 
     function payNow(){
-        if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying."); return;}
+        if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.");return;}
         window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 
@@ -403,7 +385,34 @@
         thankYou.classList.remove("hidden");
     }
 
-    // Language toggle
+    // GOOGLE SHEETS + PAYMENT
+    function goToPayment(){
+        const usernameVal=document.getElementById("username").value.trim();
+        const phoneVal=document.getElementById("phone").value.trim();
+        if(!usernameVal || !phoneVal){
+            alert("Please enter your name and phone number.");
+            return;
+        }
+
+        const data={name:usernameVal,phone:phoneVal,size:document.getElementById("size").value};
+
+        fetch("https://script.google.com/macros/s/AKfycbxPtqqmPMa1itCS56oFxKzjV6w9_5kPjEM-1qWdtug5ETcdU0mgBfCCid9IVX77T5c/exec?"+new URLSearchParams(data))
+        .then(response=>response.json())
+        .then(result=>{
+            if(result.result==="success"){
+                productDetail.classList.add('hidden');
+                paymentPage.style.display="flex";
+            }else{
+                alert("There was an error sending your order. Please try again.");
+            }
+        })
+        .catch(err=>{
+            console.log("Google Sheets error",err);
+            alert("Could not send order to Google Sheets. Please check your internet connection.");
+        });
+    }
+
+    // LANGUAGE TOGGLE
     const languageSelect=document.getElementById("languageSelect");
     function updateLanguage(lang){
         if(lang==="es"){
@@ -419,7 +428,10 @@
             document.getElementById("continueBtn").textContent="Continuar";
             document.querySelector("#thankYou h1").textContent="¡Gracias!";
             document.querySelector("#thankYou p:nth-of-type(1)").textContent="Envíanos un correo o mensaje a";
-        }else{
+            document.querySelector("#thankYou p:nth-of-type(2)").textContent="xbmvcbrand@gmail.com";
+            document.querySelector("#thankYou p:nth-of-type(3)").textContent="860-778-9555";
+            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML="¡Gracias por tu apoyo! Tu apoyo ayuda a que esta marca crezca cada vez más.<br>Para cualquier pregunta, envíanos un correo o mensaje a los contactos anteriores.";
+        } else {
             document.querySelector("#shop h1").textContent="Our Products";
             document.querySelector("#shop p").textContent="Click the image to continue";
             document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Please type in your name:";
@@ -432,16 +444,17 @@
             document.getElementById("continueBtn").textContent="Continue";
             document.querySelector("#thankYou h1").textContent="Thank you!";
             document.querySelector("#thankYou p:nth-of-type(1)").textContent="Email or text us at";
+            document.querySelector("#thankYou p:nth-of-type(2)").textContent="xbmvcbrand@gmail.com";
+            document.querySelector("#thankYou p:nth-of-type(3)").textContent="860-778-9555";
+            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML="Thank you for your support, your support helps this brand grow bigger and bigger. For any questions please email us or text us at the above contacts.";
         }
     }
-    languageSelect.addEventListener("change", ()=>{
+    languageSelect.addEventListener("change",()=>{
         const lang=languageSelect.value;
-        localStorage.setItem("preferredLanguage", lang);
+        localStorage.setItem("preferredLanguage",lang);
         updateLanguage(lang);
     });
     const savedLang=localStorage.getItem("preferredLanguage")||"en";
     languageSelect.value=savedLang;
     updateLanguage(savedLang);
 </script>
-</body>
-</html>
