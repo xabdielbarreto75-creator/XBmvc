@@ -188,7 +188,6 @@
             max-width: 600px;
         }
 
-        /* PAYMENT BOX STYLES */
         #paymentPage {
             display: none;
             position: fixed;
@@ -257,11 +256,9 @@
     <div class="circles">
         <div class="circle"></div><div class="circle"></div><div class="circle"></div>
     </div>
-
     <div class="star big" style="bottom:20px; left:20px;">★</div>
     <div class="star big" style="bottom:80px; left:50px;">★</div>
     <div class="star big" style="bottom:140px; left:90px;">★</div>
-
     <div class="star big" style="top:20px; right:20px;">★</div>
     <div class="star big" style="top:80px; right:50px;">★</div>
     <div class="star big" style="top:140px; right:90px;">★</div>
@@ -325,13 +322,13 @@
         <div class="logo" style="color:#fff; font-weight:bold; font-size:24px;">XBmvc</div>
         <div id="paymentInfo">
             This hoodie will cost $70 in total.<br>
-            You will pay $45 now and the rest after your order is ready.<br>
+            You will pay half now and half after your order is ready.<br>
             <b>We will also not provide refunds for deposits or full charge.</b>
         </div>
         <div id="agreeContainer">
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
-        <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
+        <button id="payNowBtn" onclick="payNow()" disabled>Pay $40 Now</button><br>
         <button id="continueBtn" onclick="goToThankYou()" disabled>Continue</button>
     </div>
 </div>
@@ -353,8 +350,8 @@
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
+    // Navigation
     function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
     productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
 
@@ -363,54 +360,53 @@
         "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
         "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
     ];
-
+    
     let i = 0;
-    function nextImage() { i=(i+1)%images.length; productImage.src=images[i]; }
-    function prevImage() { i=(i-1+images.length)%images.length; productImage.src=images[i]; }
-    function nextDetailImage() { nextImage(); detailImage.src=images[i]; }
-    function prevDetailImage() { prevImage(); detailImage.src=images[i]; }
+    function nextImage(){i=(i+1)%images.length; productImage.src=images[i];}
+    function prevImage(){i=(i-1+images.length)%images.length; productImage.src=images[i];}
+    function nextDetailImage(){nextImage(); detailImage.src=images[i];}
+    function prevDetailImage(){prevImage(); detailImage.src=images[i];}
 
-    function goToPayment() {
+    // Payment + Google Sheets
+    function goToPayment(){
         const usernameVal = document.getElementById("username").value.trim();
         const phoneVal = document.getElementById("phone").value.trim();
-        if(!usernameVal || !phoneVal){ alert("Please enter your name and phone number."); return; }
-        productDetail.classList.add('hidden');
-        paymentPage.style.display = "flex";
+        if(!usernameVal || !phoneVal){alert("Please enter your name and phone number."); return;}
 
-        // Submit to Google Sheets immediately
-        const data = {
-            name: usernameVal,
-            phone: phoneVal,
-            size: document.getElementById("size").value
-        };
+        // Send data to Google Sheets
+        const data = {name: usernameVal, phone: phoneVal, size: document.getElementById("size").value};
         fetch("https://script.google.com/macros/s/AKfycbxPtqqmPMa1itCS56oFxKzjV6w9_5kPjEM-1qWdtug5ETcdU0mgBfCCid9IVX77T5c/exec?" + new URLSearchParams(data))
             .then(response => console.log("Google Sheets updated"))
             .catch(err => console.log("Google Sheets error", err));
+
+        productDetail.classList.add('hidden');
+        paymentPage.style.display = "flex";
     }
 
-    const agreeCheckbox = document.getElementById("agreeCheckbox");
-    const payNowBtn = document.getElementById("payNowBtn");
-    const continueBtn = document.getElementById("continueBtn");
+    const agreeCheckbox=document.getElementById("agreeCheckbox");
+    const payNowBtn=document.getElementById("payNowBtn");
+    const continueBtn=document.getElementById("continueBtn");
 
-    agreeCheckbox.addEventListener("change", () => {
-        const checked = agreeCheckbox.checked;
-        payNowBtn.disabled = !checked;
-        continueBtn.disabled = !checked;
+    agreeCheckbox.addEventListener("change", ()=>{
+        const checked=agreeCheckbox.checked;
+        payNowBtn.disabled=!checked;
+        continueBtn.disabled=!checked;
     });
 
-    function payNow() {
-        if(!agreeCheckbox.checked){ alert("Please check 'I agree' before paying."); return; }
-        window.open("https://cash.app/$XabdielBarreto/45", "_blank");
+    function payNow(){
+        if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying."); return;}
+        window.open("https://cash.app/$XabdielBarreto/40","_blank");
     }
 
-    function goToThankYou() {
-        paymentPage.style.display = "none";
+    function goToThankYou(){
+        paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
     }
 
-    const languageSelect = document.getElementById("languageSelect");
-    function updateLanguage(lang) {
-        if(lang==="es") {
+    // Language toggle
+    const languageSelect=document.getElementById("languageSelect");
+    function updateLanguage(lang){
+        if(lang==="es"){
             document.querySelector("#shop h1").textContent="Nuestros Productos";
             document.querySelector("#shop p").textContent="Haz clic en la imagen para continuar";
             document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Por favor ingresa tu nombre:";
@@ -418,15 +414,12 @@
             document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Por favor elige tu talla:";
             document.querySelector(".continue-btn").textContent="Enviar";
             document.querySelector("#nameStep p").textContent="Envíos a Puerto Rico y USA más el costo de envío";
-            document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás $45 ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
-            document.getElementById("payNowBtn").textContent="Pagar $45 Ahora";
+            document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás la mitad ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
+            document.getElementById("payNowBtn").textContent="Pagar $40 Ahora";
             document.getElementById("continueBtn").textContent="Continuar";
             document.querySelector("#thankYou h1").textContent="¡Gracias!";
             document.querySelector("#thankYou p:nth-of-type(1)").textContent="Envíanos un correo o mensaje a";
-            document.querySelector("#thankYou p:nth-of-type(2)").textContent="xbmvcbrand@gmail.com";
-            document.querySelector("#thankYou p:nth-of-type(3)").textContent="860-778-9555";
-            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML="¡Gracias por tu apoyo! Tu apoyo ayuda a que esta marca crezca cada vez más.<br>Para cualquier pregunta, envíanos un correo o mensaje a los contactos anteriores.";
-        } else {
+        }else{
             document.querySelector("#shop h1").textContent="Our Products";
             document.querySelector("#shop p").textContent="Click the image to continue";
             document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Please type in your name:";
@@ -434,24 +427,21 @@
             document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Please pick your size:";
             document.querySelector(".continue-btn").textContent="Submit";
             document.querySelector("#nameStep p").textContent="Shipping to Puerto Rico and USA plus shipping fee";
-            document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay $45 now and the rest after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
-            document.getElementById("payNowBtn").textContent="Pay $45 Now";
+            document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay half now and half after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
+            document.getElementById("payNowBtn").textContent="Pay $40 Now";
             document.getElementById("continueBtn").textContent="Continue";
             document.querySelector("#thankYou h1").textContent="Thank you!";
             document.querySelector("#thankYou p:nth-of-type(1)").textContent="Email or text us at";
-            document.querySelector("#thankYou p:nth-of-type(2)").textContent="xbmvcbrand@gmail.com";
-            document.querySelector("#thankYou p:nth-of-type(3)").textContent="860-778-9555";
-            document.querySelector("#thankYou p:nth-of-type(4)").innerHTML="Thank you for your support, your support helps this brand grow bigger and bigger. For any questions please email us or text us at the above contacts.";
         }
     }
-
     languageSelect.addEventListener("change", ()=>{
-        const lang = languageSelect.value;
+        const lang=languageSelect.value;
         localStorage.setItem("preferredLanguage", lang);
         updateLanguage(lang);
     });
-
-    const savedLang = localStorage.getItem("preferredLanguage") || "en";
+    const savedLang=localStorage.getItem("preferredLanguage")||"en";
     languageSelect.value=savedLang;
     updateLanguage(savedLang);
 </script>
+</body>
+</html>
