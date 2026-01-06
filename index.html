@@ -334,6 +334,7 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
+        <p id="loadingMessage" style="color:#000; font-weight:bold; margin-top:10px;"></p>
     </div>
 </div>
 
@@ -363,8 +364,8 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // new 3rd image
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"  // old 3rd now 4th
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // NEW 3rd IMAGE
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg" // OLD 3rd IMAGE now 4th
 ];
 
 let i = 0;
@@ -373,7 +374,7 @@ function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images
 function nextDetailImage(){nextImage();detailImage.src=images[i];}
 function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
-function goToPayment(){
+function goToPayment() {
     const usernameVal=document.getElementById("username").value.trim();
     const phoneVal=document.getElementById("phone").value.trim();
     if(!usernameVal || !phoneVal){alert("Please enter your name and phone number.");return;}
@@ -382,11 +383,12 @@ function goToPayment(){
 }
 
 // GOOGLE SHEETS + PAYMENT
-const agreeCheckbox=document.getElementById("agreeCheckbox");
-const payNowBtn=document.getElementById("payNowBtn");
-const continueBtn=document.getElementById("continueBtn");
+const agreeCheckbox = document.getElementById("agreeCheckbox");
+const payNowBtn = document.getElementById("payNowBtn");
+const continueBtn = document.getElementById("continueBtn");
+const loadingMsg = document.getElementById("loadingMessage");
 
-agreeCheckbox.addEventListener("change",()=>{
+agreeCheckbox.addEventListener("change", ()=>{
     const checked=agreeCheckbox.checked;
     payNowBtn.disabled=!checked;
     continueBtn.disabled=!checked;
@@ -399,24 +401,25 @@ function payNow(){
 
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
 
-continueBtn.addEventListener("click",()=>{
+continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
-    // Show loading message
-    const loadingMsg=document.getElementById("loadingMessage");
-    loadingMsg.textContent="Please wait a sec...";
-
+    loadingMsg.textContent = "Please wait a sec..."; // SHOW LOADING
+    
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
+        loadingMsg.textContent = ""; // CLEAR LOADING
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-        loadingMsg.textContent="";
-    }).catch(err=>{alert("Error sending data to Google Sheets: "+err);});
+    }).catch(err=>{
+        loadingMsg.textContent = "";
+        alert("Error sending data to Google Sheets: "+err);
+    });
 });
 
 // LANGUAGE TOGGLE
