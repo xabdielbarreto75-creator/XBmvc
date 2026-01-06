@@ -316,7 +316,8 @@
         <div id="agreeContainer">
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
-        <button id="payNowBtn" onclick="window.location.href='https://cash.app/$XabdielBarreto/45'" disabled>Pay $45 Now</button><br>
+        <!-- PAY NOW DIRECT LINK TO CASH APP -->
+        <button id="payNowBtn" onclick="window.open('https://cash.app/$XabdielBarreto/45','_blank')" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
         <div id="loadingText">Please wait a sec...</div>
     </div>
@@ -365,7 +366,6 @@ function goToPayment() {
     paymentPage.style.display="flex";
 }
 
-// GOOGLE SHEETS + PAYMENT
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
 const continueBtn = document.getElementById("continueBtn");
@@ -390,7 +390,7 @@ continueBtn.addEventListener("click", ()=>{
     }).then(()=>{
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-        loadingText.style.display="none"; // HIDE LOADING
+        loadingText.style.display="none";
     }).catch(err=>{alert("Error sending data to Google Sheets: "+err); loadingText.style.display="none";});
 });
 
