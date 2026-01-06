@@ -246,6 +246,13 @@
             margin-bottom: 15px;
             text-align: left;
         }
+
+        #loadingMessage {
+            display: none;
+            color: black;
+            font-weight: bold;
+            margin-top: 10px;
+        }
     </style>
 </head>
 <body>
@@ -312,10 +319,9 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <button class="continue-btn" id="continueBtn">Submit</button>
-            <!-- LOADING MESSAGE -->
-            <p id="loadingMessage" style="color:black; font-weight:bold; margin-top:10px; display:none;">Please wait a sec...</p>
-            <!-- SHIPPING INFO (ONLY ONCE) -->
+            <!-- FIXED SUBMIT BUTTON -->
+            <button class="continue-btn" id="submitBtn">Submit</button>
+            <div id="loadingMessage">Please wait a sec...</div>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
     </div>
@@ -355,7 +361,7 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT + GOOGLE SHEETS -->
+<!-- ORIGINAL SCRIPT + GOOGLE SHEETS FIX -->
 <script>
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -364,6 +370,7 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
 
@@ -382,29 +389,19 @@ function goToPayment() {
 }
 
 // GOOGLE SHEETS + PAYMENT
+const submitBtn = document.getElementById("submitBtn");
+const continueBtn = document.getElementById("continueBtn");
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
-
-agreeCheckbox.addEventListener("change", ()=>{
-    const checked=agreeCheckbox.checked;
-    payNowBtn.disabled=!checked;
-    continueBtn.disabled=!checked;
-});
-
-function payNow(){
-    if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.");return;}
-    window.open("https://cash.app/$XabdielBarreto/45","_blank");
-}
-
+const loadingMessage = document.getElementById("loadingMessage");
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
 
-continueBtn.addEventListener("click", ()=>{
+submitBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
-    
-    // SHOW BLACK LOADING MESSAGE IMMEDIATELY
+
     loadingMessage.style.display = "block";
 
     fetch(GOOGLE_SCRIPT_URL,{
@@ -420,6 +417,17 @@ continueBtn.addEventListener("click", ()=>{
     });
 });
 
+agreeCheckbox.addEventListener("change", ()=>{
+    const checked=agreeCheckbox.checked;
+    payNowBtn.disabled=!checked;
+    continueBtn.disabled=!checked;
+});
+
+function payNow(){
+    if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.");return;}
+    window.open("https://cash.app/$XabdielBarreto/45","_blank");
+}
+
 // LANGUAGE TOGGLE
 const languageSelect=document.getElementById("languageSelect");
 function updateLanguage(lang){
@@ -429,7 +437,7 @@ function updateLanguage(lang){
         document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Por favor ingresa tu nombre:";
         document.querySelector("#nameStep h2:nth-of-type(2)").textContent="Por favor ingresa tu número de teléfono:";
         document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Por favor elige tu talla:";
-        document.querySelector(".continue-btn").textContent="Enviar";
+        document.querySelector("#submitBtn").textContent="Enviar";
         document.querySelector("#nameStep p").textContent="Envíos a Puerto Rico y USA más el costo de envío";
         document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás $45 ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
         document.getElementById("payNowBtn").textContent="Pagar $45 Ahora";
@@ -441,7 +449,7 @@ function updateLanguage(lang){
         document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Please type in your name:";
         document.querySelector("#nameStep h2:nth-of-type(2)").textContent="Please type in your phone number:";
         document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Please pick your size:";
-        document.querySelector(".continue-btn").textContent="Submit";
+        document.querySelector("#submitBtn").textContent="Submit";
         document.querySelector("#nameStep p").textContent="Shipping to Puerto Rico and USA plus shipping fee";
         document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay $45 now and the rest after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
         document.getElementById("payNowBtn").textContent="Pay $45 Now";
