@@ -312,7 +312,7 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <button class="continue-btn" id="continueBtnForm">Submit</button>
+            <button class="continue-btn" id="continueBtn">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
     </div>
@@ -331,7 +331,6 @@
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
-        <button id="continueBtn" disabled>Continue</button>
     </div>
 </div>
 
@@ -353,23 +352,22 @@
 </div>
 
 <script>
-// NAVIGATION
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
 
-// IMAGES
+// Images
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
-let i=0;
+
+let i = 0;
 function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
 function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
 function nextDetailImage(){nextImage();detailImage.src=images[i];}
 function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
-// PAYMENT NAV
 function goToPayment() {
     const usernameVal=document.getElementById("username").value.trim();
     const phoneVal=document.getElementById("phone").value.trim();
@@ -378,15 +376,15 @@ function goToPayment() {
     paymentPage.style.display="flex";
 }
 
-// PAYMENT & GOOGLE SHEETS
+// GOOGLE SHEETS + PAYMENT
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
 const continueBtn = document.getElementById("continueBtn");
 
 agreeCheckbox.addEventListener("change", ()=>{
-    const checked = agreeCheckbox.checked;
-    payNowBtn.disabled = !checked;
-    continueBtn.disabled = !checked;
+    const checked=agreeCheckbox.checked;
+    payNowBtn.disabled=!checked;
+    continueBtn.disabled=!checked;
 });
 
 function payNow(){
@@ -396,22 +394,24 @@ function payNow(){
 
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
 
-// NEW: Continue button goes straight to thank-you
+// Updated continue button logic for instant thank-you
 continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
-
-    // Show thank-you immediately
+    
+    // Show thank-you instantly
     paymentPage.style.display="none";
     thankYou.classList.remove("hidden");
 
-    // Send to Google Sheets in background
+    // Send data to Google Sheets in background
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
-    }).catch(err=>console.error("Error sending data to Google Sheets: "+err));
+    }).catch(err=>{
+        console.error("Error sending data to Google Sheets:", err);
+    });
 });
 
 // LANGUAGE TOGGLE
@@ -427,7 +427,6 @@ function updateLanguage(lang){
         document.querySelector("#nameStep p").textContent="Envíos a Puerto Rico y USA más el costo de envío";
         document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás $45 ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
         document.getElementById("payNowBtn").textContent="Pagar $45 Ahora";
-        document.getElementById("continueBtn").textContent="Continuar";
         document.querySelector("#thankYou h1").textContent="¡Gracias!";
     } else {
         document.querySelector("#shop h1").textContent="Our Products";
@@ -439,7 +438,6 @@ function updateLanguage(lang){
         document.querySelector("#nameStep p").textContent="Shipping to Puerto Rico and USA plus shipping fee";
         document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay $45 now and the rest after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
         document.getElementById("payNowBtn").textContent="Pay $45 Now";
-        document.getElementById("continueBtn").textContent="Continue";
         document.querySelector("#thankYou h1").textContent="Thank you!";
     }
 }
@@ -455,3 +453,4 @@ updateLanguage(savedLang);
 
 </body>
 </html>
+ml>
