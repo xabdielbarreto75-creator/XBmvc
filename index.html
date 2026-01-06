@@ -246,13 +246,6 @@
             margin-bottom: 15px;
             text-align: left;
         }
-
-        #loadingMessage {
-            color: black;
-            font-weight: bold;
-            margin-top: 10px;
-            display: none;
-        }
     </style>
 </head>
 <body>
@@ -320,7 +313,9 @@
                 <option>XL</option>
             </select>
             <button class="continue-btn" id="continueBtn">Submit</button>
-            <p id="loadingMessage">Please wait a sec...</p>
+            <!-- LOADING MESSAGE -->
+            <p id="loadingMessage" style="color:black; font-weight:bold; margin-top:10px; display:none;">Please wait a sec...</p>
+            <!-- SHIPPING INFO (ONLY ONCE) -->
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
     </div>
@@ -339,7 +334,7 @@
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
-        <button id="continueBtnPayment" disabled>Continue</button>
+        <button id="continueBtn" disabled>Continue</button>
     </div>
 </div>
 
@@ -369,7 +364,6 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
 
@@ -390,8 +384,6 @@ function goToPayment() {
 // GOOGLE SHEETS + PAYMENT
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
-const continueBtn = document.getElementById("continueBtnPayment");
-const loadingMsg = document.getElementById("loadingMessage");
 
 agreeCheckbox.addEventListener("change", ()=>{
     const checked=agreeCheckbox.checked;
@@ -412,18 +404,18 @@ continueBtn.addEventListener("click", ()=>{
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
-    // SHOW BLACK LOADING MESSAGE
-    loadingMsg.style.display = "block";
+    // SHOW BLACK LOADING MESSAGE IMMEDIATELY
+    loadingMessage.style.display = "block";
 
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
-        loadingMsg.style.display = "none";
+        loadingMessage.style.display = "none";
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
     }).catch(err=>{
-        loadingMsg.style.display = "none";
+        loadingMessage.style.display = "none";
         alert("Error sending data to Google Sheets: "+err);
     });
 });
@@ -441,7 +433,7 @@ function updateLanguage(lang){
         document.querySelector("#nameStep p").textContent="Envíos a Puerto Rico y USA más el costo de envío";
         document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás $45 ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
         document.getElementById("payNowBtn").textContent="Pagar $45 Ahora";
-        document.getElementById("continueBtnPayment").textContent="Continuar";
+        document.getElementById("continueBtn").textContent="Continuar";
         document.querySelector("#thankYou h1").textContent="¡Gracias!";
     } else {
         document.querySelector("#shop h1").textContent="Our Products";
@@ -453,7 +445,7 @@ function updateLanguage(lang){
         document.querySelector("#nameStep p").textContent="Shipping to Puerto Rico and USA plus shipping fee";
         document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay $45 now and the rest after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
         document.getElementById("payNowBtn").textContent="Pay $45 Now";
-        document.getElementById("continueBtnPayment").textContent="Continue";
+        document.getElementById("continueBtn").textContent="Continue";
         document.querySelector("#thankYou h1").textContent="Thank you!";
     }
 }
