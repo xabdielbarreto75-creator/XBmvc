@@ -246,6 +246,13 @@
             margin-bottom: 15px;
             text-align: left;
         }
+
+        #loadingMessage {
+            display: none;
+            color: #fff;
+            margin-top: 10px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
@@ -332,8 +339,7 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
-        <!-- Loading message -->
-        <div id="loadingMessage" style="display:none; color:#fff; margin-top:10px; font-weight:bold;">Please wait a sec...</div>
+        <div id="loadingMessage">Please wait a sec...</div>
     </div>
 </div>
 
@@ -354,7 +360,6 @@
     </div>
 </div>
 
-<!-- ORIGINAL SCRIPT + GOOGLE SHEETS -->
 <script>
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -406,17 +411,23 @@ continueBtn.addEventListener("click", ()=>{
     
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
-    loadingMessage.style.display = "block"; // show loading
+    // Show loading
+    loadingMessage.style.display = "block";
+    continueBtn.disabled = true;
 
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
-        loadingMessage.style.display = "none"; // hide loading
+        // Hide loading
+        loadingMessage.style.display = "none";
+        continueBtn.disabled = false;
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
     }).catch(err=>{
-        loadingMessage.style.display = "none"; // hide loading
+        // Hide loading on error too
+        loadingMessage.style.display = "none";
+        continueBtn.disabled = false;
         alert("Error sending data to Google Sheets: "+err);
     });
 });
