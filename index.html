@@ -221,16 +221,37 @@
             margin-bottom: 20px;
         }
 
+        #payNowBtn {
+            background-color: #4CAF50;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        #continueBtn {
+            background-color: #000;
+            color: #fff;
+            padding: 10px 20px;
+            cursor: pointer;
+            border: none;
+            font-weight: bold;
+            border-radius: 8px;
+        }
+
         #agreeContainer {
             margin-bottom: 15px;
             text-align: left;
         }
 
         #loadingText {
+            display: none;
             color: #000;
             font-weight: bold;
             margin-top: 10px;
-            display: none;
         }
     </style>
 </head>
@@ -316,8 +337,9 @@
         <div id="agreeContainer">
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
-        <!-- PAY NOW DIRECT LINK TO CASH APP -->
+        <!-- PAY NOW: green and opens Cash App in new tab -->
         <button id="payNowBtn" onclick="window.open('https://cash.app/$XabdielBarreto/45','_blank')" disabled>Pay $45 Now</button><br>
+        <!-- CONTINUE: black like before -->
         <button id="continueBtn" disabled>Continue</button>
         <div id="loadingText">Please wait a sec...</div>
     </div>
@@ -341,6 +363,13 @@
 </div>
 
 <script>
+const landing=document.getElementById("landing");
+const shop=document.getElementById("shop");
+const productDetail=document.getElementById("productDetail");
+const thankYou=document.getElementById("thankYou");
+const productImage=document.getElementById("productImage");
+const detailImage=document.getElementById("detailImage");
+
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
 
@@ -348,10 +377,9 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // NEW 3RD IMAGE
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg" // OLD 3RD BECOMES 4TH
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
-
 let i = 0;
 function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
 function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
@@ -366,10 +394,11 @@ function goToPayment() {
     paymentPage.style.display="flex";
 }
 
-const agreeCheckbox = document.getElementById("agreeCheckbox");
-const payNowBtn = document.getElementById("payNowBtn");
-const continueBtn = document.getElementById("continueBtn");
-const loadingText = document.getElementById("loadingText");
+// GOOGLE SHEETS + PAYMENT
+const agreeCheckbox=document.getElementById("agreeCheckbox");
+const payNowBtn=document.getElementById("payNowBtn");
+const continueBtn=document.getElementById("continueBtn");
+const loadingText=document.getElementById("loadingText");
 
 agreeCheckbox.addEventListener("change", ()=>{
     const checked=agreeCheckbox.checked;
@@ -377,21 +406,23 @@ agreeCheckbox.addEventListener("change", ()=>{
     continueBtn.disabled=!checked;
 });
 
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
+
 continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
-    loadingText.style.display="block"; // SHOW LOADING
-    fetch("https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec",{
+    loadingText.style.display="block"; // Show "Please wait a sec"
+    
+    fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-        loadingText.style.display="none";
-    }).catch(err=>{alert("Error sending data to Google Sheets: "+err); loadingText.style.display="none";});
+    }).catch(err=>{alert("Error sending data to Google Sheets: "+err);});
 });
 
 // LANGUAGE TOGGLE
