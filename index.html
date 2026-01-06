@@ -221,34 +221,13 @@
             margin-bottom: 20px;
         }
 
-        #payNowBtn {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        #continueBtn {
-            background-color: #000;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
-        }
-
         #agreeContainer {
             margin-bottom: 15px;
             text-align: left;
         }
 
         #loadingText {
-            color: black;
+            color: #000;
             font-weight: bold;
             margin-top: 10px;
             display: none;
@@ -319,7 +298,6 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <!-- FIXED SUBMIT BUTTON -->
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
@@ -338,7 +316,7 @@
         <div id="agreeContainer">
             <input type="checkbox" id="agreeCheckbox"> I agree
         </div>
-        <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
+        <button id="payNowBtn" onclick="window.location.href='https://cash.app/$XabdielBarreto/45'" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
         <div id="loadingText">Please wait a sec...</div>
     </div>
@@ -369,8 +347,8 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // NEW 3RD IMAGE
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg" // OLD 3RD BECOMES 4TH
 ];
 
 let i = 0;
@@ -399,31 +377,21 @@ agreeCheckbox.addEventListener("change", ()=>{
     continueBtn.disabled=!checked;
 });
 
-window.payNow = function(){
-    if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.");return;}
-    window.open("https://cash.app/$XabdielBarreto/45","_blank");
-};
-
-const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
-
 continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
-    loadingText.style.display = "block"; // show "Please wait a sec..."
-
-    fetch(GOOGLE_SCRIPT_URL,{
+    loadingText.style.display="block"; // SHOW LOADING
+    fetch("https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec",{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-    }).catch(err=>{
-        alert("Error sending data to Google Sheets: "+err);
-        loadingText.style.display = "none";
-    });
+        loadingText.style.display="none"; // HIDE LOADING
+    }).catch(err=>{alert("Error sending data to Google Sheets: "+err); loadingText.style.display="none";});
 });
 
 // LANGUAGE TOGGLE
