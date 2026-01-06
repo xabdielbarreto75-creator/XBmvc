@@ -246,18 +246,6 @@
             margin-bottom: 15px;
             text-align: left;
         }
-
-        /* NEW: Loading message under Continue button */
-        #loadingMessage {
-            display: none;
-            color: #fff;
-            background-color: #000;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 10px;
-            text-align: center;
-            font-weight: bold;
-        }
     </style>
 </head>
 <body>
@@ -326,6 +314,7 @@
             </select>
             <!-- FIXED SUBMIT BUTTON -->
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
+            <p id="loadingMessage" style="color:#000; font-weight:bold; margin-top:10px;"></p>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
     </div>
@@ -345,8 +334,6 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
-        <!-- LOADING MESSAGE -->
-        <div id="loadingMessage">Please wait a sec...</div>
     </div>
 </div>
 
@@ -376,7 +363,8 @@ productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.r
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // new 3rd image
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"  // old 3rd now 4th
 ];
 
 let i = 0;
@@ -385,7 +373,7 @@ function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images
 function nextDetailImage(){nextImage();detailImage.src=images[i];}
 function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
-function goToPayment() {
+function goToPayment(){
     const usernameVal=document.getElementById("username").value.trim();
     const phoneVal=document.getElementById("phone").value.trim();
     if(!usernameVal || !phoneVal){alert("Please enter your name and phone number.");return;}
@@ -394,12 +382,11 @@ function goToPayment() {
 }
 
 // GOOGLE SHEETS + PAYMENT
-const agreeCheckbox = document.getElementById("agreeCheckbox");
-const payNowBtn = document.getElementById("payNowBtn");
-const continueBtn = document.getElementById("continueBtn");
-const loadingMessage = document.getElementById("loadingMessage");
+const agreeCheckbox=document.getElementById("agreeCheckbox");
+const payNowBtn=document.getElementById("payNowBtn");
+const continueBtn=document.getElementById("continueBtn");
 
-agreeCheckbox.addEventListener("change", ()=>{
+agreeCheckbox.addEventListener("change",()=>{
     const checked=agreeCheckbox.checked;
     payNowBtn.disabled=!checked;
     continueBtn.disabled=!checked;
@@ -412,26 +399,24 @@ function payNow(){
 
 const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
 
-continueBtn.addEventListener("click", ()=>{
+continueBtn.addEventListener("click",()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
-
-    // SHOW LOADING MESSAGE
-    loadingMessage.style.display = "block";
+    
+    // Show loading message
+    const loadingMsg=document.getElementById("loadingMessage");
+    loadingMsg.textContent="Please wait a sec...";
 
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
         paymentPage.style.display="none";
-        loadingMessage.style.display = "none";
         thankYou.classList.remove("hidden");
-    }).catch(err=>{
-        loadingMessage.style.display = "none";
-        alert("Error sending data to Google Sheets: "+err);
-    });
+        loadingMsg.textContent="";
+    }).catch(err=>{alert("Error sending data to Google Sheets: "+err);});
 });
 
 // LANGUAGE TOGGLE
