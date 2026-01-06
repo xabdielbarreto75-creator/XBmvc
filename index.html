@@ -247,11 +247,15 @@
             text-align: left;
         }
 
+        /* LOADING MESSAGE */
         #loadingMessage {
             display: none;
             color: #fff;
-            margin-top: 10px;
             font-weight: bold;
+            margin-top: 15px;
+            background-color: #4CAF50;
+            padding: 10px;
+            border-radius: 8px;
         }
     </style>
 </head>
@@ -339,6 +343,8 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
+
+        <!-- LOADING MESSAGE -->
         <div id="loadingMessage">Please wait a sec...</div>
     </div>
 </div>
@@ -360,6 +366,7 @@
     </div>
 </div>
 
+<!-- ORIGINAL SCRIPT + GOOGLE SHEETS -->
 <script>
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -389,6 +396,7 @@ function goToPayment() {
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
 const continueBtn = document.getElementById("continueBtn");
+const loadingMessage = document.getElementById("loadingMessage");
 
 agreeCheckbox.addEventListener("change", ()=>{
     const checked=agreeCheckbox.checked;
@@ -407,27 +415,18 @@ continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
-    const loadingMessage = document.getElementById("loadingMessage");
-    
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
-    
-    // Show loading
+
+    // SHOW LOADING MESSAGE
     loadingMessage.style.display = "block";
-    continueBtn.disabled = true;
 
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
-        // Hide loading
-        loadingMessage.style.display = "none";
-        continueBtn.disabled = false;
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
     }).catch(err=>{
-        // Hide loading on error too
-        loadingMessage.style.display = "none";
-        continueBtn.disabled = false;
         alert("Error sending data to Google Sheets: "+err);
     });
 });
@@ -473,3 +472,4 @@ updateLanguage(savedLang);
 
 </body>
 </html>
+
