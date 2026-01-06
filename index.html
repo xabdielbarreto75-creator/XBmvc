@@ -312,7 +312,6 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <!-- FIXED SUBMIT BUTTON -->
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
@@ -333,6 +332,8 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
+        <!-- Loading message -->
+        <div id="loadingMessage" style="display:none; color:#fff; margin-top:10px; font-weight:bold;">Please wait a sec...</div>
     </div>
 </div>
 
@@ -401,15 +402,23 @@ continueBtn.addEventListener("click", ()=>{
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
+    const loadingMessage = document.getElementById("loadingMessage");
+    
     if(!username || !phone){alert("Please enter your name and phone number.");return;}
     
+    loadingMessage.style.display = "block"; // show loading
+
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
+        loadingMessage.style.display = "none"; // hide loading
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-    }).catch(err=>{alert("Error sending data to Google Sheets: "+err);});
+    }).catch(err=>{
+        loadingMessage.style.display = "none"; // hide loading
+        alert("Error sending data to Google Sheets: "+err);
+    });
 });
 
 // LANGUAGE TOGGLE
