@@ -312,6 +312,7 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
+            <!-- FIXED SUBMIT BUTTON -->
             <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
@@ -352,6 +353,7 @@
     </div>
 </div>
 
+<!-- ORIGINAL SCRIPT + GOOGLE SHEETS -->
 <script>
 function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
 productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
@@ -377,6 +379,7 @@ function goToPayment() {
     paymentPage.style.display="flex";
 }
 
+// GOOGLE SHEETS + PAYMENT
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
 const continueBtn = document.getElementById("continueBtn");
@@ -406,9 +409,7 @@ continueBtn.addEventListener("click", ()=>{
     }).then(()=>{
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
-    }).catch(err=>{
-        alert("Error sending data to Google Sheets: "+err);
-    });
+    }).catch(err=>{alert("Error sending data to Google Sheets: "+err);});
 });
 
 // LANGUAGE TOGGLE
