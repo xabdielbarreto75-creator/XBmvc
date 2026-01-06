@@ -242,16 +242,16 @@
             border-radius: 8px;
         }
 
-        #agreeContainer {
-            margin-bottom: 15px;
-            text-align: left;
-        }
-
-        #loadingMessage {
-            color: black;
+        #pleaseWait {
+            color: #000;
             font-weight: bold;
             margin-top: 10px;
             display: none;
+        }
+
+        #agreeContainer {
+            margin-bottom: 15px;
+            text-align: left;
         }
     </style>
 </head>
@@ -319,8 +319,7 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <button class="continue-btn" id="submitBtn">Submit</button>
-            <div id="loadingMessage">Please wait a sec...</div>
+            <button class="continue-btn" onclick="goToPayment()">Submit</button>
             <p style="margin-top:10px; font-weight:bold; color:#000;">Shipping to Puerto Rico and USA plus shipping fee</p>
         </div>
     </div>
@@ -340,7 +339,7 @@
         </div>
         <button id="payNowBtn" onclick="payNow()" disabled>Pay $45 Now</button><br>
         <button id="continueBtn" disabled>Continue</button>
-        <div id="waitMessage" style="display:none; color:black; font-weight:bold; margin-top:10px;">Please wait a sec...</div>
+        <div id="pleaseWait">Please wait a sec...</div>
     </div>
 </div>
 
@@ -361,17 +360,28 @@
     </div>
 </div>
 
-<!-- SCRIPT -->
 <script>
-function goToShop(){landing.classList.add('hidden');shop.classList.remove('hidden');}
-productImage.onclick=()=>{shop.classList.add('hidden');productDetail.classList.remove('hidden');}
+const landing = document.getElementById("landing");
+const shop = document.getElementById("shop");
+const productImage = document.getElementById("productImage");
+const productDetail = document.getElementById("productDetail");
+const detailImage = document.getElementById("detailImage");
+
+function goToShop(){
+    landing.classList.add('hidden');
+    shop.classList.remove('hidden');
+}
+productImage.onclick = ()=>{
+    shop.classList.add('hidden');
+    productDetail.classList.remove('hidden');
+}
 
 // Images
 const images = [
     "WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg", // NEW 3RD PIC
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg" // OLD 3RD BECOMES 4TH
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
 
 let i = 0;
@@ -380,73 +390,90 @@ function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images
 function nextDetailImage(){nextImage();detailImage.src=images[i];}
 function prevDetailImage(){prevImage();detailImage.src=images[i];}
 
-// SUBMIT BUTTON + LOADING
-const submitBtn = document.getElementById("submitBtn");
-const loadingMessage = document.getElementById("loadingMessage");
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
+function goToPayment() {
+    const usernameVal=document.getElementById("username").value.trim();
+    const phoneVal=document.getElementById("phone").value.trim();
+    if(!usernameVal || !phoneVal){alert("Please enter your name and phone number.");return;}
+    productDetail.classList.add('hidden');
+    paymentPage.style.display="flex";
+}
 
-submitBtn.addEventListener("click", ()=>{
-    const username = document.getElementById("username").value.trim();
-    const phone = document.getElementById("phone").value.trim();
-    const size = document.getElementById("size").value;
-
-    if(!username || !phone){alert("Please enter your name and phone number."); return;}
-
-    submitBtn.disabled = true;
-    loadingMessage.style.display = "block";
-
-    fetch(GOOGLE_SCRIPT_URL, {
-        method: "POST",
-        body: JSON.stringify({name: username, phone: phone, size: size}),
-    }).then(()=>{
-        loadingMessage.style.display = "none";
-        submitBtn.disabled = false;
-        productDetail.classList.add('hidden');
-        paymentPage.style.display = "flex";
-    }).catch(err=>{
-        loadingMessage.style.display = "none";
-        submitBtn.disabled = false;
-        alert("Error sending data to Google Sheets: "+err);
-    });
-});
-
-// GOOGLE SHEETS + PAYMENT BUTTONS
+// GOOGLE SHEETS + PAYMENT
 const agreeCheckbox = document.getElementById("agreeCheckbox");
 const payNowBtn = document.getElementById("payNowBtn");
 const continueBtn = document.getElementById("continueBtn");
-const waitMessage = document.getElementById("waitMessage");
+const pleaseWait = document.getElementById("pleaseWait");
 
 agreeCheckbox.addEventListener("change", ()=>{
-    const checked = agreeCheckbox.checked;
-    payNowBtn.disabled = !checked;
-    continueBtn.disabled = !checked;
+    const checked=agreeCheckbox.checked;
+    payNowBtn.disabled=!checked;
+    continueBtn.disabled=!checked;
 });
 
 function payNow(){
-    if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.'); return;}
+    if(!agreeCheckbox.checked){alert("Please check 'I agree' before paying.");return;}
     window.open("https://cash.app/$XabdielBarreto/45","_blank");
 }
 
+const GOOGLE_SCRIPT_URL="https://script.google.com/macros/s/AKfycbwguUHSkxk-KzA_5rMVA6obYE5-VcA9u_ppfU8xkLb47u60kTpJ0cqhXm4tBV3GqsKu/exec";
+
 continueBtn.addEventListener("click", ()=>{
-    waitMessage.style.display = "block"; // SHOW WAIT MESSAGE
     const username=document.getElementById("username").value.trim();
     const phone=document.getElementById("phone").value.trim();
     const size=document.getElementById("size").value;
-
-    if(!username || !phone){alert("Please enter your name and phone number."); waitMessage.style.display="none"; return;}
+    if(!username || !phone){alert("Please enter your name and phone number.");return;}
+    
+    pleaseWait.style.display="block"; // Show "please wait a sec" in black
 
     fetch(GOOGLE_SCRIPT_URL,{
         method:"POST",
         body:JSON.stringify({name:username,phone:phone,size:size}),
     }).then(()=>{
-        waitMessage.style.display = "none";
         paymentPage.style.display="none";
         thankYou.classList.remove("hidden");
     }).catch(err=>{
-        waitMessage.style.display = "none";
+        pleaseWait.style.display="none";
         alert("Error sending data to Google Sheets: "+err);
     });
 });
+
+// LANGUAGE TOGGLE
+const languageSelect=document.getElementById("languageSelect");
+function updateLanguage(lang){
+    if(lang==="es"){
+        document.querySelector("#shop h1").textContent="Nuestros Productos";
+        document.querySelector("#shop p").textContent="Haz clic en la imagen para continuar";
+        document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Por favor ingresa tu nombre:";
+        document.querySelector("#nameStep h2:nth-of-type(2)").textContent="Por favor ingresa tu número de teléfono:";
+        document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Por favor elige tu talla:";
+        document.querySelector(".continue-btn").textContent="Enviar";
+        document.querySelector("#nameStep p").textContent="Envíos a Puerto Rico y USA más el costo de envío";
+        document.querySelector("#paymentInfo").innerHTML="Esta sudadera cuesta $70 en total.<br>Pagarás $45 ahora y la otra mitad cuando tu pedido esté listo.<br><b>No se proporcionarán reembolsos por depósitos o pago completo.</b>";
+        document.getElementById("payNowBtn").textContent="Pagar $45 Ahora";
+        document.getElementById("continueBtn").textContent="Continuar";
+        document.querySelector("#thankYou h1").textContent="¡Gracias!";
+    } else {
+        document.querySelector("#shop h1").textContent="Our Products";
+        document.querySelector("#shop p").textContent="Click the image to continue";
+        document.querySelector("#nameStep h2:nth-of-type(1)").textContent="Please type in your name:";
+        document.querySelector("#nameStep h2:nth-of-type(2)").textContent="Please type in your phone number:";
+        document.querySelector("#nameStep h2:nth-of-type(3)").textContent="Please pick your size:";
+        document.querySelector(".continue-btn").textContent="Submit";
+        document.querySelector("#nameStep p").textContent="Shipping to Puerto Rico and USA plus shipping fee";
+        document.querySelector("#paymentInfo").innerHTML="This hoodie will cost $70 in total.<br>You will pay $45 now and the rest after your order is ready.<br><b>We will also not provide refunds for deposits or full charge.</b>";
+        document.getElementById("payNowBtn").textContent="Pay $45 Now";
+        document.getElementById("continueBtn").textContent="Continue";
+        document.querySelector("#thankYou h1").textContent="Thank you!";
+    }
+}
+languageSelect.addEventListener("change",()=>{
+    const lang=languageSelect.value;
+    localStorage.setItem("preferredLanguage",lang);
+    updateLanguage(lang);
+});
+const savedLang=localStorage.getItem("preferredLanguage")||"en";
+languageSelect.value=savedLang;
+updateLanguage(savedLang);
 </script>
 
 </body>
