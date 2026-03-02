@@ -130,11 +130,40 @@
             animation: fadeIn 2s 1s forwards; /* fades in after heading */
         }
 
+        /* FOOTER */
+        .footer {
+            background-color: #ffffff;
+            color: #000;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 20px 40px;
+            box-sizing: border-box;
+            flex-wrap: wrap;
+        }
+
+        .footer-left {
+            font-size: 20px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-right {
+            text-align: left;
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .footer-right span {
+            display: block;
+        }
+
         @keyframes fadeIn {
             to { opacity: 1; }
         }
 
-        /* SLIDING CART PANEL */
+        /* CART PANEL */
         .cart-panel {
             position: fixed;
             top: 0;
@@ -205,6 +234,16 @@
     <span class="close-cart" onclick="toggleCart()">✕</span>
     <h2>Your Cart</h2>
     <p>No items yet.</p>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+    <div class="footer-left">XBMVC</div>
+    <div class="footer-right">
+        <span>Please contact us at:</span>
+        <span>xbmvcbrand@gmail.com</span>
+        <span>860-778-9555</span>
+    </div>
 </div>
 
 <script>
