@@ -9,7 +9,6 @@
             padding: 0;
             background-color: #000;
             color: #fff;
-            overflow-x: hidden;
         }
 
         /* NAVBAR */
@@ -18,13 +17,14 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
-            background: #fff;
+            background: #ffffff;
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
             z-index: 1000;
             box-sizing: border-box;
+            border-bottom: 1px solid #ddd;
         }
 
         .brand {
@@ -65,189 +65,82 @@
 
         .landing-space {
             height: 100vh;
+            padding-top: 80px;
         }
 
-        /* SHOP */
-        .shop-container {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            padding-left: 50px;
-            margin-top: 120px;
-        }
-
-        .shop-container h1 {
-            text-align: center;
-            width: 100%;
-        }
-
-        .product {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .product img {
-            width: 250px;
-            margin: 20px 0;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .product img:hover {
-            transform: scale(1.1);
-            box-shadow: 0 8px 20px rgba(255, 255, 255, 0.6);
-        }
-
-        .arrows {
-            display: flex;
-            justify-content: space-between;
-            width: 100px;
-        }
-
-        .arrows span {
-            cursor: pointer;
-            font-size: 30px;
-            user-select: none;
-        }
-
-        .detail-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 120px;
-        }
-
-        .left-side, .right-side {
-            background-color: #fff;
-            color: #000;
-            padding: 30px;
-            border-radius: 10px;
-            margin: 20px;
-        }
-
-        .left-side img {
+        /* SLIDING CART PANEL */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
             width: 350px;
-            margin-bottom: 10px;
-            border-radius: 10px;
-        }
-
-        input, select, .continue-btn {
-            padding: 10px;
-            margin: 10px 0;
-            font-size: 16px;
-            width: 100%;
+            height: 100%;
+            background: #fff;
+            color: #000;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            z-index: 2000;
+            padding: 30px;
             box-sizing: border-box;
         }
 
-        .continue-btn {
-            background-color: #000;
-            color: #fff;
-            border: none;
+        .cart-panel.open {
+            right: 0;
+        }
+
+        .cart-panel h2 {
+            margin-top: 0;
+        }
+
+        .close-cart {
             cursor: pointer;
             font-weight: bold;
+            float: right;
         }
 
     </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="brand">XBmvc</div>
+
+    <div class="nav-center">
+        <button class="nav-btn" onclick="goHome()">Home</button>
+        <button class="nav-btn" onclick="goToShop()">Shop</button>
+    </div>
+
+    <div class="cart" onclick="toggleCart()">
+        🛒 <span id="cartCount">0</span>
+    </div>
+</div>
+
 <!-- LANDING -->
-<div id="landing">
-    <div class="navbar">
-        <div class="brand">XBmvc</div>
+<div id="landing" class="landing-space"></div>
 
-        <div class="nav-center">
-            <button class="nav-btn" onclick="goHome()">Home</button>
-            <button class="nav-btn" onclick="goToShop()">Shop</button>
-        </div>
-
-        <div class="cart">
-            🛒 <span id="cartCount">0</span>
-        </div>
-    </div>
-
-    <div class="landing-space"></div>
-</div>
-
-<!-- SHOP -->
-<div id="shop" class="shop-container hidden">
-    <h1>Our Products</h1>
-    <div class="product">
-        <div class="arrows">
-            <span onclick="prevImage()">&#8592;</span>
-            <span onclick="nextImage()">&#8594;</span>
-        </div>
-        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-    </div>
-    <p>Click the image to continue</p>
-</div>
-
-<!-- PRODUCT DETAIL -->
-<div id="productDetail" class="detail-container hidden">
-    <div class="left-side">
-        <div class="brand" style="color:#000;">XBmvc</div>
-        <img id="detailImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
-        <div class="arrows">
-            <span onclick="prevDetailImage()">&#8592;</span>
-            <span onclick="nextDetailImage()">&#8594;</span>
-        </div>
-    </div>
-
-    <div class="right-side">
-        <h2>Please type in your name:</h2>
-        <input type="text" id="username">
-
-        <h2>Please type in your phone number:</h2>
-        <input type="tel" id="phone">
-
-        <h2>Please pick your size:</h2>
-        <select id="size">
-            <option>XS</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-        </select>
-
-        <button class="continue-btn">Submit</button>
-    </div>
+<!-- CART PANEL -->
+<div id="cartPanel" class="cart-panel">
+    <span class="close-cart" onclick="toggleCart()">✕</span>
+    <h2>Your Cart</h2>
+    <p>No items yet.</p>
 </div>
 
 <script>
-const landing=document.getElementById("landing");
-const shop=document.getElementById("shop");
-const productDetail=document.getElementById("productDetail");
-const productImage=document.getElementById("productImage");
-const detailImage=document.getElementById("detailImage");
+const landing = document.getElementById("landing");
+const cartPanel = document.getElementById("cartPanel");
 
 function goToShop(){
-    landing.classList.add('hidden');
-    shop.classList.remove('hidden');
+    alert("Shop section coming next 🔥");
 }
 
 function goHome(){
-    shop.classList.add('hidden');
-    productDetail.classList.add('hidden');
-    landing.classList.remove('hidden');
+    window.scrollTo(0,0);
 }
 
-productImage.onclick=()=>{
-    shop.classList.add('hidden');
-    productDetail.classList.remove('hidden');
+function toggleCart(){
+    cartPanel.classList.toggle("open");
 }
-
-const images=[
-"WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg",
-"WhatsApp Image 2026-01-03 at 22.08.00.jpeg"
-];
-
-let i=0;
-
-function nextImage(){i=(i+1)%images.length;productImage.src=images[i];}
-function prevImage(){i=(i-1+images.length)%images.length;productImage.src=images[i];}
-function nextDetailImage(){nextImage();detailImage.src=images[i];}
-function prevDetailImage(){prevImage();detailImage.src=images[i];}
 </script>
 
 </body>
