@@ -73,39 +73,12 @@
         /* HERO IMAGE */
         .hero-img {
             display: block;
-            margin: 20px auto;
+            margin: 30px auto 0 auto;
             max-width: 80%;
-            height: 50vh; /* reduced height so the button shows */
-            object-fit: cover;
+            max-height: 70vh;
+            height: auto;
             opacity: 0;
             animation: fadeIn 2s 0.5s forwards;
-        }
-
-        /* COMING SOON SECTION */
-        .coming-soon {
-            background-color: #000;
-            height: 100vh; /* full screen */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .coming-soon button {
-            padding: 25px 60px;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: not-allowed;
-            background-color: #fff;
-            color: #000;
-            border: none;
-            border-radius: 10px;
-            opacity: 0.9;
-            animation: glow 1.5s infinite alternate;
-        }
-
-        @keyframes glow {
-            from { box-shadow: 0 0 10px #fff; }
-            to { box-shadow: 0 0 25px #fff; }
         }
 
         /* EXPRESS YOURSELF SECTION */
@@ -160,6 +133,22 @@
             font-weight: bold;
             float: right;
         }
+
+        /* COMING SOON NAV BUTTON */
+        .coming-soon-btn {
+            background: #ff00ff; /* bright purple */
+            color: #fff;
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+            cursor: not-allowed;
+            border-radius: 5px;
+            opacity: 0.9;
+        }
+
+        .coming-soon-btn:hover {
+            opacity: 1;
+        }
     </style>
 </head>
 <body>
@@ -171,6 +160,7 @@
     <div class="nav-center">
         <button class="nav-btn" onclick="goHome()">Home</button>
         <button class="nav-btn" onclick="goToShop()">Shop</button>
+        <button class="coming-soon-btn">Coming Soon!</button>
     </div>
 
     <div class="cart" onclick="toggleCart()">
@@ -185,11 +175,6 @@
 
 <!-- HERO IMAGE -->
 <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
-
-<!-- COMING SOON BUTTON SECTION -->
-<div class="coming-soon">
-    <button>Coming Soon!</button>
-</div>
 
 <!-- EXPRESS YOURSELF SECTION -->
 <div class="express-section">
