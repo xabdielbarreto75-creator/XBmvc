@@ -86,9 +86,11 @@
             background-color: #8000ff; /* purple */
             min-height: 50vh;
             display: flex;
-            align-items: center;
-            justify-content: flex-start;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
             padding-left: 50px;
+            padding-right: 50px;
             box-sizing: border-box;
         }
 
@@ -98,6 +100,16 @@
             opacity: 0;
             color: #fff;
             animation: fadeIn 2s 0.5s forwards;
+        }
+
+        .express-subtext {
+            font-size: 22px;
+            margin-top: 20px;
+            max-width: 700px;
+            line-height: 1.5;
+            opacity: 0;
+            color: #fff;
+            animation: fadeIn 2s 1s forwards; /* delay so it fades in after heading */
         }
 
         @keyframes fadeIn {
@@ -180,6 +192,9 @@
 <div class="express-section">
     <div class="express-text">
         Express yourself the way you want
+    </div>
+    <div class="express-subtext">
+        XBMVC was born from a simple belief: attire should be a safe happy space for everyone. We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, you feel empowered, seen, and celebrated for exactly who you are.
     </div>
 </div>
 
