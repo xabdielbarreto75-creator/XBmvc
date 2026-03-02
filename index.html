@@ -75,6 +75,7 @@
             display: block;
             margin: 30px auto 0 auto;
             max-width: 80%;
+            max-height: 70vh; /* limit height so next section is visible */
             height: auto;
             opacity: 0;
             animation: fadeIn 2s 0.5s forwards;
@@ -83,7 +84,7 @@
         /* EXPRESS YOURSELF SECTION */
         .express-section {
             background-color: #8000ff; /* purple */
-            height: 100vh;
+            min-height: 50vh;
             display: flex;
             align-items: center;
             justify-content: flex-start;
@@ -96,7 +97,7 @@
             font-weight: bold;
             opacity: 0;
             color: #fff;
-            animation: fadeIn 2s forwards;
+            animation: fadeIn 2s 0.5s forwards;
         }
 
         @keyframes fadeIn {
