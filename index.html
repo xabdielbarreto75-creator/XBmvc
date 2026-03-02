@@ -18,17 +18,19 @@
             justify-content: space-between;
             align-items: center;
             padding: 20px 40px;
-            background: #000;
+            background: #fff;
             position: fixed;
             width: 100%;
             top: 0;
             left: 0;
             z-index: 1000;
+            box-sizing: border-box;
         }
 
         .brand {
             font-size: 22px;
             font-weight: bold;
+            color: #000;
         }
 
         .nav-center {
@@ -38,8 +40,8 @@
 
         .nav-btn {
             background: transparent;
-            color: #fff;
-            border: 1px solid #fff;
+            color: #000;
+            border: 1px solid #000;
             padding: 10px 25px;
             cursor: pointer;
             font-weight: bold;
@@ -47,29 +49,25 @@
         }
 
         .nav-btn:hover {
-            background: #fff;
-            color: #000;
+            background: #000;
+            color: #fff;
         }
 
         .cart {
-            font-size: 20px;
+            font-size: 22px;
             cursor: pointer;
+            color: #000;
         }
 
         .hidden {
             display: none;
         }
 
-        /* LANDING SPACING FIX */
         .landing-space {
             height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
 
-        /* KEEP REST OF YOUR ORIGINAL STYLES BELOW */
-
+        /* SHOP */
         .shop-container {
             display: flex;
             flex-direction: column;
@@ -150,64 +148,6 @@
             font-weight: bold;
         }
 
-        #paymentPage {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.95);
-            justify-content: center;
-            align-items: center;
-            z-index: 9999;
-            overflow: auto;
-            color: #000;
-        }
-
-        #paymentBox {
-            background-color: #fff;
-            padding: 40px;
-            border-radius: 15px;
-            max-width: 500px;
-            text-align: center;
-        }
-
-        #paymentInfo {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 15px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-        }
-
-        #payNowBtn {
-            background-color: #4CAF50;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
-            margin-bottom: 15px;
-        }
-
-        #continueBtn {
-            background-color: #000;
-            color: #fff;
-            padding: 10px 20px;
-            cursor: pointer;
-            border: none;
-            font-weight: bold;
-            border-radius: 8px;
-        }
-
-        #loadingText {
-            display: none;
-            color: #000;
-            font-weight: bold;
-            margin-top: 10px;
-        }
     </style>
 </head>
 <body>
@@ -238,7 +178,7 @@
             <span onclick="prevImage()">&#8592;</span>
             <span onclick="nextImage()">&#8594;</span>
         </div>
-        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg" alt="Product Image">
+        <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13 (1).jpeg">
     </div>
     <p>Click the image to continue</p>
 </div>
@@ -270,7 +210,7 @@
             <option>XL</option>
         </select>
 
-        <button class="continue-btn" onclick="goToPayment()">Submit</button>
+        <button class="continue-btn">Submit</button>
     </div>
 </div>
 
@@ -278,6 +218,8 @@
 const landing=document.getElementById("landing");
 const shop=document.getElementById("shop");
 const productDetail=document.getElementById("productDetail");
+const productImage=document.getElementById("productImage");
+const detailImage=document.getElementById("detailImage");
 
 function goToShop(){
     landing.classList.add('hidden');
@@ -288,6 +230,11 @@ function goHome(){
     shop.classList.add('hidden');
     productDetail.classList.add('hidden');
     landing.classList.remove('hidden');
+}
+
+productImage.onclick=()=>{
+    shop.classList.add('hidden');
+    productDetail.classList.remove('hidden');
 }
 
 const images=[
