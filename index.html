@@ -75,10 +75,31 @@
             display: block;
             margin: 30px auto 0 auto;
             max-width: 80%;
-            max-height: 70vh; /* limit height so next section is visible */
+            max-height: 70vh;
             height: auto;
             opacity: 0;
             animation: fadeIn 2s 0.5s forwards;
+        }
+
+        /* COMING SOON SECTION */
+        .coming-soon {
+            background-color: #000;
+            height: 50vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .coming-soon button {
+            padding: 20px 50px;
+            font-size: 24px;
+            font-weight: bold;
+            cursor: not-allowed;
+            background-color: #fff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            opacity: 0.8;
         }
 
         /* EXPRESS YOURSELF SECTION */
@@ -158,6 +179,11 @@
 
 <!-- HERO IMAGE -->
 <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+
+<!-- COMING SOON BUTTON SECTION -->
+<div class="coming-soon">
+    <button>Coming Soon!</button>
+</div>
 
 <!-- EXPRESS YOURSELF SECTION -->
 <div class="express-section">
