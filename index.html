@@ -74,6 +74,16 @@
             to { opacity: 1; }
         }
 
+        /* HERO IMAGE */
+        .hero-img {
+            display: block;
+            margin: 30px auto 0 auto;
+            max-width: 80%;
+            height: auto;
+            opacity: 0;
+            animation: fadeIn 2s 0.5s forwards; /* fade in after text */
+        }
+
         /* SLIDING CART PANEL */
         .cart-panel {
             position: fixed;
@@ -126,6 +136,9 @@
 <div class="hero">
     Be yourself
 </div>
+
+<!-- HERO IMAGE -->
+<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
 
 <!-- CART PANEL -->
 <div id="cartPanel" class="cart-panel">
