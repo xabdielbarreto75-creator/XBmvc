@@ -59,13 +59,13 @@
             color: #000;
         }
 
-        .hidden {
-            display: none;
-        }
-
-        .landing-space {
-            height: 100vh;
-            padding-top: 80px;
+        /* HERO TEXT */
+        .hero {
+            margin-top: 120px;
+            text-align: center;
+            font-size: 60px;
+            font-weight: bold;
+            letter-spacing: 2px;
         }
 
         /* SLIDING CART PANEL */
@@ -116,8 +116,10 @@
     </div>
 </div>
 
-<!-- LANDING -->
-<div id="landing" class="landing-space"></div>
+<!-- HERO SECTION -->
+<div class="hero">
+    Be yourself
+</div>
 
 <!-- CART PANEL -->
 <div id="cartPanel" class="cart-panel">
@@ -127,7 +129,6 @@
 </div>
 
 <script>
-const landing = document.getElementById("landing");
 const cartPanel = document.getElementById("cartPanel");
 
 function goToShop(){
