@@ -66,12 +66,8 @@
             font-size: 60px;
             font-weight: bold;
             letter-spacing: 2px;
-            opacity: 0; /* start invisible */
-            animation: fadeIn 2s forwards; /* fade in */
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
+            opacity: 0;
+            animation: fadeIn 2s forwards;
         }
 
         /* HERO IMAGE */
@@ -81,7 +77,30 @@
             max-width: 80%;
             height: auto;
             opacity: 0;
-            animation: fadeIn 2s 0.5s forwards; /* fade in after text */
+            animation: fadeIn 2s 0.5s forwards;
+        }
+
+        /* EXPRESS YOURSELF SECTION */
+        .express-section {
+            background-color: #8000ff; /* purple */
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            padding-left: 50px;
+            box-sizing: border-box;
+        }
+
+        .express-text {
+            font-size: 48px;
+            font-weight: bold;
+            opacity: 0;
+            color: #fff;
+            animation: fadeIn 2s forwards;
+        }
+
+        @keyframes fadeIn {
+            to { opacity: 1; }
         }
 
         /* SLIDING CART PANEL */
@@ -113,7 +132,6 @@
             font-weight: bold;
             float: right;
         }
-
     </style>
 </head>
 <body>
@@ -139,6 +157,13 @@
 
 <!-- HERO IMAGE -->
 <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+
+<!-- EXPRESS YOURSELF SECTION -->
+<div class="express-section">
+    <div class="express-text">
+        Express yourself the way you want
+    </div>
+</div>
 
 <!-- CART PANEL -->
 <div id="cartPanel" class="cart-panel">
