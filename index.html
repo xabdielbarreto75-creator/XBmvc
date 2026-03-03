@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,6 +33,7 @@
             font-size: 22px;
             font-weight: bold;
             color: #000;
+            text-decoration: none;
         }
 
         .nav-center {
@@ -40,12 +42,13 @@
         }
 
         .nav-btn {
+            text-decoration: none;
             background: transparent;
             color: #000;
             border: 1px solid #000;
             padding: 10px 25px;
-            cursor: pointer;
             font-weight: bold;
+            cursor: pointer;
         }
 
         .nav-btn:hover {
@@ -53,55 +56,54 @@
             color: #fff;
         }
 
-        .coming-soon-btn {
-            background: #ff00ff;
-            color: #fff;
-            border: none;
-            padding: 10px 25px;
-            font-weight: bold;
-            cursor: not-allowed;
-            border-radius: 5px;
-        }
-
-        .cart {
-            font-size: 22px;
-            cursor: pointer;
-            color: #000;
-        }
-
-        /* HERO */
-        .hero {
-            margin-top: 120px;
+        /* SHOP HEADER */
+        .shop-header {
+            margin-top: 150px;
             text-align: center;
-            font-size: 60px;
+            font-size: 50px;
             font-weight: bold;
         }
 
-        .hero-img {
-            display: block;
-            margin: 30px auto 80px auto;
-            max-width: 80%;
-            max-height: 70vh;
+        /* PRODUCT GRID */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            padding: 80px;
         }
 
-        /* PURPLE SECTION */
-        .express-section {
-            background-color: #8000ff;
-            padding: 120px 60px;
+        .product {
+            background: #111;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #333;
         }
 
-        .express-text {
-            font-size: 48px;
+        .product img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .product h3 {
+            margin: 15px 0 5px 0;
+        }
+
+        .product p {
+            margin: 0 0 15px 0;
+        }
+
+        .buy-btn {
+            background: #8000ff;
+            border: none;
+            padding: 10px 20px;
+            color: #fff;
             font-weight: bold;
-            color: #ffffff;
+            cursor: pointer;
         }
 
-        .express-subtext {
-            font-size: 20px;
-            margin-top: 20px;
-            max-width: 700px;
-            line-height: 1.6;
-            color: #ffffff;
+        .buy-btn:hover {
+            opacity: 0.8;
         }
 
         /* FOOTER */
@@ -133,32 +135,6 @@
             line-height: 1.6;
             text-align: right;
         }
-
-        /* CART PANEL */
-        .cart-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 350px;
-            height: 100%;
-            background: #fff;
-            color: #000;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
-            transition: right 0.4s ease;
-            z-index: 2000;
-            padding: 30px;
-            box-sizing: border-box;
-        }
-
-        .cart-panel.open {
-            right: 0;
-        }
-
-        .close-cart {
-            cursor: pointer;
-            font-weight: bold;
-            float: right;
-        }
     </style>
 </head>
 
@@ -166,38 +142,43 @@
 
 <!-- NAVBAR -->
 <div class="navbar">
-    <div class="brand">XBmvc</div>
+    <a href="index.html" class="brand">XBmvc</a>
 
     <div class="nav-center">
-        <button class="nav-btn" onclick="goHome()">Home</button>
-        <button class="nav-btn" onclick="goToShop()">Shop</button>
-        <button class="coming-soon-btn">Coming Soon!</button>
-    </div>
-
-    <div class="cart" onclick="toggleCart()">
-        🛒 <span id="cartCount">0</span>
+        <a href="index.html" class="nav-btn">Home</a>
+        <a href="shop.html" class="nav-btn">Shop</a>
     </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-    Be yourself
+<!-- SHOP TITLE -->
+<div class="shop-header">
+    SHOP XBMVC
 </div>
 
-<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+<!-- PRODUCTS -->
+<div class="product-grid">
 
-<!-- PURPLE SECTION -->
-<div class="express-section">
-    <div class="express-text">
-        Express yourself the way you want
+    <div class="product">
+        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
+        <h3>XBMVC Hoodie</h3>
+        <p>$65.00</p>
+        <button class="buy-btn">Add to Cart</button>
     </div>
 
-    <div class="express-subtext">
-        XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-        We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-        Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
-        you feel empowered, seen, and celebrated for exactly who you are.
+    <div class="product">
+        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
+        <h3>XBMVC Tee</h3>
+        <p>$35.00</p>
+        <button class="buy-btn">Add to Cart</button>
     </div>
+
+    <div class="product">
+        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
+        <h3>XBMVC Crewneck</h3>
+        <p>$55.00</p>
+        <button class="buy-btn">Add to Cart</button>
+    </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -216,29 +197,6 @@
         <div>860-778-9555</div>
     </div>
 </div>
-
-<!-- CART PANEL -->
-<div id="cartPanel" class="cart-panel">
-    <span class="close-cart" onclick="toggleCart()">✕</span>
-    <h2>Your Cart</h2>
-    <p>No items yet.</p>
-</div>
-
-<script>
-const cartPanel = document.getElementById("cartPanel");
-
-function goToShop(){
-    alert("Shop section coming next 🔥");
-}
-
-function goHome(){
-    window.scrollTo(0,0);
-}
-
-function toggleCart(){
-    cartPanel.classList.toggle("open");
-}
-</script>
 
 </body>
 </html>
