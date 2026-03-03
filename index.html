@@ -111,6 +111,13 @@
             background-color: #000;
             min-height: 100vh;
             color: #fff;
+            position: relative;
+        }
+
+        .product-container {
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
 
         .product-card {
@@ -119,17 +126,13 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255,255,255,0.05);
-            position: relative;
-            cursor: pointer;
-            margin-bottom: 30px;
-            display: inline-block;
-            vertical-align: top;
+            text-align: center;
         }
 
         .product-card img {
             width: 100%;
             border-radius: 6px;
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
 
         .product-title {
@@ -140,6 +143,13 @@
         .product-price {
             font-size: 16px;
             margin-top: 5px;
+        }
+
+        .arrow-btn {
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            user-select: none;
         }
 
         /* PRODUCT DETAIL */
@@ -220,8 +230,13 @@
             padding: 40px 60px;
             box-sizing: border-box;
             position: fixed;
-            bottom: 0;
+            bottom: -200px;
             width: 100%;
+            transition: bottom 0.4s ease;
+        }
+
+        .footer.show {
+            bottom: 0;
         }
 
         .footer-left {
@@ -297,10 +312,14 @@
 
 <!-- SHOP -->
 <div id="shopScreen" class="shop-screen">
-    <div class="product-card" onclick="openProductDetail(0)">
-        <img src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
-        <div class="product-title">XBMVC Hoodie</div>
-        <div class="product-price">$70</div>
+    <div class="product-container">
+        <span class="arrow-btn" onclick="prevShopImage()">&#8592;</span>
+        <div class="product-card" onclick="openProductDetail(shopIndex)">
+            <img id="shopImg" src="">
+            <div class="product-title">XBMVC Hoodie</div>
+            <div class="product-price">$70</div>
+        </div>
+        <span class="arrow-btn" onclick="nextShopImage()">&#8594;</span>
     </div>
 </div>
 
@@ -335,7 +354,7 @@
 </div>
 
 <!-- FOOTER -->
-<div class="footer">
+<div class="footer" id="footer">
     <div class="footer-left">XBMVC</div>
     <div class="footer-center">THANK YOU FOR SHOPPING</div>
     <div class="footer-right">
@@ -357,18 +376,22 @@ const homeContent = document.getElementById("homeContent");
 const shopScreen = document.getElementById("shopScreen");
 const productDetail = document.getElementById("productDetail");
 const cartPanel = document.getElementById("cartPanel");
+const footer = document.getElementById("footer");
 
 const productImages = [
     "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
+
+let shopIndex = 0;
 let currentImageIndex = 0;
 
 function goToShop(){
     homeContent.style.display = "none";
     shopScreen.style.display = "block";
     productDetail.style.display = "none";
+    updateShopImage();
     window.scrollTo(0,0);
 }
 
@@ -401,6 +424,20 @@ function prevImage(){
     document.getElementById("detailImg").src = productImages[currentImageIndex];
 }
 
+function updateShopImage(){
+    document.getElementById("shopImg").src = productImages[shopIndex];
+}
+
+function nextShopImage(){
+    shopIndex = (shopIndex + 1) % productImages.length;
+    updateShopImage();
+}
+
+function prevShopImage(){
+    shopIndex = (shopIndex - 1 + productImages.length) % productImages.length;
+    updateShopImage();
+}
+
 function addToCart(){
     const name = document.getElementById("username").value;
     const phone = document.getElementById("phone").value;
@@ -426,6 +463,16 @@ function buyNow(){
     }
     alert(`Order placed!\n${name} - ${size} XBMVC Hoodie $70`);
 }
+
+// Show footer only at bottom
+window.addEventListener("scroll", ()=>{
+    const scrollY = window.scrollY + window.innerHeight;
+    if(scrollY >= document.body.scrollHeight - 10){
+        footer.classList.add("show");
+    } else {
+        footer.classList.remove("show");
+    }
+});
 </script>
 
 </body>
