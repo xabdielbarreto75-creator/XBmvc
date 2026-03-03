@@ -69,7 +69,6 @@
             color: #000;
         }
 
-        /* PAGE CONTENT WRAPPER */
         .content {
             margin-top: 120px;
         }
@@ -108,17 +107,55 @@
             color: #ffffff;
         }
 
-        /* SHOP SCREEN */
+        /* SHOP PRODUCT */
         .shop-screen {
             display: none;
-            height: 70vh;
-            background: #000;
-            color: #fff;
-            font-size: 60px;
-            font-weight: bold;
-            display: none;
-            justify-content: center;
+            padding: 80px;
+        }
+
+        .product-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
             align-items: center;
+        }
+
+        .product-info h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .product-price {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .product-description {
+            font-size: 18px;
+            line-height: 1.6;
+            margin-bottom: 30px;
+            max-width: 500px;
+        }
+
+        .add-to-cart {
+            padding: 15px 40px;
+            font-size: 16px;
+            font-weight: bold;
+            border: 2px solid #fff;
+            background: transparent;
+            color: #fff;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .add-to-cart:hover {
+            background: #fff;
+            color: #000;
+        }
+
+        .product-image img {
+            width: 100%;
+            max-width: 500px;
         }
 
         /* FOOTER */
@@ -188,7 +225,7 @@
     <div class="nav-center">
         <button class="nav-btn" onclick="goHome()">Home</button>
         <button class="nav-btn" onclick="goToShop()">Shop</button>
-        <button class="coming-soon-btn">Coming Soon!</button>
+        <button class="coming-soon-btn">Drop 01</button>
     </div>
 
     <div class="cart" onclick="toggleCart()">
@@ -198,45 +235,49 @@
 
 <div class="content">
 
-    <!-- HOME CONTENT -->
+    <!-- HOME -->
     <div id="homeContent">
-        <div class="hero">
-            Be yourself
-        </div>
+        <div class="hero">Be yourself</div>
 
-        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
 
         <div class="express-section">
             <div class="express-text">
                 Express yourself the way you want
             </div>
-
             <div class="express-subtext">
-                XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-                We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-                Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
-                you feel empowered, seen, and celebrated for exactly who you are.
+                XBMVC was born from a simple belief: attire should be a safe happy space for everyone.
+                We design vibrant, inclusive clothing that encourages individual self-expression without boundaries.
             </div>
         </div>
     </div>
 
-    <!-- SHOP SCREEN -->
+    <!-- SHOP -->
     <div id="shopScreen" class="shop-screen">
-        COMING SOON
+        <div class="product-container">
+            <div class="product-info">
+                <h1>XBMVC Signature Hoodie</h1>
+                <div class="product-price">$89.00</div>
+                <div class="product-description">
+                    Crafted from premium heavyweight cotton for a structured yet comfortable fit.
+                    Designed with minimalist XBMVC branding and a modern oversized silhouette.
+                    Built for confidence, comfort, and everyday expression.
+                </div>
+                <button class="add-to-cart" onclick="addToCart()">ADD TO CART</button>
+            </div>
+
+            <div class="product-image">
+                <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
+            </div>
+        </div>
     </div>
 
 </div>
 
 <!-- FOOTER -->
 <div class="footer">
-    <div class="footer-left">
-        XBMVC
-    </div>
-
-    <div class="footer-center">
-        THANK YOU FOR SHOPPING
-    </div>
-
+    <div class="footer-left">XBMVC</div>
+    <div class="footer-center">THANK YOU FOR SHOPPING</div>
     <div class="footer-right">
         <div>Please contact us at:</div>
         <div>xbmvcbrand@gmail.com</div>
@@ -244,21 +285,25 @@
     </div>
 </div>
 
-<!-- CART PANEL -->
+<!-- CART -->
 <div id="cartPanel" class="cart-panel">
     <span class="close-cart" onclick="toggleCart()">✕</span>
     <h2>Your Cart</h2>
-    <p>No items yet.</p>
+    <p id="cartItems">No items yet.</p>
 </div>
 
 <script>
 const cartPanel = document.getElementById("cartPanel");
 const homeContent = document.getElementById("homeContent");
 const shopScreen = document.getElementById("shopScreen");
+const cartCount = document.getElementById("cartCount");
+const cartItems = document.getElementById("cartItems");
+
+let count = 0;
 
 function goToShop(){
     homeContent.style.display = "none";
-    shopScreen.style.display = "flex";
+    shopScreen.style.display = "block";
     window.scrollTo(0,0);
 }
 
@@ -270,6 +315,12 @@ function goHome(){
 
 function toggleCart(){
     cartPanel.classList.toggle("open");
+}
+
+function addToCart(){
+    count++;
+    cartCount.textContent = count;
+    cartItems.textContent = "XBMVC Signature Hoodie";
 }
 </script>
 
