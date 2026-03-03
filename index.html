@@ -104,6 +104,7 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255,255,255,0.05);
             position: relative;
+            cursor: pointer;
         }
 
         .product-card img {
@@ -138,6 +139,40 @@
 
         .arrow-left { left: -50px; }
         .arrow-right { right: -50px; }
+
+        /* LIGHTBOX */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #fff;
+            justify-content: center;
+            align-items: center;
+            z-index: 1500;
+            flex-direction: column;
+        }
+
+        .lightbox img {
+            max-width: 60%;
+            max-height: 70%;
+        }
+
+        .lightbox .arrow {
+            color: #000;
+            background: rgba(255,255,255,0.5);
+        }
+
+        .close-lightbox {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 28px;
+            cursor: pointer;
+            font-weight: bold;
+        }
 
         /* FOOTER */
         .footer {
@@ -224,15 +259,23 @@
 
     <!-- SHOP -->
     <div id="shopScreen" class="shop-screen">
-        <div class="product-card">
-            <span class="arrow arrow-left" onclick="prevImage()">&#8592;</span>
-            <span class="arrow arrow-right" onclick="nextImage()">&#8594;</span>
+        <div class="product-card" onclick="openLightbox()">
+            <span class="arrow arrow-left" onclick="prevImage(event)">&#8592;</span>
+            <span class="arrow arrow-right" onclick="nextImage(event)">&#8594;</span>
             <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
             <div class="product-title">XBMVC Hoodie</div>
             <div class="product-price">$70</div>
         </div>
     </div>
 
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox">
+    <span class="close-lightbox" onclick="closeLightbox()">✕</span>
+    <span class="arrow arrow-left" onclick="prevImage()">&#8592;</span>
+    <img id="lightboxImage" src="">
+    <span class="arrow arrow-right" onclick="nextImage()">&#8594;</span>
 </div>
 
 <!-- FOOTER -->
@@ -257,8 +300,8 @@
 const cartPanel = document.getElementById("cartPanel");
 const homeContent = document.getElementById("homeContent");
 const shopScreen = document.getElementById("shopScreen");
-const cartCount = document.getElementById("cartCount");
-const cartItems = document.getElementById("cartItems");
+const lightbox = document.getElementById("lightbox");
+const lightboxImage = document.getElementById("lightboxImage");
 const productImage = document.getElementById("productImage");
 
 // Product images
@@ -285,14 +328,28 @@ function toggleCart(){
     cartPanel.classList.toggle("open");
 }
 
-function nextImage(){
+function nextImage(event){
+    if(event) event.stopPropagation();
     currentIndex = (currentIndex + 1) % images.length;
     productImage.src = images[currentIndex];
+    if(lightbox.style.display === "flex") lightboxImage.src = images[currentIndex];
 }
 
-function prevImage(){
+function prevImage(event){
+    if(event) event.stopPropagation();
     currentIndex = (currentIndex - 1 + images.length) % images.length;
     productImage.src = images[currentIndex];
+    if(lightbox.style.display === "flex") lightboxImage.src = images[currentIndex];
+}
+
+// LIGHTBOX
+function openLightbox(){
+    lightbox.style.display = "flex";
+    lightboxImage.src = images[currentIndex];
+}
+
+function closeLightbox(){
+    lightbox.style.display = "none";
 }
 </script>
 
