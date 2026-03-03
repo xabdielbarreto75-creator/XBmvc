@@ -2,7 +2,6 @@
 <html>
 <head>
     <title>XBmvc Shop</title>
-
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -93,8 +92,12 @@
         /* SHOP */
         .shop-screen {
             display: none;
-            padding-top: 180px;
+            padding-top: 140px;
             padding-left: 120px;
+            background-color: #000;
+            min-height: 100vh;
+            color: #fff;
+            position: relative;
         }
 
         .product-card {
@@ -123,23 +126,6 @@
             margin-top: 5px;
         }
 
-        /* Arrows */
-        .arrow {
-            position: absolute;
-            top: 45%;
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
-            background: rgba(0,0,0,0.3);
-            padding: 5px 10px;
-            cursor: pointer;
-            user-select: none;
-            border-radius: 4px;
-        }
-
-        .arrow-left { left: -50px; }
-        .arrow-right { right: -50px; }
-
         /* LIGHTBOX */
         .lightbox {
             display: none;
@@ -161,9 +147,21 @@
         }
 
         .lightbox .arrow {
+            font-size: 30px;
+            font-weight: bold;
             color: #000;
-            background: rgba(255,255,255,0.5);
+            background: rgba(255,255,255,0.6);
+            padding: 10px 20px;
+            cursor: pointer;
+            user-select: none;
+            border-radius: 4px;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
+
+        .arrow-left { left: 50px; }
+        .arrow-right { right: 50px; }
 
         .close-lightbox {
             position: absolute;
@@ -172,6 +170,7 @@
             font-size: 28px;
             cursor: pointer;
             font-weight: bold;
+            color: #000;
         }
 
         /* FOOTER */
@@ -260,8 +259,6 @@
     <!-- SHOP -->
     <div id="shopScreen" class="shop-screen">
         <div class="product-card" onclick="openLightbox()">
-            <span class="arrow arrow-left" onclick="prevImage(event)">&#8592;</span>
-            <span class="arrow arrow-right" onclick="nextImage(event)">&#8594;</span>
             <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
             <div class="product-title">XBMVC Hoodie</div>
             <div class="product-price">$70</div>
@@ -328,21 +325,19 @@ function toggleCart(){
     cartPanel.classList.toggle("open");
 }
 
-function nextImage(event){
-    if(event) event.stopPropagation();
+// Lightbox navigation
+function nextImage(){
     currentIndex = (currentIndex + 1) % images.length;
+    lightboxImage.src = images[currentIndex];
     productImage.src = images[currentIndex];
-    if(lightbox.style.display === "flex") lightboxImage.src = images[currentIndex];
 }
 
-function prevImage(event){
-    if(event) event.stopPropagation();
+function prevImage(){
     currentIndex = (currentIndex - 1 + images.length) % images.length;
+    lightboxImage.src = images[currentIndex];
     productImage.src = images[currentIndex];
-    if(lightbox.style.display === "flex") lightboxImage.src = images[currentIndex];
 }
 
-// LIGHTBOX
 function openLightbox(){
     lightbox.style.display = "flex";
     lightboxImage.src = images[currentIndex];
