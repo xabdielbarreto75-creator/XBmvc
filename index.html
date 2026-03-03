@@ -139,9 +139,26 @@
             gap: 50px;
         }
 
+        .detail-image-container {
+            position: relative;
+        }
+
         .detail-image {
             max-width: 400px;
             border-radius: 8px;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+        }
+
+        .arrows span {
+            cursor: pointer;
+            font-size: 28px;
+            user-select: none;
+            font-weight: bold;
         }
 
         .detail-section {
@@ -160,8 +177,17 @@
             box-sizing: border-box;
         }
 
-        .detail-section button {
+        .add-cart-btn {
             background-color: #000;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+            margin-bottom: 10px;
+        }
+
+        .buy-now-btn {
+            background-color: #4CAF50;
             color: #fff;
             font-weight: bold;
             cursor: pointer;
@@ -262,7 +288,13 @@
 
     <!-- PRODUCT DETAIL -->
     <div id="productDetail" class="product-detail">
-        <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg" class="detail-image">
+        <div class="detail-image-container">
+            <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg" class="detail-image">
+            <div class="arrows">
+                <span onclick="prevImage()">&#8592;</span>
+                <span onclick="nextImage()">&#8594;</span>
+            </div>
+        </div>
         <div class="detail-section">
             <h2>XBMVC Hoodie $70</h2>
             <label>Name:</label>
@@ -279,7 +311,8 @@
                 <option>L</option>
                 <option>XL</option>
             </select>
-            <button onclick="addToCart()">Add to Cart / Buy Now</button>
+            <button class="add-cart-btn" onclick="addToCart()">Add to Cart</button>
+            <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
         </div>
     </div>
 
@@ -309,6 +342,14 @@ const shopScreen = document.getElementById("shopScreen");
 const productDetail = document.getElementById("productDetail");
 const cartPanel = document.getElementById("cartPanel");
 
+// Images
+const productImages = [
+    "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+];
+let currentImageIndex = 0;
+
 function goToShop(){
     homeContent.style.display = "none";
     shopScreen.style.display = "block";
@@ -330,10 +371,22 @@ function toggleCart(){
 function openProductDetail(){
     shopScreen.style.display = "none";
     productDetail.style.display = "flex";
+    currentImageIndex = 0;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
     window.scrollTo(0,0);
 }
 
-// Dummy cart function
+function nextImage(){
+    currentImageIndex = (currentImageIndex + 1) % productImages.length;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
+}
+
+function prevImage(){
+    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
+}
+
+// Cart functions
 function addToCart(){
     const name = document.getElementById("username").value;
     const phone = document.getElementById("phone").value;
@@ -346,6 +399,18 @@ function addToCart(){
     document.getElementById("cartItems").innerText = `${name} - ${size} XBMVC Hoodie $70`;
     alert("Added to cart!");
     toggleCart();
+}
+
+function buyNow(){
+    const name = document.getElementById("username").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const size = document.getElementById("size").value;
+    if(!name || !phone || !email){
+        alert("Please fill all fields.");
+        return;
+    }
+    alert(`Order placed!\n${name} - ${size} XBMVC Hoodie $70`);
 }
 </script>
 
