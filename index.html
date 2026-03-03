@@ -134,6 +134,18 @@
             text-align: right;
         }
 
+        /* SHOP SCREEN */
+        .shop-screen {
+            display: none;
+            min-height: 100vh;
+            background: #000;
+            color: #fff;
+            text-align: center;
+            padding-top: 150px;
+            font-size: 60px;
+            font-weight: bold;
+        }
+
         /* CART PANEL */
         .cart-panel {
             position: fixed;
@@ -179,25 +191,31 @@
     </div>
 </div>
 
-<!-- HERO -->
-<div class="hero">
-    Be yourself
+<!-- HOME CONTENT -->
+<div id="homeContent">
+    <div class="hero">
+        Be yourself
+    </div>
+
+    <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+
+    <div class="express-section">
+        <div class="express-text">
+            Express yourself the way you want
+        </div>
+
+        <div class="express-subtext">
+            XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
+            We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
+            Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
+            you feel empowered, seen, and celebrated for exactly who you are.
+        </div>
+    </div>
 </div>
 
-<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
-
-<!-- PURPLE SECTION -->
-<div class="express-section">
-    <div class="express-text">
-        Express yourself the way you want
-    </div>
-
-    <div class="express-subtext">
-        XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-        We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-        Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
-        you feel empowered, seen, and celebrated for exactly who you are.
-    </div>
+<!-- SHOP SCREEN -->
+<div id="shopScreen" class="shop-screen">
+    COMING SOON
 </div>
 
 <!-- FOOTER -->
@@ -226,25 +244,18 @@
 
 <script>
 const cartPanel = document.getElementById("cartPanel");
+const homeContent = document.getElementById("homeContent");
+const shopScreen = document.getElementById("shopScreen");
 
 function goToShop(){
-    document.body.innerHTML = `
-        <div style="
-            background-color: black;
-            color: white;
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 60px;
-            font-weight: bold;
-        ">
-            COMING SOON
-        </div>
-    `;
+    homeContent.style.display = "none";
+    shopScreen.style.display = "block";
+    window.scrollTo(0,0);
 }
 
 function goHome(){
+    shopScreen.style.display = "none";
+    homeContent.style.display = "block";
     window.scrollTo(0,0);
 }
 
