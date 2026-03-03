@@ -69,9 +69,13 @@
             color: #000;
         }
 
+        /* PAGE CONTENT WRAPPER */
+        .content {
+            margin-top: 120px;
+        }
+
         /* HERO */
         .hero {
-            margin-top: 120px;
             text-align: center;
             font-size: 60px;
             font-weight: bold;
@@ -104,6 +108,19 @@
             color: #ffffff;
         }
 
+        /* SHOP SCREEN */
+        .shop-screen {
+            display: none;
+            height: 70vh;
+            background: #000;
+            color: #fff;
+            font-size: 60px;
+            font-weight: bold;
+            display: none;
+            justify-content: center;
+            align-items: center;
+        }
+
         /* FOOTER */
         .footer {
             background-color: #ffffff;
@@ -132,18 +149,6 @@
             font-size: 16px;
             line-height: 1.6;
             text-align: right;
-        }
-
-        /* SHOP SCREEN */
-        .shop-screen {
-            display: none;
-            min-height: 100vh;
-            background: #000;
-            color: #fff;
-            text-align: center;
-            padding-top: 150px;
-            font-size: 60px;
-            font-weight: bold;
         }
 
         /* CART PANEL */
@@ -191,31 +196,35 @@
     </div>
 </div>
 
-<!-- HOME CONTENT -->
-<div id="homeContent">
-    <div class="hero">
-        Be yourself
-    </div>
+<div class="content">
 
-    <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
-
-    <div class="express-section">
-        <div class="express-text">
-            Express yourself the way you want
+    <!-- HOME CONTENT -->
+    <div id="homeContent">
+        <div class="hero">
+            Be yourself
         </div>
 
-        <div class="express-subtext">
-            XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-            We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-            Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
-            you feel empowered, seen, and celebrated for exactly who you are.
+        <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+
+        <div class="express-section">
+            <div class="express-text">
+                Express yourself the way you want
+            </div>
+
+            <div class="express-subtext">
+                XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
+                We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
+                Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
+                you feel empowered, seen, and celebrated for exactly who you are.
+            </div>
         </div>
     </div>
-</div>
 
-<!-- SHOP SCREEN -->
-<div id="shopScreen" class="shop-screen">
-    COMING SOON
+    <!-- SHOP SCREEN -->
+    <div id="shopScreen" class="shop-screen">
+        COMING SOON
+    </div>
+
 </div>
 
 <!-- FOOTER -->
@@ -249,7 +258,7 @@ const shopScreen = document.getElementById("shopScreen");
 
 function goToShop(){
     homeContent.style.display = "none";
-    shopScreen.style.display = "block";
+    shopScreen.style.display = "flex";
     window.scrollTo(0,0);
 }
 
