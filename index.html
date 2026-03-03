@@ -126,51 +126,46 @@
             margin-top: 5px;
         }
 
-        /* LIGHTBOX */
-        .lightbox {
+        /* PRODUCT DETAIL */
+        .product-detail {
             display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
             background: #fff;
+            color: #000;
+            min-height: 100vh;
+            padding-top: 140px;
+            display: flex;
             justify-content: center;
-            align-items: center;
-            z-index: 1500;
-            flex-direction: column;
+            align-items: flex-start;
+            gap: 50px;
         }
 
-        .lightbox img {
-            max-width: 60%;
-            max-height: 70%;
+        .detail-image {
+            max-width: 400px;
+            border-radius: 8px;
         }
 
-        .lightbox .arrow {
-            font-size: 30px;
+        .detail-section {
+            max-width: 400px;
+        }
+
+        .detail-section h2 {
+            margin-bottom: 10px;
+        }
+
+        .detail-section input, .detail-section select, .detail-section button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            font-size: 16px;
+            box-sizing: border-box;
+        }
+
+        .detail-section button {
+            background-color: #000;
+            color: #fff;
             font-weight: bold;
-            color: #000;
-            background: rgba(255,255,255,0.6);
-            padding: 10px 20px;
             cursor: pointer;
-            user-select: none;
-            border-radius: 4px;
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-        }
-
-        .arrow-left { left: 50px; }
-        .arrow-right { right: 50px; }
-
-        .close-lightbox {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 28px;
-            cursor: pointer;
-            font-weight: bold;
-            color: #000;
+            border: none;
         }
 
         /* FOOTER */
@@ -258,21 +253,36 @@
 
     <!-- SHOP -->
     <div id="shopScreen" class="shop-screen">
-        <div class="product-card" onclick="openLightbox()">
-            <img id="productImage" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
+        <div class="product-card" onclick="openProductDetail()">
+            <img src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
             <div class="product-title">XBMVC Hoodie</div>
             <div class="product-price">$70</div>
         </div>
     </div>
 
-</div>
+    <!-- PRODUCT DETAIL -->
+    <div id="productDetail" class="product-detail">
+        <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg" class="detail-image">
+        <div class="detail-section">
+            <h2>XBMVC Hoodie $70</h2>
+            <label>Name:</label>
+            <input type="text" id="username" placeholder="Your Name">
+            <label>Phone:</label>
+            <input type="tel" id="phone" placeholder="Your Phone">
+            <label>Email:</label>
+            <input type="email" id="email" placeholder="Your Email">
+            <label>Size:</label>
+            <select id="size">
+                <option>XS</option>
+                <option>S</option>
+                <option>M</option>
+                <option>L</option>
+                <option>XL</option>
+            </select>
+            <button onclick="addToCart()">Add to Cart / Buy Now</button>
+        </div>
+    </div>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" class="lightbox">
-    <span class="close-lightbox" onclick="closeLightbox()">✕</span>
-    <span class="arrow arrow-left" onclick="prevImage()">&#8592;</span>
-    <img id="lightboxImage" src="">
-    <span class="arrow arrow-right" onclick="nextImage()">&#8594;</span>
 </div>
 
 <!-- FOOTER -->
@@ -294,29 +304,21 @@
 </div>
 
 <script>
-const cartPanel = document.getElementById("cartPanel");
 const homeContent = document.getElementById("homeContent");
 const shopScreen = document.getElementById("shopScreen");
-const lightbox = document.getElementById("lightbox");
-const lightboxImage = document.getElementById("lightboxImage");
-const productImage = document.getElementById("productImage");
-
-// Product images
-const images = [
-    "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
-];
-let currentIndex = 0;
+const productDetail = document.getElementById("productDetail");
+const cartPanel = document.getElementById("cartPanel");
 
 function goToShop(){
     homeContent.style.display = "none";
     shopScreen.style.display = "block";
+    productDetail.style.display = "none";
     window.scrollTo(0,0);
 }
 
 function goHome(){
     shopScreen.style.display = "none";
+    productDetail.style.display = "none";
     homeContent.style.display = "block";
     window.scrollTo(0,0);
 }
@@ -325,26 +327,25 @@ function toggleCart(){
     cartPanel.classList.toggle("open");
 }
 
-// Lightbox navigation
-function nextImage(){
-    currentIndex = (currentIndex + 1) % images.length;
-    lightboxImage.src = images[currentIndex];
-    productImage.src = images[currentIndex];
+function openProductDetail(){
+    shopScreen.style.display = "none";
+    productDetail.style.display = "flex";
+    window.scrollTo(0,0);
 }
 
-function prevImage(){
-    currentIndex = (currentIndex - 1 + images.length) % images.length;
-    lightboxImage.src = images[currentIndex];
-    productImage.src = images[currentIndex];
-}
-
-function openLightbox(){
-    lightbox.style.display = "flex";
-    lightboxImage.src = images[currentIndex];
-}
-
-function closeLightbox(){
-    lightbox.style.display = "none";
+// Dummy cart function
+function addToCart(){
+    const name = document.getElementById("username").value;
+    const phone = document.getElementById("phone").value;
+    const email = document.getElementById("email").value;
+    const size = document.getElementById("size").value;
+    if(!name || !phone || !email){
+        alert("Please fill all fields.");
+        return;
+    }
+    document.getElementById("cartItems").innerText = `${name} - ${size} XBMVC Hoodie $70`;
+    alert("Added to cart!");
+    toggleCart();
 }
 </script>
 
