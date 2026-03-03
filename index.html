@@ -10,6 +10,9 @@
             padding: 0;
             background-color: #000;
             color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
 
         /* NAVBAR */
@@ -70,6 +73,7 @@
 
         .content {
             margin-top: 120px;
+            flex: 1;
         }
 
         /* HOME */
@@ -143,6 +147,7 @@
             align-items: center;
             padding: 40px 60px;
             box-sizing: border-box;
+            margin-top: auto; /* Push footer to bottom */
         }
 
         .footer-left {
@@ -225,6 +230,7 @@
 
 </div>
 
+<!-- FOOTER -->
 <div class="footer">
     <div class="footer-left">XBMVC</div>
     <div class="footer-center">THANK YOU FOR SHOPPING</div>
@@ -235,6 +241,7 @@
     </div>
 </div>
 
+<!-- CART -->
 <div id="cartPanel" class="cart-panel">
     <span class="close-cart" onclick="toggleCart()">✕</span>
     <h2>Your Cart</h2>
@@ -265,14 +272,7 @@ function goHome(){
 function toggleCart(){
     cartPanel.classList.toggle("open");
 }
-
-function addToCart(){
-    count++;
-    cartCount.textContent = count;
-    cartItems.textContent = "XBMVC Hoodie";
-}
 </script>
 
 </body>
 </html>
-tml>
