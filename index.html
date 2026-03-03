@@ -59,7 +59,6 @@
             border: none;
             padding: 10px 25px;
             font-weight: bold;
-            cursor: not-allowed;
             border-radius: 5px;
         }
 
@@ -73,7 +72,7 @@
             margin-top: 120px;
         }
 
-        /* HERO */
+        /* HOME */
         .hero {
             text-align: center;
             font-size: 60px;
@@ -87,7 +86,6 @@
             max-height: 70vh;
         }
 
-        /* PURPLE SECTION */
         .express-section {
             background-color: #8000ff;
             padding: 120px 60px;
@@ -96,7 +94,6 @@
         .express-text {
             font-size: 48px;
             font-weight: bold;
-            color: #ffffff;
         }
 
         .express-subtext {
@@ -104,58 +101,37 @@
             margin-top: 20px;
             max-width: 700px;
             line-height: 1.6;
-            color: #ffffff;
         }
 
-        /* SHOP PRODUCT */
+        /* SHOP */
         .shop-screen {
             display: none;
-            padding: 80px;
+            padding-top: 180px;
+            padding-left: 120px;
         }
 
-        .product-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-            align-items: center;
+        .product-card {
+            background: #111;
+            width: 260px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255,255,255,0.05);
         }
 
-        .product-info h1 {
-            font-size: 42px;
-            margin-bottom: 20px;
+        .product-card img {
+            width: 100%;
+            border-radius: 6px;
+            margin-bottom: 15px;
+        }
+
+        .product-title {
+            font-size: 18px;
+            font-weight: bold;
         }
 
         .product-price {
-            font-size: 24px;
-            margin-bottom: 20px;
-        }
-
-        .product-description {
-            font-size: 18px;
-            line-height: 1.6;
-            margin-bottom: 30px;
-            max-width: 500px;
-        }
-
-        .add-to-cart {
-            padding: 15px 40px;
             font-size: 16px;
-            font-weight: bold;
-            border: 2px solid #fff;
-            background: transparent;
-            color: #fff;
-            cursor: pointer;
-            transition: 0.3s;
-        }
-
-        .add-to-cart:hover {
-            background: #fff;
-            color: #000;
-        }
-
-        .product-image img {
-            width: 100%;
-            max-width: 500px;
+            margin-top: 5px;
         }
 
         /* FOOTER */
@@ -173,7 +149,6 @@
             font-size: 22px;
             font-weight: bold;
             text-transform: uppercase;
-            text-align: left;
         }
 
         .footer-center {
@@ -188,7 +163,7 @@
             text-align: right;
         }
 
-        /* CART PANEL */
+        /* CART */
         .cart-panel {
             position: fixed;
             top: 0;
@@ -201,7 +176,6 @@
             transition: right 0.4s ease;
             z-index: 2000;
             padding: 30px;
-            box-sizing: border-box;
         }
 
         .cart-panel.open {
@@ -218,7 +192,6 @@
 
 <body>
 
-<!-- NAVBAR -->
 <div class="navbar">
     <div class="brand">XBmvc</div>
 
@@ -238,43 +211,20 @@
     <!-- HOME -->
     <div id="homeContent">
         <div class="hero">Be yourself</div>
-
         <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
-
-        <div class="express-section">
-            <div class="express-text">
-                Express yourself the way you want
-            </div>
-            <div class="express-subtext">
-                XBMVC was born from a simple belief: attire should be a safe happy space for everyone.
-                We design vibrant, inclusive clothing that encourages individual self-expression without boundaries.
-            </div>
-        </div>
     </div>
 
     <!-- SHOP -->
     <div id="shopScreen" class="shop-screen">
-        <div class="product-container">
-            <div class="product-info">
-                <h1>XBMVC Signature Hoodie</h1>
-                <div class="product-price">$89.00</div>
-                <div class="product-description">
-                    Crafted from premium heavyweight cotton for a structured yet comfortable fit.
-                    Designed with minimalist XBMVC branding and a modern oversized silhouette.
-                    Built for confidence, comfort, and everyday expression.
-                </div>
-                <button class="add-to-cart" onclick="addToCart()">ADD TO CART</button>
-            </div>
-
-            <div class="product-image">
-                <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
-            </div>
+        <div class="product-card">
+            <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
+            <div class="product-title">XBMVC Hoodie</div>
+            <div class="product-price">$70</div>
         </div>
     </div>
 
 </div>
 
-<!-- FOOTER -->
 <div class="footer">
     <div class="footer-left">XBMVC</div>
     <div class="footer-center">THANK YOU FOR SHOPPING</div>
@@ -285,7 +235,6 @@
     </div>
 </div>
 
-<!-- CART -->
 <div id="cartPanel" class="cart-panel">
     <span class="close-cart" onclick="toggleCart()">✕</span>
     <h2>Your Cart</h2>
@@ -320,9 +269,10 @@ function toggleCart(){
 function addToCart(){
     count++;
     cartCount.textContent = count;
-    cartItems.textContent = "XBMVC Signature Hoodie";
+    cartItems.textContent = "XBMVC Hoodie";
 }
 </script>
 
 </body>
 </html>
+tml>
