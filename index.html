@@ -85,12 +85,11 @@
         /* PURPLE SECTION */
         .express-section {
             background: linear-gradient(135deg, #6a00ff, #a100ff);
-            padding: 160px 60px;
-            min-height: 100vh;
+            padding: 180px 60px;
+            min-height: 120vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            overflow: hidden;
         }
 
         .express-text {
@@ -129,7 +128,6 @@
             padding-right: 60px;
             background-color: #000;
             min-height: 100vh;
-            color: #fff;
         }
 
         .product-container {
@@ -143,7 +141,6 @@
             width: 260px;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255,255,255,0.05);
             text-align: center;
             cursor: pointer;
         }
@@ -152,16 +149,6 @@
             width: 100%;
             border-radius: 6px;
             margin-bottom: 10px;
-        }
-
-        .product-title {
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .product-price {
-            font-size: 16px;
-            margin-top: 5px;
         }
 
         .arrow-btn {
@@ -180,7 +167,6 @@
             padding-top: 140px;
             display: flex;
             justify-content: center;
-            align-items: flex-start;
             gap: 50px;
         }
 
@@ -215,19 +201,38 @@
         }
 
         .add-cart-btn {
-            background-color: #000;
+            background: #000;
             color: #fff;
-            font-weight: bold;
             border: none;
+            font-weight: bold;
             cursor: pointer;
         }
 
         .buy-now-btn {
-            background-color: #4CAF50;
+            background: #4CAF50;
             color: #fff;
-            font-weight: bold;
             border: none;
+            font-weight: bold;
             cursor: pointer;
+        }
+
+        /* CART PANEL */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background: #fff;
+            color: #000;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            padding: 30px;
+            z-index: 2000;
+        }
+
+        .cart-panel.open {
+            right: 0;
         }
 
         /* FOOTER */
@@ -248,24 +253,6 @@
         .footer.show {
             bottom: 0;
         }
-
-        .footer-left {
-            font-size: 22px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .footer-center {
-            font-size: 20px;
-            font-weight: bold;
-            text-align: center;
-        }
-
-        .footer-right {
-            font-size: 16px;
-            line-height: 1.6;
-            text-align: right;
-        }
     </style>
 </head>
 <body>
@@ -277,6 +264,7 @@
         <button class="nav-btn" onclick="goToShop()">Shop</button>
         <button class="coming-soon-btn">Drop 01</button>
     </div>
+    <div class="cart" onclick="toggleCart()">🛒</div>
 </div>
 
 <div id="homeContent">
@@ -285,20 +273,145 @@
     <div class="express-section">
         <div class="express-text">Express yourself the way you want</div>
         <div class="express-subtext">
-            XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-            We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-            Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
+            XBMVC was born from a simple belief: attire should be a safe happy space for everyone.
+            We design vibrant, inclusive clothing that encourages individual self-expression without boundaries.
+            Our mission is to spread joy through every thread, ensuring that when you wear XBMVC,
             you feel empowered, seen, and celebrated for exactly who you are.
         </div>
     </div>
 </div>
 
+<div id="shopScreen" class="shop-screen">
+    <div class="product-container">
+        <span class="arrow-btn" onclick="prevShopImage()">&#8592;</span>
+        <div class="product-card" onclick="openProductDetail(shopIndex)">
+            <img id="shopImg">
+            <div>XBMVC Hoodie</div>
+            <div>$70</div>
+        </div>
+        <span class="arrow-btn" onclick="nextShopImage()">&#8594;</span>
+    </div>
+</div>
+
+<div id="productDetail" class="product-detail">
+    <div>
+        <img id="detailImg" class="detail-image">
+        <div class="arrows">
+            <span onclick="prevImage()">&#8592;</span>
+            <span onclick="nextImage()">&#8594;</span>
+        </div>
+    </div>
+
+    <div class="detail-section">
+        <h2>XBMVC Hoodie $70</h2>
+        <input type="text" id="username" placeholder="Your Name">
+        <input type="tel" id="phone" placeholder="Your Phone">
+        <input type="email" id="email" placeholder="Your Email">
+        <select id="size">
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+        <button class="add-cart-btn" onclick="addToCart()">Add to Cart</button>
+        <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
+    </div>
+</div>
+
+<div class="cart-panel" id="cartPanel">
+    <h2>Your Cart</h2>
+    <p id="cartItems">No items yet.</p>
+</div>
+
+<div class="footer" id="footer">
+    <div>XBMVC</div>
+    <div style="text-align:center;font-weight:bold;">THANK YOU FOR SHOPPING</div>
+    <div style="text-align:right;">
+        Please contact us at:<br>
+        xbmvcbrand@gmail.com<br>
+        860-778-9555
+    </div>
+</div>
+
 <script>
-const footer = document.querySelector(".footer");
+const homeContent = document.getElementById("homeContent");
+const shopScreen = document.getElementById("shopScreen");
+const productDetail = document.getElementById("productDetail");
+const cartPanel = document.getElementById("cartPanel");
+const footer = document.getElementById("footer");
+
+const productImages = [
+    "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+];
+
+let shopIndex = 0;
+let currentImageIndex = 0;
+
+function goToShop(){
+    homeContent.style.display = "none";
+    shopScreen.style.display = "block";
+    productDetail.style.display = "none";
+    updateShopImage();
+    window.scrollTo(0,0);
+}
+
+function goHome(){
+    shopScreen.style.display = "none";
+    productDetail.style.display = "none";
+    homeContent.style.display = "block";
+}
+
+function toggleCart(){
+    cartPanel.classList.toggle("open");
+}
+
+function updateShopImage(){
+    document.getElementById("shopImg").src = productImages[shopIndex];
+}
+
+function nextShopImage(){
+    shopIndex = (shopIndex + 1) % productImages.length;
+    updateShopImage();
+}
+
+function prevShopImage(){
+    shopIndex = (shopIndex - 1 + productImages.length) % productImages.length;
+    updateShopImage();
+}
+
+function openProductDetail(index){
+    shopScreen.style.display = "none";
+    productDetail.style.display = "flex";
+    currentImageIndex = index;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
+}
+
+function nextImage(){
+    currentImageIndex = (currentImageIndex + 1) % productImages.length;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
+}
+
+function prevImage(){
+    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
+    document.getElementById("detailImg").src = productImages[currentImageIndex];
+}
+
+function addToCart(){
+    const name = document.getElementById("username").value;
+    const size = document.getElementById("size").value;
+    document.getElementById("cartItems").innerText = name + " - " + size + " XBMVC Hoodie $70";
+    toggleCart();
+}
+
+function buyNow(){
+    alert("Order placed successfully!");
+}
 
 window.addEventListener("scroll", ()=>{
-    const scrollY = window.scrollY + window.innerHeight;
-    if(scrollY >= document.body.scrollHeight - 10){
+    if(window.scrollY + window.innerHeight >= document.body.scrollHeight - 10){
         footer.classList.add("show");
     } else {
         footer.classList.remove("show");
