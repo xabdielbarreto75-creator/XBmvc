@@ -81,7 +81,7 @@
             margin: 30px auto 80px auto;
             max-width: 80%;
             max-height: 70vh;
-            cursor:pointer;
+            cursor: pointer;
         }
 
         /* PURPLE SECTION */
@@ -113,7 +113,6 @@
             align-items: center;
             padding: 40px 60px;
             box-sizing: border-box;
-            position: relative;
         }
 
         .footer-left {
@@ -163,34 +162,33 @@
 
         /* SHOP SECTION */
         .shop-section {
-            background-color: #000;
-            padding: 120px 60px;
             display: none;
+            background-color: #000;
+            min-height: 100vh;
+            padding-top: 120px;
+            text-align: left;
+            color: #fff;
         }
 
-        .product-box {
+        .shop-product {
             display: flex;
+            gap: 40px;
+            margin: 50px;
             align-items: center;
-            gap: 20px;
-            margin-top: 40px;
         }
 
-        .product-box img {
+        .shop-product img {
             width: 250px;
             cursor: pointer;
         }
 
-        .product-info {
-            font-size: 20px;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .product-arrows {
+        .shop-arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 60px;
             margin-top: 10px;
-            font-size: 30px;
             cursor: pointer;
-            color: #fff;
+            font-size: 24px;
         }
 
         /* BUY NOW PAGE */
@@ -202,6 +200,7 @@
             width: 100%;
             height: 100%;
             background-color: #000;
+            display: flex;
             justify-content: center;
             align-items: center;
             z-index: 3000;
@@ -209,26 +208,35 @@
 
         #buyNowBox {
             background-color: #fff;
-            padding: 40px;
+            padding: 50px;
             border-radius: 15px;
             text-align: center;
             max-width: 500px;
+            box-sizing: border-box;
         }
 
         #buyNowBox h1 {
             color: black;
+            margin-bottom: 30px;
+        }
+
+        #shippingText {
+            font-size: 20px;
+            font-weight: bold;
+            color: black;
             margin-bottom: 20px;
+            line-height: 1.5;
         }
 
         #payBtn {
             background-color: #4CAF50;
             color: #fff;
-            padding: 10px 20px;
+            padding: 15px 25px;
             cursor: pointer;
             border: none;
             font-weight: bold;
             border-radius: 8px;
-            margin: 10px 20px;
+            margin: 0 20px;
         }
 
         #payArrowLeft, #payArrowRight {
@@ -236,13 +244,6 @@
             color: black;
             position: relative;
             top: 10px;
-        }
-
-        /* GENERAL FLEX */
-        .flex {
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
     </style>
 </head>
@@ -252,14 +253,14 @@
 <!-- NAVBAR -->
 <div class="navbar">
     <div class="brand">XBmvc</div>
-
     <div class="nav-center">
         <button class="nav-btn" onclick="goHome()">Home</button>
-        <button class="nav-btn" onclick="openShop()">Shop</button>
+        <button class="nav-btn" onclick="showShop()">Shop</button>
         <button class="coming-soon-btn">Coming Soon!</button>
     </div>
-
-    <div class="cart" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="cart" onclick="toggleCart()">
+        🛒 <span id="cartCount">0</span>
+    </div>
 </div>
 
 <!-- HERO -->
@@ -267,14 +268,13 @@
     Be yourself
 </div>
 
-<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img">
+<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero Image" class="hero-img" onclick="scrollPurple()">
 
 <!-- PURPLE SECTION -->
-<div class="express-section">
+<div class="express-section" id="purpleSection">
     <div class="express-text">
         Express yourself the way you want
     </div>
-
     <div class="express-subtext">
         XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
         We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
@@ -284,21 +284,51 @@
 </div>
 
 <!-- SHOP SECTION -->
-<div class="shop-section">
-    <div class="product-box">
-        <img id="shopImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
-        <div class="product-info">XBMVC Hoodie $70</div>
+<div class="shop-section" id="shopSection">
+    <div class="shop-product">
+        <div>
+            <img id="shopImage" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg" alt="Hoodie">
+            <div class="shop-arrows">
+                <span onclick="prevShopImage()">&#8592;</span>
+                <span onclick="nextShopImage()">&#8594;</span>
+            </div>
+        </div>
+        <div style="color:white;font-size:20px;font-weight:bold;">
+            XBMVC Hoodie 70$
+        </div>
+        <button onclick="openBuyNow()" style="margin-top:20px;">Buy Now</button>
     </div>
-    <div class="product-arrows">
-        <span onclick="prevShopImage()">&#8592;</span>
-        <span onclick="nextShopImage()">&#8594;</span>
+</div>
+
+<!-- BUY NOW PAGE -->
+<div id="buyNowPage">
+    <div id="buyNowBox">
+        <h1>XBMVC</h1>
+        <p id="shippingText">
+            Do you want it shipped? Shipping fees apply. <br>
+            If no shipping, just pay for the hoodie.
+        </p>
+        <div style="margin-top:20px;">
+            <label style="font-size:18px; font-weight:bold; color:black;">
+                <input type="checkbox" id="shippingCheck"> Yes, I want shipping (+$10)
+            </label>
+        </div>
+        <div style="position:relative;margin-top:30px;">
+            <span id="payArrowLeft">⬅</span>
+            <button id="payBtn" onclick="window.open('https://cash.app/$XabdielBarreto','_blank')">Pay Here</button>
+            <span id="payArrowRight">➡</span>
+        </div>
     </div>
 </div>
 
 <!-- FOOTER -->
-<div class="footer" id="footer">
-    <div class="footer-left">XBMVC</div>
-    <div class="footer-center">THANK YOU FOR SHOPPING</div>
+<div class="footer">
+    <div class="footer-left">
+        XBMVC
+    </div>
+    <div class="footer-center">
+        THANK YOU FOR SHOPPING
+    </div>
     <div class="footer-right">
         <div>Please contact us at:</div>
         <div>xbmvcbrand@gmail.com</div>
@@ -313,32 +343,10 @@
     <p>No items yet.</p>
 </div>
 
-<!-- BUY NOW PAGE -->
-<div id="buyNowPage" class="flex">
-    <div id="buyNowBox">
-        <h1>XBMVC</h1>
-        <p style="font-size:18px; font-weight:bold; color:black; margin-bottom:10px;">
-            Do you want it shipped? Shipping fees apply.
-        </p>
-        <div style="margin-top:10px;">
-            <label style="font-size:16px;">
-                <input type="checkbox" id="shippingCheck"> Yes, I want shipping (+$10)
-            </label>
-        </div>
-        <div style="position:relative;margin-top:20px;">
-            <span id="payArrowLeft">⬅</span>
-            <button id="payBtn" onclick="window.open('https://cash.app/$XabdielBarreto','_blank')">Pay Here</button>
-            <span id="payArrowRight">➡</span>
-        </div>
-    </div>
-</div>
-
 <script>
 const cartPanel = document.getElementById("cartPanel");
-const shopSection = document.querySelector(".shop-section");
-const shopImg = document.getElementById("shopImg");
-const buyNowPage = document.getElementById("buyNowPage");
-
+const shopSection = document.getElementById("shopSection");
+const shopImage = document.getElementById("shopImage");
 const shopImages = [
     "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
@@ -346,30 +354,36 @@ const shopImages = [
 ];
 let shopIndex = 0;
 
-function toggleCart() { cartPanel.classList.toggle("open"); }
-
-function goHome() { 
-    window.scrollTo({top:0, behavior:"smooth"}); 
-    shopSection.style.display="none";
+function toggleCart() {
+    cartPanel.classList.toggle("open");
 }
 
-function openShop() { 
-    shopSection.style.display="block"; 
-    window.scrollTo({top:0, behavior:"smooth"}); 
+function goHome() {
+    window.scrollTo(0,0);
+    shopSection.style.display = "none";
 }
 
-function nextShopImage() { 
-    shopIndex = (shopIndex+1)%shopImages.length;
-    shopImg.src = shopImages[shopIndex];
+function showShop() {
+    shopSection.style.display = "block";
+    window.scrollTo(0,0);
 }
+
+function scrollPurple() {
+    document.getElementById("purpleSection").scrollIntoView({behavior:"smooth"});
+}
+
+function nextShopImage() {
+    shopIndex = (shopIndex + 1) % shopImages.length;
+    shopImage.src = shopImages[shopIndex];
+}
+
 function prevShopImage() {
-    shopIndex = (shopIndex-1+shopImages.length)%shopImages.length;
-    shopImg.src = shopImages[shopIndex];
+    shopIndex = (shopIndex - 1 + shopImages.length) % shopImages.length;
+    shopImage.src = shopImages[shopIndex];
 }
 
-// Click hoodie to open Buy Now page
-shopImg.onclick = () => {
-    buyNowPage.style.display = "flex";
+function openBuyNow() {
+    document.getElementById("buyNowPage").style.display = "flex";
 }
 </script>
 
