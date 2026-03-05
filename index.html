@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>XBMVC</title>
+<title>XBMVC Shop</title>
 <style>
 body{
     font-family: Arial, sans-serif;
@@ -62,8 +62,8 @@ body{
 /* PURPLE SECTION */
 .express-section{
     background: linear-gradient(135deg,#6a00ff,#a100ff);
-    padding:120px 60px; /* smaller padding */
-    min-height:80vh;    /* shorter height */
+    padding:120px 60px;
+    min-height:80vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -132,6 +132,48 @@ body{
     border:none;
     cursor:pointer;
 }
+/* BUY NOW PAGE */
+#buyNowPage{
+    display:none;
+    position:fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background:black;
+    justify-content:center;
+    align-items:center;
+    z-index:3000;
+}
+#buyNowBox{
+    background:white;
+    padding:40px;
+    width:350px;
+    text-align:center;
+    border-radius:10px;
+    position:relative;
+}
+#buyNowBox h1{
+    color:black;
+    margin-bottom:20px;
+}
+#payBtn{
+    background:#4CAF50;
+    color:white;
+    padding:12px 20px;
+    font-weight:bold;
+    border:none;
+    cursor:pointer;
+    border-radius:8px;
+    position:relative;
+    margin-top:20px;
+}
+#payArrowLeft, #payArrowRight{
+    color:black;
+    font-size:30px;
+    position:absolute;
+    top:50%;
+}
+#payArrowLeft{left:-40px;}
+#payArrowRight{right:-40px;}
 /* FOOTER */
 .footer{
     background:white;
@@ -188,10 +230,11 @@ body{
             <span class="arrow" onclick="shopNextImg()">➡</span>
         </div>
         <p onclick="openProduct()">XBMVC Hoodie $70</p>
+        <button class="buy-btn" onclick="openProduct()">Buy Now</button>
     </div>
 </div>
 
-<!-- PRODUCT PAGE -->
+<!-- PRODUCT DETAIL -->
 <div id="productDetail" class="product-detail">
     <div class="product-images">
         <span class="arrow" onclick="prevImg()">⬅</span>
@@ -210,8 +253,34 @@ body{
             <option>L</option>
             <option>XL</option>
         </select>
+        <button class="buy-btn" onclick="openBuyNow()">Buy Now</button>
         <button class="buy-btn">Add To Cart</button>
-        <button class="buy-btn">Buy Now</button>
+    </div>
+</div>
+
+<!-- BUY NOW PAGE -->
+<div id="buyNowPage" class="flex">
+    <div id="buyNowBox">
+        <h1>XBMVC</h1>
+        <p>Enter shipping info and pay below</p>
+        <input placeholder="Name" style="width:100%;padding:8px;margin-top:8px;">
+        <input placeholder="Phone" style="width:100%;padding:8px;margin-top:8px;">
+        <input placeholder="Email" style="width:100%;padding:8px;margin-top:8px;">
+        <select style="width:100%;padding:8px;margin-top:8px;">
+            <option>Select Size</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+        <div style="margin-top:10px;">
+            <label><input type="checkbox" id="shippingCheck"> Shipping required (+$10)</label>
+        </div>
+        <div style="position:relative;">
+            <span id="payArrowLeft">⬅</span>
+            <button id="payBtn" onclick="window.open('https://cash.app/$XabdielBarreto','_blank')">Pay Here</button>
+            <span id="payArrowRight">➡</span>
+        </div>
     </div>
 </div>
 
@@ -234,16 +303,22 @@ function goHome(){
     document.getElementById("home").style.display="block";
     document.getElementById("shop").style.display="none";
     document.getElementById("productDetail").style.display="none";
+    document.getElementById("buyNowPage").style.display="none";
 }
 function goShop(){
     document.getElementById("home").style.display="none";
     document.getElementById("shop").style.display="block";
     document.getElementById("productDetail").style.display="none";
+    document.getElementById("buyNowPage").style.display="none";
 }
 /* OPEN PRODUCT */
 function openProduct(){
     document.getElementById("shop").style.display="none";
     document.getElementById("productDetail").style.display="flex";
+}
+/* OPEN BUY NOW */
+function openBuyNow(){
+    document.getElementById("buyNowPage").style.display="flex";
 }
 /* PRODUCT SLIDER */
 let images=[
