@@ -67,7 +67,7 @@
             color: #000;
         }
 
-        /* HOME HERO */
+        /* HERO */
         .hero {
             margin-top: 120px;
             text-align: center;
@@ -84,14 +84,22 @@
 
         /* PURPLE SECTION */
         .express-section {
-            background-color: #8000ff;
-            padding: 120px 60px;
+            background: linear-gradient(135deg, #6a00ff, #a100ff);
+            padding: 160px 60px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
         }
 
         .express-text {
             font-size: 48px;
             font-weight: bold;
             color: #ffffff;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
         }
 
         .express-subtext {
@@ -100,6 +108,17 @@
             max-width: 700px;
             line-height: 1.6;
             color: #ffffff;
+            opacity: 0;
+            transform: translateY(40px);
+            animation: fadeUp 1s ease forwards;
+            animation-delay: 0.3s;
+        }
+
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* SHOP */
@@ -111,7 +130,6 @@
             background-color: #000;
             min-height: 100vh;
             color: #fff;
-            position: relative;
         }
 
         .product-container {
@@ -127,6 +145,7 @@
             border-radius: 10px;
             box-shadow: 0 0 20px rgba(255,255,255,0.05);
             text-align: center;
+            cursor: pointer;
         }
 
         .product-card img {
@@ -165,10 +184,6 @@
             gap: 50px;
         }
 
-        .detail-image-container {
-            position: relative;
-        }
-
         .detail-image {
             max-width: 400px;
             border-radius: 8px;
@@ -183,7 +198,6 @@
         .arrows span {
             cursor: pointer;
             font-size: 28px;
-            user-select: none;
             font-weight: bold;
         }
 
@@ -191,33 +205,29 @@
             max-width: 400px;
         }
 
-        .detail-section h2 {
-            margin-bottom: 10px;
-        }
-
-        .detail-section input, .detail-section select, .detail-section button {
+        .detail-section input,
+        .detail-section select,
+        .detail-section button {
             width: 100%;
             padding: 10px;
             margin-bottom: 15px;
             font-size: 16px;
-            box-sizing: border-box;
         }
 
         .add-cart-btn {
             background-color: #000;
             color: #fff;
             font-weight: bold;
-            cursor: pointer;
             border: none;
-            margin-bottom: 10px;
+            cursor: pointer;
         }
 
         .buy-now-btn {
             background-color: #4CAF50;
             color: #fff;
             font-weight: bold;
-            cursor: pointer;
             border: none;
+            cursor: pointer;
         }
 
         /* FOOTER */
@@ -256,31 +266,6 @@
             line-height: 1.6;
             text-align: right;
         }
-
-        /* CART PANEL */
-        .cart-panel {
-            position: fixed;
-            top: 0;
-            right: -400px;
-            width: 350px;
-            height: 100%;
-            background: #fff;
-            color: #000;
-            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
-            transition: right 0.4s ease;
-            z-index: 2000;
-            padding: 30px;
-        }
-
-        .cart-panel.open {
-            right: 0;
-        }
-
-        .close-cart {
-            cursor: pointer;
-            font-weight: bold;
-            float: right;
-        }
     </style>
 </head>
 <body>
@@ -292,10 +277,8 @@
         <button class="nav-btn" onclick="goToShop()">Shop</button>
         <button class="coming-soon-btn">Drop 01</button>
     </div>
-    <div class="cart" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
 </div>
 
-<!-- HOME -->
 <div id="homeContent">
     <div class="hero">Be yourself</div>
     <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
@@ -310,161 +293,9 @@
     </div>
 </div>
 
-<!-- SHOP -->
-<div id="shopScreen" class="shop-screen">
-    <div class="product-container">
-        <span class="arrow-btn" onclick="prevShopImage()">&#8592;</span>
-        <div class="product-card" onclick="openProductDetail(shopIndex)">
-            <img id="shopImg" src="">
-            <div class="product-title">XBMVC Hoodie</div>
-            <div class="product-price">$70</div>
-        </div>
-        <span class="arrow-btn" onclick="nextShopImage()">&#8594;</span>
-    </div>
-</div>
-
-<!-- PRODUCT DETAIL -->
-<div id="productDetail" class="product-detail">
-    <div class="detail-image-container">
-        <img id="detailImg" src="" class="detail-image">
-        <div class="arrows">
-            <span onclick="prevImage()">&#8592;</span>
-            <span onclick="nextImage()">&#8594;</span>
-        </div>
-    </div>
-    <div class="detail-section">
-        <h2>XBMVC Hoodie $70</h2>
-        <label>Name:</label>
-        <input type="text" id="username" placeholder="Your Name">
-        <label>Phone:</label>
-        <input type="tel" id="phone" placeholder="Your Phone">
-        <label>Email:</label>
-        <input type="email" id="email" placeholder="Your Email">
-        <label>Size:</label>
-        <select id="size">
-            <option>XS</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-        </select>
-        <button class="add-cart-btn" onclick="addToCart()">Add to Cart</button>
-        <button class="buy-now-btn" onclick="buyNow()">Buy Now</button>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<div class="footer" id="footer">
-    <div class="footer-left">XBMVC</div>
-    <div class="footer-center">THANK YOU FOR SHOPPING</div>
-    <div class="footer-right">
-        <div>Please contact us at:</div>
-        <div>xbmvcbrand@gmail.com</div>
-        <div>860-778-9555</div>
-    </div>
-</div>
-
-<!-- CART -->
-<div id="cartPanel" class="cart-panel">
-    <span class="close-cart" onclick="toggleCart()">✕</span>
-    <h2>Your Cart</h2>
-    <p id="cartItems">No items yet.</p>
-</div>
-
 <script>
-const homeContent = document.getElementById("homeContent");
-const shopScreen = document.getElementById("shopScreen");
-const productDetail = document.getElementById("productDetail");
-const cartPanel = document.getElementById("cartPanel");
-const footer = document.getElementById("footer");
+const footer = document.querySelector(".footer");
 
-const productImages = [
-    "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
-    "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
-];
-
-let shopIndex = 0;
-let currentImageIndex = 0;
-
-function goToShop(){
-    homeContent.style.display = "none";
-    shopScreen.style.display = "block";
-    productDetail.style.display = "none";
-    updateShopImage();
-    window.scrollTo(0,0);
-}
-
-function goHome(){
-    shopScreen.style.display = "none";
-    productDetail.style.display = "none";
-    homeContent.style.display = "block";
-    window.scrollTo(0,0);
-}
-
-function toggleCart(){
-    cartPanel.classList.toggle("open");
-}
-
-function openProductDetail(index){
-    shopScreen.style.display = "none";
-    productDetail.style.display = "flex";
-    currentImageIndex = index;
-    document.getElementById("detailImg").src = productImages[currentImageIndex];
-    window.scrollTo(0,0);
-}
-
-function nextImage(){
-    currentImageIndex = (currentImageIndex + 1) % productImages.length;
-    document.getElementById("detailImg").src = productImages[currentImageIndex];
-}
-
-function prevImage(){
-    currentImageIndex = (currentImageIndex - 1 + productImages.length) % productImages.length;
-    document.getElementById("detailImg").src = productImages[currentImageIndex];
-}
-
-function updateShopImage(){
-    document.getElementById("shopImg").src = productImages[shopIndex];
-}
-
-function nextShopImage(){
-    shopIndex = (shopIndex + 1) % productImages.length;
-    updateShopImage();
-}
-
-function prevShopImage(){
-    shopIndex = (shopIndex - 1 + productImages.length) % productImages.length;
-    updateShopImage();
-}
-
-function addToCart(){
-    const name = document.getElementById("username").value;
-    const phone = document.getElementById("phone").value;
-    const email = document.getElementById("email").value;
-    const size = document.getElementById("size").value;
-    if(!name || !phone || !email){
-        alert("Please fill all fields.");
-        return;
-    }
-    document.getElementById("cartItems").innerText = `${name} - ${size} XBMVC Hoodie $70`;
-    alert("Added to cart!");
-    toggleCart();
-}
-
-function buyNow(){
-    const name = document.getElementById("username").value;
-    const phone = document.getElementById("phone").value;
-    const email = document.getElementById("email").value;
-    const size = document.getElementById("size").value;
-    if(!name || !phone || !email){
-        alert("Please fill all fields.");
-        return;
-    }
-    alert(`Order placed!\n${name} - ${size} XBMVC Hoodie $70`);
-}
-
-// Show footer only at bottom
 window.addEventListener("scroll", ()=>{
     const scrollY = window.scrollY + window.innerHeight;
     if(scrollY >= document.body.scrollHeight - 10){
