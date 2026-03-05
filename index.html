@@ -114,6 +114,7 @@
             align-items: center;
             padding: 40px 60px;
             box-sizing: border-box;
+            position: relative;
         }
 
         .footer-left {
@@ -141,6 +142,8 @@
             padding-top: 120px;
             text-align: left;
             padding-left: 50px;
+            min-height: 100vh;
+            background: #000;
         }
 
         .product-container {
@@ -254,6 +257,32 @@
             right:-60px;
         }
 
+        /* CART PANEL */
+        .cart-panel {
+            position: fixed;
+            top: 0;
+            right: -400px;
+            width: 350px;
+            height: 100%;
+            background: #fff;
+            color: #000;
+            box-shadow: -5px 0 20px rgba(0,0,0,0.3);
+            transition: right 0.4s ease;
+            z-index: 2000;
+            padding: 30px;
+            box-sizing: border-box;
+        }
+
+        .cart-panel.open {
+            right: 0;
+        }
+
+        .close-cart {
+            cursor: pointer;
+            font-weight: bold;
+            float: right;
+        }
+
     </style>
 </head>
 <body>
@@ -270,19 +299,21 @@
 </div>
 
 <!-- HOME -->
-<div class="hero">
-    Be yourself
-</div>
-<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero" class="hero-img">
+<div id="home">
+    <div class="hero">
+        Be yourself
+    </div>
+    <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" alt="Hero" class="hero-img">
 
-<div class="purple">
-    <h2>Express yourself the way you want</h2>
-    <p>
-        XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-        We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
-        Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
-        you feel empowered, seen, and celebrated for exactly who you are.
-    </p>
+    <div class="purple">
+        <h2>Express yourself the way you want</h2>
+        <p>
+            XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
+            We design vibrant, inclusive clothing that encourages individual self-expression without boundaries. 
+            Our mission is to spread joy through every thread, ensuring that when you wear XBMVC, 
+            you feel empowered, seen, and celebrated for exactly who you are.
+        </p>
+    </div>
 </div>
 
 <!-- SHOP -->
@@ -348,20 +379,12 @@
     </div>
 </div>
 
-<!-- CART PANEL -->
-<div id="cartPanel" class="cart-panel">
-    <span class="close-cart" onclick="toggleCart()">✕</span>
-    <h2>Your Cart</h2>
-    <p>No items yet.</p>
-</div>
-
 <script>
 let shopImages = [
     "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
-
 let currentIndex = 0;
 const productImg = document.getElementById("productImg");
 const shopImg = document.getElementById("shopImg");
@@ -378,18 +401,25 @@ function prevImage(){
 }
 
 function goHome(){
+    document.getElementById("home").style.display="block";
     document.getElementById("shop").style.display="none";
     document.getElementById("productPage").style.display="none";
     document.getElementById("buyNowScreen").style.display="none";
+    // Hide cart panel on home
+    document.getElementById("cartPanel").style.right = "-400px";
     window.scrollTo(0,0);
 }
 
 function goToShop(){
+    document.getElementById("home").style.display="none";
     document.getElementById("shop").style.display="block";
+    document.getElementById("productPage").style.display="none";
 }
 
 function toggleCart(){
     const panel=document.getElementById("cartPanel");
+    // Only show cart in shop/product pages
+    if(document.getElementById("home").style.display=="block") return;
     if(panel.style.right=="0px") panel.style.right="-400px";
     else panel.style.right="0px";
 }
@@ -408,6 +438,13 @@ function buyNow(){
 }
 
 </script>
+
+<!-- CART PANEL -->
+<div id="cartPanel" class="cart-panel">
+    <span class="close-cart" onclick="toggleCart()">✕</span>
+    <h2>Your Cart</h2>
+    <p>No items yet.</p>
+</div>
 
 </body>
 </html>
