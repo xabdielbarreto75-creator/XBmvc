@@ -9,6 +9,7 @@
             padding: 0;
             background-color: #000;
             color: #fff;
+            overflow-x: hidden;
         }
 
         /* NAVBAR */
@@ -86,7 +87,7 @@
         /* PURPLE SECTION */
         .express-section {
             background-color: #8000ff;
-            padding: 60px 60px 120px 60px; /* smaller so scroll works */
+            padding: 200px 60px 150px 60px; /* taller for scrolling */
         }
 
         .express-text {
@@ -134,112 +135,152 @@
             text-align: right;
         }
 
-        /* SHOP PAGE */
-        #shop {
+        /* SHOP SECTION */
+        #shopPage {
             display: none;
-            margin-top: 120px;
-            text-align: center;
-            min-height: 80vh;
+            padding-top: 120px;
+            min-height: 100vh;
+            background-color: #000;
+            color: #fff;
         }
 
         .product-container {
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            justify-content: center;
+            align-items: center;
         }
 
-        .arrow-btn {
-            font-size: 40px;
+        .product-box {
+            background: #111;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 50px;
+            text-align: center;
+        }
+
+        .product-box img {
+            width: 300px;
+            border-radius: 10px;
+        }
+
+        .product-title {
+            margin-top: 10px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .arrows {
+            display: flex;
+            justify-content: space-between;
+            width: 100px;
+            margin: 10px auto;
+        }
+
+        .arrows span {
+            font-size: 30px;
             cursor: pointer;
             user-select: none;
-        }
-
-        .product-container img {
-            max-width: 300px;
-            cursor: pointer;
-            border-radius: 10px;
-            transition: transform 0.3s ease;
-        }
-
-        .product-container img:hover {
-            transform: scale(1.05);
         }
 
         /* PRODUCT DETAIL */
         #productDetail {
             display: none;
-            background-color: #f0f0f0;
+            background-color: #ccc;
+            min-height: 100vh;
+            padding-top: 120px;
             color: #000;
-            padding: 50px;
-            min-height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 50px;
+            flex-wrap: wrap;
         }
 
-        #productDetail img {
-            max-width: 300px;
-            margin-bottom: 10px;
+        .detail-images {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .product-info {
-            margin-left: 40px;
+        .detail-images img {
+            width: 250px;
+            margin: 10px 0;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: transform 0.3s ease;
         }
 
-        .product-info input, .product-info select {
+        .detail-form {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            width: 350px;
+            box-sizing: border-box;
+        }
+
+        .detail-form input, .detail-form select {
+            width: 100%;
             padding: 10px;
             margin: 10px 0;
-            width: 100%;
             font-size: 16px;
+            box-sizing: border-box;
         }
 
-        .product-info button {
-            background-color: #000;
-            color: #fff;
-            border: none;
-            padding: 12px 25px;
+        .detail-form button {
+            padding: 10px 20px;
+            margin: 10px 0;
             font-weight: bold;
             cursor: pointer;
-            margin-right: 10px;
         }
 
-        /* BUY NOW PAGE */
-        #buyNowPage {
+        /* PAYMENT PAGE */
+        #paymentPage {
             display: none;
             position: fixed;
-            top:0; left:0;
-            width:100%; height:100%;
-            background:#000;
+            top:0;
+            left:0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            color: #000;
             justify-content: center;
-            align-items:center;
+            align-items: center;
+            z-index: 9999;
         }
 
-        #buyNowBox {
-            background:#fff;
+        #paymentBox {
+            background: #fff;
             padding: 40px;
+            border-radius: 15px;
+            text-align: center;
             max-width: 400px;
-            text-align:center;
-            border-radius:10px;
-            position:relative;
         }
 
         #payNowBtn {
-            background:#4CAF50;
-            color:#fff;
-            padding:10px 20px;
-            font-weight:bold;
-            border:none;
-            cursor:pointer;
-            margin-top:20px;
+            background: #4CAF50;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 20px;
+            position: relative;
         }
 
-        .arrow-to-pay {
-            font-size:50px;
-            position:absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%) rotate(90deg);
+        .arrow-left, .arrow-right {
+            font-size: 40px;
+            color: black;
+            font-weight: bold;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
         }
+
+        .arrow-left { left: -50px; }
+        .arrow-right { right: -50px; }
     </style>
 </head>
+
 <body>
 
 <!-- NAVBAR -->
@@ -247,16 +288,18 @@
     <div class="brand">XBmvc</div>
     <div class="nav-center">
         <button class="nav-btn" onclick="goHome()">Home</button>
-        <button class="nav-btn" onclick="openShop()">Shop</button>
-        <button class="coming-soon-btn">Coming Soon!</button>
+        <button class="nav-btn" onclick="goToShop()">Shop</button>
     </div>
-    <div class="cart" onclick="toggleCart()">🛒 <span id="cartCount">0</span></div>
+    <div class="cart" onclick="toggleCart()">
+        🛒 <span id="cartCount">0</span>
+    </div>
 </div>
 
 <!-- HOME PAGE -->
-<div id="home">
+<div id="homePage">
     <div class="hero">Be yourself</div>
     <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
+
     <div class="express-section">
         <div class="express-text">Express yourself the way you want</div>
         <div class="express-subtext">
@@ -269,46 +312,53 @@
 </div>
 
 <!-- SHOP PAGE -->
-<div id="shop">
+<div id="shopPage">
     <div class="product-container">
-        <div style="display:flex; align-items:center; gap:20px; justify-content:center;">
-            <span class="arrow-btn" onclick="prevImage()">&#8592;</span>
-            <img id="shopImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg" onclick="openProduct()">
-            <span class="arrow-btn" onclick="nextImage()">&#8594;</span>
+        <div class="product-box">
+            <img id="productImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
+            <div class="product-title">XBMVC Hoodie 70$</div>
+            <div class="arrows">
+                <span onclick="prevShopImage()">&#8592;</span>
+                <span onclick="nextShopImage()">&#8594;</span>
+            </div>
+            <button onclick="openProductDetail()">Buy / Add to Cart</button>
         </div>
-        <div style="margin-top:10px;"><strong>XBMVC hoodie $70</strong></div>
     </div>
 </div>
 
-<!-- PRODUCT DETAIL PAGE -->
+<!-- PRODUCT DETAIL -->
 <div id="productDetail">
-    <div style="display:flex; gap:50px; align-items:flex-start; justify-content:center;">
-        <div id="productImages">
-            <span class="arrow-btn" onclick="prevImageDetail()">&#8592;</span>
-            <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
-            <span class="arrow-btn" onclick="nextImageDetail()">&#8594;</span>
+    <div class="detail-images">
+        <img id="detailImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
+        <div class="arrows">
+            <span onclick="prevDetailImage()">&#8592;</span>
+            <span onclick="nextDetailImage()">&#8594;</span>
         </div>
-        <div class="product-info">
-            <h2>XBMVC Hoodie</h2>
-            <input type="text" id="username" placeholder="Name">
-            <input type="email" id="email" placeholder="Email">
-            <input type="tel" id="phone" placeholder="Phone">
-            <select id="size">
-                <option>XS</option><option>S</option><option>M</option><option>L</option><option>XL</option>
-            </select>
-            <button onclick="addToCart()">Add to Cart</button>
-            <button onclick="openBuyNow()">Buy Now</button>
-        </div>
+    </div>
+    <div class="detail-form">
+        <h2>Enter your info</h2>
+        <input type="text" id="name" placeholder="Name">
+        <input type="tel" id="phone" placeholder="Phone">
+        <input type="email" id="email" placeholder="Email">
+        <select id="size">
+            <option>XS</option>
+            <option>S</option>
+            <option>M</option>
+            <option>L</option>
+            <option>XL</option>
+        </select>
+        <button onclick="openPayment()">Buy Now</button>
     </div>
 </div>
 
-<!-- BUY NOW PAGE -->
-<div id="buyNowPage">
-    <div id="buyNowBox">
+<!-- PAYMENT PAGE -->
+<div id="paymentPage">
+    <div id="paymentBox">
         <div style="font-weight:bold; font-size:24px;">XBmvc</div>
-        <div style="margin-top:20px;">Do you want it shipped? Shipping fees apply.</div>
-        <button id="payNowBtn" onclick="window.open('https://cash.app/$XabdielBarreto','_blank')">Pay Here</button>
-        <div class="arrow-to-pay">&#8595;</div>
+        <p>Shipping option: (if shipping, pay fee, else no fee)</p>
+        <button id="payNowBtn">Pay Here</button>
+        <div class="arrow-left">&#8592;</div>
+        <div class="arrow-right">&#8594;</div>
     </div>
 </div>
 
@@ -331,64 +381,72 @@
 </div>
 
 <script>
-let currentImageIndex = 0;
-const images = [
+let currentShopIndex = 0;
+const shopImages = [
     "WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
     "WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
 ];
 
-const shopImg = document.getElementById("shopImg");
-const detailImg = document.getElementById("detailImg");
-
-function openShop(){
-    document.getElementById("home").style.display="none";
-    document.getElementById("shop").style.display="block";
-}
-
 function goHome(){
-    document.getElementById("shop").style.display="none";
-    document.getElementById("productDetail").style.display="none";
-    document.getElementById("buyNowPage").style.display="none";
-    document.getElementById("home").style.display="block";
+    document.getElementById("homePage").style.display = "block";
+    document.getElementById("shopPage").style.display = "none";
+    document.getElementById("productDetail").style.display = "none";
+    document.getElementById("paymentPage").style.display = "none";
 }
 
-function nextImage(){
-    currentImageIndex = (currentImageIndex+1)%images.length;
-    shopImg.src = images[currentImageIndex];
-}
-function prevImage(){
-    currentImageIndex = (currentImageIndex-1+images.length)%images.length;
-    shopImg.src = images[currentImageIndex];
-}
-function nextImageDetail(){
-    currentImageIndex = (currentImageIndex+1)%images.length;
-    detailImg.src = images[currentImageIndex];
-}
-function prevImageDetail(){
-    currentImageIndex = (currentImageIndex-1+images.length)%images.length;
-    detailImg.src = images[currentImageIndex];
+function goToShop(){
+    document.getElementById("homePage").style.display = "none";
+    document.getElementById("shopPage").style.display = "block";
+    document.getElementById("productDetail").style.display = "none";
 }
 
-function openProduct(){
-    document.getElementById("shop").style.display="none";
-    document.getElementById("productDetail").style.display="flex";
-    detailImg.src = shopImg.src;
+function prevShopImage(){
+    currentShopIndex = (currentShopIndex - 1 + shopImages.length) % shopImages.length;
+    document.getElementById("productImg").src = shopImages[currentShopIndex];
+}
+function nextShopImage(){
+    currentShopIndex = (currentShopIndex + 1) % shopImages.length;
+    document.getElementById("productImg").src = shopImages[currentShopIndex];
 }
 
-function addToCart(){
-    alert("Item added to cart!");
+function openProductDetail(){
+    document.getElementById("shopPage").style.display = "none";
+    document.getElementById("productDetail").style.display = "flex";
+    document.getElementById("detailImg").src = shopImages[currentShopIndex];
 }
 
-function openBuyNow(){
-    document.getElementById("buyNowPage").style.display="flex";
+let currentDetailIndex = 0;
+function prevDetailImage(){
+    currentDetailIndex = (currentDetailIndex - 1 + shopImages.length) % shopImages.length;
+    document.getElementById("detailImg").src = shopImages[currentDetailIndex];
+}
+function nextDetailImage(){
+    currentDetailIndex = (currentDetailIndex + 1) % shopImages.length;
+    document.getElementById("detailImg").src = shopImages[currentDetailIndex];
 }
 
+// CART
 const cartPanel = document.getElementById("cartPanel");
+cartPanel.style.display = "none";
+
 function toggleCart(){
-    cartPanel.classList.toggle("open");
+    if(cartPanel.style.display === "none"){
+        cartPanel.style.display = "block";
+    } else {
+        cartPanel.style.display = "none";
+    }
+}
+
+// PAYMENT
+function openPayment(){
+    document.getElementById("productDetail").style.display = "none";
+    document.getElementById("paymentPage").style.display = "flex";
+}
+
+document.getElementById("payNowBtn").onclick = ()=>{
+    window.open("https://cash.app/$XabdielBarreto","_blank");
 }
 </script>
-
 </body>
 </html>
