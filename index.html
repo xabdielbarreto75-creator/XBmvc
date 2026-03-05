@@ -1,107 +1,174 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
 <title>XBMVC</title>
 
 <style>
 
 body{
-margin:0;
 font-family:Arial;
+margin:0;
 background:black;
 color:white;
 }
 
-/* TOP NAV */
+/* NAVBAR */
 
-.nav{
-position:fixed;
-top:0;
-left:0;
-width:100%;
-background:white;
-color:black;
+.navbar{
 display:flex;
 justify-content:space-between;
 align-items:center;
-padding:15px 40px;
+background:white;
+padding:20px 40px;
+position:fixed;
+top:0;
+width:100%;
 box-sizing:border-box;
 z-index:1000;
 }
 
-.logo{
-font-weight:bold;
-font-size:18px;
-}
-
-.menu{
-display:flex;
-gap:40px;
-}
-
-.menu a{
-text-decoration:none;
+.brand{
 color:black;
+font-weight:bold;
+font-size:22px;
+}
+
+.nav-center{
+display:flex;
+gap:20px;
+}
+
+.nav-btn{
+border:1px solid black;
+background:white;
+padding:10px 25px;
 font-weight:bold;
 cursor:pointer;
 }
 
+.nav-btn:hover{
+background:black;
+color:white;
+}
+
 .cart{
 font-size:22px;
+color:black;
 cursor:pointer;
 }
 
 /* HERO */
 
 .hero{
-margin-top:70px;
+margin-top:120px;
 text-align:center;
+font-size:60px;
+font-weight:bold;
 }
 
-.hero img{
-width:100%;
-max-height:500px;
-object-fit:cover;
-}
-
-.hero h1{
-margin-top:20px;
+.hero-img{
+display:block;
+margin:auto;
+max-width:80%;
+margin-top:40px;
 }
 
 /* PURPLE SECTION */
 
-.purple{
-background:purple;
-padding:120px 40px;
+.express{
+background:#7b00ff;
+padding:80px 60px;
 }
 
-.purple h2{
-font-size:30px;
+.express h2{
+font-size:40px;
 }
 
-.purple p{
-max-width:600px;
-font-size:14px;
+.express p{
+max-width:700px;
+line-height:1.6;
 }
 
-/* PRODUCT BOX */
+/* SHOP PRODUCT */
 
-.product{
+.product-box{
 display:flex;
-justify-content:center;
-padding:120px 40px;
+gap:40px;
+margin:120px 80px;
 }
 
-.productBox{
+.product-images{
+width:400px;
+text-align:center;
+}
+
+.product-images img{
+width:100%;
+cursor:pointer;
+}
+
+.arrow{
+font-size:30px;
+cursor:pointer;
+margin:10px;
+}
+
+.product-info{
+max-width:400px;
+}
+
+.buy-btn{
+padding:12px 25px;
+border:none;
+cursor:pointer;
+margin-top:10px;
+font-weight:bold;
+}
+
+.cart-btn{
+background:black;
+color:white;
+}
+
+.buy-now{
+background:green;
+color:white;
+}
+
+/* BUY PAGE */
+
+.buy-page{
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:black;
+justify-content:center;
+align-items:center;
+z-index:3000;
+}
+
+.buy-box{
 background:white;
 color:black;
-padding:20px;
-width:250px;
+padding:40px;
+width:400px;
+text-align:center;
 }
 
-.productBox img{
-width:100%;
+.pay-btn{
+background:green;
+color:white;
+padding:15px 40px;
+font-weight:bold;
+border:none;
+cursor:pointer;
+}
+
+.arrow-pay{
+font-size:30px;
 }
 
 /* FOOTER */
@@ -109,94 +176,23 @@ width:100%;
 .footer{
 background:white;
 color:black;
-display:flex;
-justify-content:space-between;
-padding:30px 40px;
-}
-
-.footerCenter{
-text-align:center;
-}
-
-/* PRODUCT PAGE */
-
-.productPage{
-display:none;
-background:grey;
-padding:120px 40px;
-}
-
-.productLayout{
-display:flex;
-gap:40px;
-justify-content:center;
-}
-
-.gallery{
-width:350px;
-text-align:center;
-}
-
-.gallery img{
-width:100%;
-}
-
-.arrow{
-cursor:pointer;
-font-size:30px;
-}
-
-.form{
-background:white;
-color:black;
-padding:20px;
-width:300px;
-}
-
-.form input, .form select{
-width:100%;
-margin-bottom:10px;
-padding:8px;
-}
-
-.button{
-background:black;
-color:white;
-padding:10px;
-margin-top:10px;
-cursor:pointer;
-text-align:center;
-}
-
-.buy{
-background:green;
-}
-
-/* PAYMENT PAGE */
-
-.payment{
-display:none;
-background:black;
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-}
-
-.payBox{
-background:white;
-color:black;
+display:grid;
+grid-template-columns:1fr 1fr 1fr;
 padding:40px;
-text-align:center;
-width:300px;
+margin-top:100px;
 }
 
-.payButton{
-background:green;
-color:white;
-padding:15px;
-margin-top:20px;
-cursor:pointer;
+.footer-left{
+font-weight:bold;
+}
+
+.footer-center{
+text-align:center;
+font-weight:bold;
+}
+
+.footer-right{
+text-align:right;
 }
 
 </style>
@@ -204,17 +200,19 @@ cursor:pointer;
 
 <body>
 
-<!-- NAV -->
+<!-- NAVBAR -->
 
-<div class="nav">
-<div class="logo">XBMVC</div>
+<div class="navbar">
 
-<div class="menu">
-<a onclick="showHome()">Home</a>
-<a onclick="showShop()">Shop</a>
+<div class="brand">XBMVC</div>
+
+<div class="nav-center">
+<button class="nav-btn" onclick="showHome()">Home</button>
+<button class="nav-btn" onclick="showShop()">Shop</button>
 </div>
 
 <div class="cart">🛒</div>
+
 </div>
 
 <!-- HOME -->
@@ -222,18 +220,20 @@ cursor:pointer;
 <div id="home">
 
 <div class="hero">
-<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg">
-<h1>Be yourself</h1>
+Be yourself
 </div>
 
-<div class="purple">
-<h2>express yourself the way you want</h2>
+<img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
+
+<div class="express">
+
+<h2>Express yourself the way you want</h2>
 
 <p>
-XBMVC was born from a simple belief: attire should be a safe happy space for everyone. 
-We design vibrant, inclusive clothing that encourages individual self-expression 
-without boundaries. Our mission is to spread joy through every thread, ensuring that 
-when you wear XBMVC, you feel empowered, seen, and celebrated for exactly who you are.
+XBMVC was born from a simple belief: attire should be a safe happy space for everyone.
+We design vibrant, inclusive clothing that encourages individual self-expression without boundaries.
+Our mission is to spread joy through every thread, ensuring that when you wear XBMVC,
+you feel empowered, seen, and celebrated for exactly who you are.
 </p>
 
 </div>
@@ -242,79 +242,73 @@ when you wear XBMVC, you feel empowered, seen, and celebrated for exactly who yo
 
 <!-- SHOP -->
 
-<div id="shop" style="display:none">
+<div id="shop" style="display:none;">
 
-<div class="product">
+<div class="product-box">
 
-<div class="productBox" onclick="openProduct()">
-<img src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
-<p>XBMVC hoodie $70</p>
-</div>
+<div class="product-images">
 
-</div>
-
-</div>
-
-<!-- PRODUCT PAGE -->
-
-<div id="productPage" class="productPage">
-
-<div class="productLayout">
-
-<div class="gallery">
-
-<div class="arrow" onclick="prev()">⬅</div>
+<span class="arrow" onclick="prev()">⬅</span>
 
 <img id="productImg" src="WhatsApp Image 2026-01-01 at 15.27.13.jpeg">
 
-<div class="arrow" onclick="next()">➡</div>
+<span class="arrow" onclick="next()">➡</span>
 
 </div>
 
-<div class="form">
+<div class="product-info">
 
-<h3>XBMVC Hoodie $70</h3>
+<h2>XBMVC Hoodie</h2>
+<h3>$70</h3>
 
-<input placeholder="Name">
-<input placeholder="Phone">
-<input placeholder="Email">
+<p>Name</p>
+<input type="text">
 
+<p>Phone</p>
+<input type="text">
+
+<p>Email</p>
+<input type="text">
+
+<p>Size</p>
 <select>
-<option>Size</option>
 <option>S</option>
 <option>M</option>
 <option>L</option>
 <option>XL</option>
 </select>
 
-<div class="button">Add To Cart</div>
+<br><br>
 
-<div class="button buy" onclick="buyNow()">Buy Now</div>
+<button class="buy-btn cart-btn">Add To Cart</button>
+<button class="buy-btn buy-now" onclick="openBuy()">Buy Now</button>
+
+</div>
 
 </div>
 
 </div>
 
-</div>
+<!-- BUY PAGE -->
 
-<!-- PAYMENT -->
+<div class="buy-page" id="buyPage">
 
-<div id="payment" class="payment">
-
-<div class="payBox">
+<div class="buy-box">
 
 <h2>XBMVC</h2>
 
 <p>
-If you want shipping please include your address when paying.  
-Shipping fees may apply depending on location.
+If you want your hoodie shipped, shipping fees will apply.
+If you are picking it up, you do not need to pay shipping.
 </p>
 
-<div style="font-size:30px;">⬇ ⬇</div>
+<div class="arrow-pay">⬇ ⬇</div>
 
-<div class="payButton" onclick="window.open('https://cash.app/$XabdielBarreto')">
-PAY HERE
-</div>
+<br>
+
+<a href="https://cash.app/$XabdielBarreto" target="_blank">
+<button class="pay-btn">PAY HERE</button>
+</a>
 
 </div>
 
@@ -324,15 +318,15 @@ PAY HERE
 
 <div class="footer">
 
-<div>
-<b>XBMVC</b>
+<div class="footer-left">
+XBMVC
 </div>
 
-<div class="footerCenter">
-Thank you for shopping
+<div class="footer-center">
+THANK YOU FOR SHOPPING
 </div>
 
-<div>
+<div class="footer-right">
 Please contact us at:<br>
 xbmvcbrand@gmail.com<br>
 860-778-9555
@@ -342,45 +336,38 @@ xbmvcbrand@gmail.com<br>
 
 <script>
 
+let images=[
+"WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
+"WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
+"WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
+];
+
+let i=0;
+
+function next(){
+i++;
+if(i>=images.length)i=0;
+document.getElementById("productImg").src=images[i];
+}
+
+function prev(){
+i--;
+if(i<0)i=images.length-1;
+document.getElementById("productImg").src=images[i];
+}
+
 function showShop(){
 document.getElementById("home").style.display="none";
 document.getElementById("shop").style.display="block";
 }
 
 function showHome(){
+document.getElementById("shop").style.display="none";
 document.getElementById("home").style.display="block";
-document.getElementById("shop").style.display="none";
-document.getElementById("productPage").style.display="none";
 }
 
-function openProduct(){
-document.getElementById("shop").style.display="none";
-document.getElementById("productPage").style.display="block";
-}
-
-function buyNow(){
-document.getElementById("productPage").style.display="none";
-document.getElementById("payment").style.display="flex";
-}
-
-const images = [
-"WhatsApp Image 2026-01-01 at 15.27.13.jpeg",
-"WhatsApp Image 2026-01-03 at 22.08.00 (2).jpeg",
-"WhatsApp Image 2026-01-03 at 22.08.00 (1).jpeg"
-]
-
-let index = 0
-
-function next(){
-index++
-if(index >= images.length) index = 0
-document.getElementById("productImg").src = images[index]
-}
-
-function prev(){
-index--
-if(index < 0) index = images.length - 1
-document.getElementById("productImg").src = images[index]
+function openBuy(){
+document.getElementById("buyPage").style.display="flex";
 }
 
 </script>
