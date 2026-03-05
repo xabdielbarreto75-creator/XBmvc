@@ -62,8 +62,8 @@ body{
 /* PURPLE SECTION */
 .express-section{
     background: linear-gradient(135deg,#6a00ff,#a100ff);
-    padding:120px 60px;
-    min-height:80vh;
+    padding:80px 60px;
+    min-height:60vh;
     display:flex;
     flex-direction:column;
     justify-content:center;
@@ -163,17 +163,18 @@ body{
     border:none;
     cursor:pointer;
     border-radius:8px;
-    position:relative;
     margin-top:20px;
+    position:relative;
 }
+/* Arrows pointing to Pay button */
 #payArrowLeft, #payArrowRight{
     color:black;
     font-size:30px;
     position:absolute;
     top:50%;
 }
-#payArrowLeft{left:-40px;}
-#payArrowRight{right:-40px;}
+#payArrowLeft{left:-50px; transform:rotate(0deg);}
+#payArrowRight{right:-50px; transform:rotate(180deg);}
 /* FOOTER */
 .footer{
     background:white;
@@ -243,10 +244,10 @@ body{
     </div>
     <div class="buy-section">
         <h2>XBMVC Hoodie $70</h2>
-        <input placeholder="Name">
-        <input placeholder="Phone Number">
-        <input placeholder="Email">
-        <select>
+        <input id="buyerName" placeholder="Name">
+        <input id="buyerPhone" placeholder="Phone Number">
+        <input id="buyerEmail" placeholder="Email">
+        <select id="buyerSize">
             <option>Select Size</option>
             <option>S</option>
             <option>M</option>
@@ -262,21 +263,11 @@ body{
 <div id="buyNowPage" class="flex">
     <div id="buyNowBox">
         <h1>XBMVC</h1>
-        <p>Enter shipping info and pay below</p>
-        <input placeholder="Name" style="width:100%;padding:8px;margin-top:8px;">
-        <input placeholder="Phone" style="width:100%;padding:8px;margin-top:8px;">
-        <input placeholder="Email" style="width:100%;padding:8px;margin-top:8px;">
-        <select style="width:100%;padding:8px;margin-top:8px;">
-            <option>Select Size</option>
-            <option>S</option>
-            <option>M</option>
-            <option>L</option>
-            <option>XL</option>
-        </select>
+        <p>Select if you want shipping (fees apply)</p>
         <div style="margin-top:10px;">
             <label><input type="checkbox" id="shippingCheck"> Shipping required (+$10)</label>
         </div>
-        <div style="position:relative;">
+        <div style="position:relative;margin-top:20px;">
             <span id="payArrowLeft">⬅</span>
             <button id="payBtn" onclick="window.open('https://cash.app/$XabdielBarreto','_blank')">Pay Here</button>
             <span id="payArrowRight">➡</span>
