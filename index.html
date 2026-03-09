@@ -84,18 +84,6 @@ background:#8000ff;
 padding:200px 60px 150px 60px;
 }
 
-.express-text{
-font-size:48px;
-font-weight:bold;
-}
-
-.express-subtext{
-font-size:20px;
-margin-top:20px;
-max-width:700px;
-line-height:1.6;
-}
-
 /* SHOP PAGE */
 
 #shopPage{
@@ -104,58 +92,66 @@ padding-top:160px;
 min-height:100vh;
 }
 
-/* PRODUCT AREA (SMALLER) */
+/* PRODUCT GRID */
 
-.product-area{
-width:420px;
-margin-left:140px;
+.product-grid{
+display:flex;
+flex-wrap:wrap;
+gap:40px;
+margin-left:120px;
+}
+
+/* PRODUCT CARD */
+
+.product-card{
+width:200px;
 text-align:center;
 position:relative;
 }
 
 /* PRODUCT IMAGE */
 
-.product-area img{
-width:240px;
+.product-card img{
+width:160px;
 border-radius:10px;
 }
 
 /* ARROWS */
 
 .arrow{
-font-size:30px;
+font-size:22px;
 cursor:pointer;
 position:absolute;
-top:100px;
+top:60px;
 }
 
 .arrow-left{
-left:-40px;
+left:-20px;
 }
 
 .arrow-right{
-right:-40px;
+right:-20px;
 }
 
 /* TEXT */
 
 .product-title{
-margin-top:15px;
-font-size:22px;
+margin-top:10px;
+font-size:16px;
 font-weight:bold;
 }
 
 /* BUTTONS */
 
 .buttons{
-margin-top:15px;
+margin-top:10px;
 display:flex;
-justify-content:center;
-gap:15px;
+flex-direction:column;
+gap:8px;
 }
 
 .buy-btn{
-padding:10px 20px;
+padding:6px;
 background:#fff;
 color:#000;
 border:none;
@@ -164,9 +160,9 @@ cursor:pointer;
 }
 
 .cart-btn{
-padding:10px 20px;
+padding:6px;
 background:transparent;
-border:2px solid #fff;
+border:1px solid #fff;
 color:#fff;
 font-weight:bold;
 cursor:pointer;
@@ -202,13 +198,6 @@ width:350px;
 width:100%;
 padding:10px;
 margin:10px 0;
-font-size:16px;
-}
-
-.detail-form button{
-padding:10px 20px;
-font-weight:bold;
-cursor:pointer;
 }
 
 /* PAYMENT */
@@ -284,23 +273,17 @@ text-align:right;
 
 <img src="WhatsApp Image 2026-03-01 at 18.39.12.jpeg" class="hero-img">
 
-<div class="express-section">
-
-<div class="express-text">
-Express yourself the way you want
-</div>
-
-<div class="express-subtext">
-XBMVC was born from a simple belief: attire should be a safe happy space for everyone.
-</div>
+<div class="express-section"></div>
 
 </div>
 
-</div>
+<!-- SHOP -->
 
 <div id="shopPage">
 
-<div class="product-area">
+<div class="product-grid">
+
+<div class="product-card">
 
 <div class="arrow arrow-left" onclick="prevShopImage()">←</div>
 
@@ -321,6 +304,8 @@ Buy Now
 <button class="cart-btn" onclick="addToCart()">
 Add To Cart
 </button>
+
+</div>
 
 </div>
 
@@ -362,7 +347,7 @@ Add To Cart
 
 <div style="font-size:24px;font-weight:bold;">XBmvc</div>
 
-<p>Shipping option: (if shipping pay fee)</p>
+<p>Shipping option</p>
 
 <button onclick="pay()">Pay Here</button>
 
